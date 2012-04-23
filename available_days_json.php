@@ -27,6 +27,6 @@ for($i = 0; $i<count($keys); $i++){
 }
 
 // Returns 1 if we have today's date, 8 if we have the entire next week, etc.
-echo "{ days: ".$maxLookahead."}";
+echo "{ \"days\": ".$maxLookahead."}";
 
 ?>
