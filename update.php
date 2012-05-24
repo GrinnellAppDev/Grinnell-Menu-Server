@@ -1,30 +1,36 @@
 <?php
 
 /*****************************************************
- * Dugan Knoll
- * Grinnell College '12
- *
- * This file creates .json files for the most recent dining hall meals.
- * PROCEDURE
- * 1. Remove old .json files
- * 2. Pull menu.csv from server
- * 2. Read the csv information from a file and create the menu objects.
- * 3. Saves the menu files.
- * 4. Updates the available-days file.
- *
- *****************************************************/
+* Dugan Knoll
+* Grinnell College '12
+* Colin Tremblay
+* Grinnell College '14
+*
+* This file creates .json files for the most recent dining hall meals.
+* PROCEDURE
+* 1. Remove old .json files
+* 2. Pull nutrition.xml from server
+* 3. Change the xml into a useful json
+* 4. Pull menu.csv from server
+* 5. Read the csv information from a file and create the menu objects.
+* 6. Saves the menu files.
+* 7. Updates the available-days file.
+*
+*****************************************************/
 
 ini_set('display_errors', 'On');
-
+ini_set('memory_limit', '-1');
+set_time_limit(3600);
 include_once "Menu.php";
+include_once "Nutrition.php";
 
-if( ($dates_handle2 = fopen('dates_array', 'r'))  ==  false ){
+if( ($dates_handle2 = fopen('dates_array', 'r')) == false ){
   echo('Failed to open dates file.');
 }
 else{
   /****************************************************************************
-   *  Check each of the old menus and only remove them if their date has passed.
-   */
+* Check each of the old menus and only remove them if their date has passed.
+*/
   $old_dates = unserialize(fread($dates_handle2, 5000));
 
   $is_old_dates = false;
@@ -42,7 +48,7 @@ else{
         echo("Deleting old menus:</br>");
         $is_old_dates = true;
       }
-      echo $old_dates[$i].".json   ";
+      echo $old_dates[$i].".json ";
       unlink($old_dates[$i].'.json');
       array_splice($old_dates, $i,1);
     }
@@ -51,6 +57,41 @@ else{
 }
 
 echo '</br>';
+
+/****************************************************************************
+ * Check the server for a new nutrition.xml file.
+ */
+
+//if URI Exists
+exec('wget -r http://wm.grinnell.edu/calendar/menu/nutrition.xml -O ./Nutrition.xml', $out, $return_val);
+//save new file
+if($return_val == 0) echo("</br>Pulled nutrition.xml from server.</br>");
+else {
+exec('wget -r http://wm.grinnell.edu/calendar/menu/nutrition.xml -O ./Nutrition.xml', $out, $return_val);
+//save new file
+if ($return_val == 0){
+echo("</br>Pulled nutrition.xml from server.</br>");
+exec('chmod 755 ./nutrition.csv');
+}
+}
+
+
+/****************************************************************************
+ * Load the most recent nutrition file. Create json.
+ */
+
+// setup output file
+$outfile = "nutrition.json";
+if( ($out_handle = fopen($outfile, 'w')) == false ){
+	echo('Failed to create nutrition file.');
+}
+$output = create_nutrition_json();
+
+// write the file
+fwrite($out_handle, $output);
+echo("</br>Wrote nutrition JSON.</br>");
+exec('chmod 755 ./nutrition.json');
+fclose($out_handle);
 
 /****************************************************************************
  * Check the server for a new menu.csv file.
@@ -67,7 +108,7 @@ if ($return_val == 0){
 echo("</br>Pulled menu.csv from server.</br>");
 exec('chmod 755 ./menu.csv');
 }
-else die("</br>Couldn't find new menu file on server.</br>");
+//else die("</br>Couldn't find new menu file on server.</br>");
 }
 
 
@@ -84,7 +125,9 @@ $count = 0;
 /****************************************************************************
  * Check each menu item from the csv and add it to the appropriate day's menu.
  */
-while(($menu_item_arr = fgetcsv($menu_file,0,',','"','\\')) !== FALSE
+ //MY VERSION OF PHP MADE ME TAKE OUT THE backslash (but that should be the default anyway)
+ //while(($menu_item_arr = fgetcsv($menu_file,0,',','"','\\')) !== FALSE
+while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
       && (count($menu_item_arr) >2))
 {  str_replace("\0","",$menu_item_arr);
   //$menu_item_arr = str_getcsv($menu_item_csv,',','"','\\');
@@ -170,6 +213,5 @@ if( ($dates_handle = fopen('dates_array', 'w'))  ==  false ){
 }
 fwrite($dates_handle, $dates_info);
 fclose($dates_handle);
-
 
 ?>

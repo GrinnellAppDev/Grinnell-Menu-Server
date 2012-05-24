@@ -75,11 +75,11 @@ class Menu{
 
   function printMeals(){
     $comma = false;
-    $ret = "{ ";
+    $ret = "{";
     if(is_null($this->breakfast))
       ;
     else {
-      $ret = $ret."\"BREAKFAST\" : ";
+      $ret = $ret."\n\t\"BREAKFAST\" : ";
       $ret = $ret.$this->breakfast->writeAllJson();
       $comma = true;
     }
@@ -89,7 +89,7 @@ class Menu{
       if($comma)
         $ret = $ret.",";
       $comma = true;
-      $ret = $ret."\"LUNCH\" : ";
+      $ret = $ret."\n\t\"LUNCH\" : ";
       $ret = $ret.$this->lunch->writeAllJson();
     }
     if(is_null($this->dinner))
@@ -98,7 +98,7 @@ class Menu{
       if($comma)
         $ret = $ret.",";
       $comma = true;
-      $ret = $ret."\"DINNER\" : ";
+      $ret = $ret."\n\t\"DINNER\" : ";
       $ret = $ret.$this->dinner->writeAllJson();
     }
     if(is_null($this->outtakes))
@@ -106,7 +106,7 @@ class Menu{
     else {
       if($comma)
         $ret = $ret.",";
-      $ret = $ret."\"OUTTAKES\" : ";
+      $ret = $ret."\n\t\"OUTTAKES\" : ";
       $comma = true;
       $ret = $ret.$this->outtakes->writeAllJson();
     }
@@ -115,14 +115,12 @@ class Menu{
     else {
       if($comma)
         $ret = $ret.",";
-      $ret = $ret."\"SPENCER\" : ";
+      $ret = $ret."\n\t\"SPENCER\" : ";
       $comma = true;
       $ret = $ret.$this->spencer->writeAllJson();
     }
-    $ret = $ret."} ";
+    $ret = $ret."\n} ";
     return $ret;
   }
-
 }
-
 ?>

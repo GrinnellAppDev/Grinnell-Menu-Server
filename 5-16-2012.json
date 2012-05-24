@@ -1,0 +1,1042 @@
+{
+	"BREAKFAST" : {
+		"PLAT DU JOUR" : [
+			{
+				"name" : "Potatoes O'brien",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Breakfast Croissant Sandwich W/ham & Egg",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":426,"FAT":25.73,"CHO":27.17,"PRO":20.87,"SFA":12.08,"POLY":1.858,"MONO":6.589,"CHOL":439,"TDFB":1.5,"VITC":0.11,"B12":1.26,"NA":1002,"ZN":1.43,"FE":2.81,"FATRN":0,"K":188,"CA":145,"VTAIU":1015.51,"B6":0.16,"SUGR":7.08},
+				"halal" : "false"
+			},
+			{
+				"name" : "Picante Sauce",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Scrambled Eggs",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":97,"FAT":6.75,"CHO":0.52,"PRO":8.54,"SFA":2.103,"POLY":0.926,"MONO":2.586,"CHOL":287,"TDFB":0,"VITC":0,"B12":0.88,"NA":95,"ZN":0.75,"FE":1.24,"FATRN":0,"K":91,"CA":35.97,"VTAIU":330.52,"B6":0.1,"SUGR":0.52},
+				"halal" : "false"
+			}
+		],
+		"GLUTEN FREE" : [
+			{
+				"name" : "Scrambled Eggs",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":97,"FAT":6.75,"CHO":0.52,"PRO":8.54,"SFA":2.103,"POLY":0.926,"MONO":2.586,"CHOL":287,"TDFB":0,"VITC":0,"B12":0.88,"NA":95,"ZN":0.75,"FE":1.24,"FATRN":0,"K":91,"CA":35.97,"VTAIU":330.52,"B6":0.1,"SUGR":0.52},
+				"halal" : "false"
+			},
+			{
+				"name" : "Picante Sauce",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Potatoes O'brien",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"EGG STATION" : [
+			{
+				"name" : "Egg Beaters To Order",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":125,"FAT":8.93,"CHO":3.12,"PRO":7.81,"SFA":1.601,"POLY":4.489,"MONO":2.458,"CHOL":2,"TDFB":0,"VITC":0.23,"B12":0.29,"NA":312,"ZN":0.7,"FE":1.26,"FATRN":0,"K":168,"CA":72.72,"VTAIU":994.36,"B6":0.09,"SUGR":3.09},
+				"halal" : "false"
+			},
+			{
+				"name" : "Liquid Eggs To Order",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":122,"FAT":8.45,"CHO":0.65,"PRO":10.7,"SFA":2.636,"POLY":1.16,"MONO":3.24,"CHOL":360,"TDFB":0,"VITC":0,"B12":1.1,"NA":119,"ZN":0.94,"FE":1.56,"FATRN":0,"K":114,"CA":45.08,"VTAIU":414.19,"B6":0.12,"SUGR":0.65},
+				"halal" : "false"
+			},
+			{
+				"name" : "Eggs To Order",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"BREAKFAST PASTRY" : [
+			{
+				"name" : "Apple/cherry Turnover",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":338,"FAT":14.9,"CHO":48.99,"PRO":3.97,"SFA":3.973,"POLY":0.001,"MONO":0.002,"CHOL":0,"TDFB":1.5,"VITC":4.18,"B12":0,"NA":238,"ZN":0,"FE":1.46,"FATRN":4.965,"K":1,"CA":1.04,"VTAIU":0.19,"B6":0,"SUGR":27.07},
+				"halal" : "false"
+			},
+			{
+				"name" : "Apple Strudel W/streusel Topping",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		]
+	},
+	"LUNCH" : {
+		"DESSERTS" : [
+			{
+				"name" : "Chocolate Chip Cookies",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":1413,"FAT":59.62,"CHO":211.72,"PRO":18.32,"SFA":23.92,"POLY":10.434,"MONO":21.408,"CHOL":130,"TDFB":7.3,"VITC":0,"B12":0.39,"NA":1239,"ZN":2.37,"FE":8.65,"FATRN":0.355,"K":562,"CA":86.55,"VTAIU":2062.61,"B6":0.13,"SUGR":121.16},
+				"halal" : "false"
+			}
+		],
+		"DESSERTS" : [
+			{
+				"name" : "Cookies Big Chocolate Chip",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":561,"FAT":23.66,"CHO":84.02,"PRO":7.27,"SFA":9.492,"POLY":4.141,"MONO":8.495,"CHOL":51,"TDFB":2.9,"VITC":0,"B12":0.16,"NA":492,"ZN":0.94,"FE":3.43,"FATRN":0.141,"K":223,"CA":34.34,"VTAIU":818.49,"B6":0.05,"SUGR":48.08},
+				"halal" : "false"
+			}
+		],
+		"DESSERTS" : [
+			{
+				"name" : "Cookies Big Monster W/peanut Butter",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":484,"FAT":29.72,"CHO":48.94,"PRO":11.08,"SFA":8.778,"POLY":6.491,"MONO":12.75,"CHOL":52,"TDFB":3.2,"VITC":0,"B12":0.22,"NA":346,"ZN":1.55,"FE":1.69,"FATRN":0.072,"K":338,"CA":52.65,"VTAIU":465.12,"B6":0.2,"SUGR":39.89},
+				"halal" : "false"
+			}
+		],
+		"DESSERTS" : [
+			{
+				"name" : "Rice Krispie Bars",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":186,"FAT":3.66,"CHO":37.54,"PRO":1.49,"SFA":1.066,"POLY":0.972,"MONO":1.372,"CHOL":0,"TDFB":0.1,"VITC":3.49,"B12":0.9,"NA":198,"ZN":0.18,"FE":0.97,"FATRN":0.036,"K":19,"CA":2.1,"VTAIU":447.93,"B6":0.49,"SUGR":18.96},
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Florentine Panini",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Wake Up Panini",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Quesadilla Chicken & Pepper Jack Spencer",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Brownies Ghirardelli  (ol)",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Yogurt Parfait W/nuts",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Minestrone Soup",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":28,"FAT":0.24,"CHO":5.67,"PRO":1.42,"SFA":0,"POLY":0,"MONO":0,"CHOL":2,"TDFB":0.9,"VITC":0,"B12":0,"NA":470,"ZN":0.01,"FE":0.34,"FATRN":0,"K":0,"CA":11.15,"VTAIU":472.49,"B6":0,"SUGR":1.18},
+				"halal" : "false"
+			}
+		],
+		"DESSERTS" : [
+			{
+				"name" : "Carmellotta Bars",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":277,"FAT":14.1,"CHO":37.35,"PRO":2.78,"SFA":8.536,"POLY":0.71,"MONO":3.837,"CHOL":29,"TDFB":1.6,"VITC":0.02,"B12":0.03,"NA":138,"ZN":0.51,"FE":1.41,"FATRN":0,"K":126,"CA":26.75,"VTAIU":419.2,"B6":0.02,"SUGR":17.74},
+				"halal" : "false"
+			}
+		],
+		"DESSERTS" : [
+			{
+				"name" : "Chocolate Chip Peanut Butter Cookies",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"VEGAN SPECIAL" : [
+			{
+				"name" : "Tomato Soup",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "California Blend Vegetables",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Jasmine Blend Rice",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Wheat Berry Cooked",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Tofu Walnut Broccoli Stirfry",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"STIR FRY STATION" : [
+			{
+				"name" : "Jasmine Blend Rice",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Beef Panang Nua",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"SOUPS" : [
+			{
+				"name" : "Tomato Soup",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"SOUPS" : [
+			{
+				"name" : "Masa Ball Soup W/red Curry Coconut Broth",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"PLAT DU JOUR" : [
+			{
+				"name" : "California Blend Vegetables",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Macaroni And Cheese",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":391,"FAT":17.01,"CHO":40.21,"PRO":18.93,"SFA":9.522,"POLY":1.268,"MONO":4.711,"CHOL":45,"TDFB":2.1,"VITC":1,"B12":0.64,"NA":862,"ZN":2.07,"FE":1.68,"FATRN":0,"K":234,"CA":430.54,"VTAIU":428.94,"B6":0.12,"SUGR":0.77},
+				"halal" : "false"
+			},
+			{
+				"name" : "Corn Dog W/pork",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":325,"FAT":20.94,"CHO":24.06,"PRO":9.58,"SFA":7.53,"POLY":2.003,"MONO":9.758,"CHOL":49,"TDFB":1.2,"VITC":0,"B12":1.01,"NA":876,"ZN":1.64,"FE":2.07,"FATRN":0,"K":155,"CA":110.22,"VTAIU":112.56,"B6":0.09,"SUGR":5.39},
+				"halal" : "false"
+			}
+		],
+		"PIZZA PARLOR" : [
+			{
+				"name" : "Pepperoni Pizza",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":306,"FAT":9.08,"CHO":41,"PRO":13.98,"SFA":4.609,"POLY":0.572,"MONO":2.939,"CHOL":21,"TDFB":2,"VITC":5.27,"B12":0.73,"NA":473,"ZN":1.45,"FE":2.69,"FATRN":0,"K":160,"CA":221.61,"VTAIU":484.51,"B6":0.09,"SUGR":2.12},
+				"halal" : "false"
+			},
+			{
+				"name" : "Cheese Pizza",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":325,"FAT":9.88,"CHO":41.34,"PRO":16.63,"SFA":5.59,"POLY":0.527,"MONO":2.787,"CHOL":23,"TDFB":1.9,"VITC":5.23,"B12":0.98,"NA":457,"ZN":1.76,"FE":2.66,"FATRN":0,"K":157,"CA":324.17,"VTAIU":557.79,"B6":0.08,"SUGR":2.17},
+				"halal" : "false"
+			},
+			{
+				"name" : "Hawaiian Pineapple Pizza W/ham",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"PASTA BAR" : [
+			{
+				"name" : "Shrimp Alfredo Sauce",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":166,"FAT":9.47,"CHO":5.62,"PRO":14.09,"SFA":5.657,"POLY":0.572,"MONO":2.568,"CHOL":78,"TDFB":0.2,"VITC":2.73,"B12":0.66,"NA":372,"ZN":0.91,"FE":1.16,"FATRN":0,"K":91,"CA":189.51,"VTAIU":503.66,"B6":0.06,"SUGR":1.94},
+				"halal" : "false"
+			},
+			{
+				"name" : "Pasta Cavatappi   (v)",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":191,"FAT":2.45,"CHO":34.99,"PRO":6.58,"SFA":0.4,"POLY":1.162,"MONO":0.549,"CHOL":0,"TDFB":2,"VITC":0,"B12":0,"NA":1,"ZN":0.58,"FE":1.45,"FATRN":0,"K":50,"CA":7.94,"VTAIU":0,"B6":0.06,"SUGR":0.64},
+				"halal" : "false"
+			},
+			{
+				"name" : "Marinara Sauce",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"HONOR G GRILL" : [
+			{
+				"name" : "Tater Tots",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Char Grilled Hamburger",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Grilled Turkey Club On Whole Grain",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"GLUTEN FREE" : [
+			{
+				"name" : "Tofu Walnut Broccoli Stir Fry (gf)",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Jasmine Blend Rice",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Beef Panang Nua (gf)",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "California Blend Vegetables",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"8TH AVE DELI BREAD" : [
+			{
+				"name" : "White Sub Roll",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Wheat Sub Roll",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		]
+	},
+	"DINNER" : {
+		"DESSERTS" : [
+			{
+				"name" : "Oreo Creme Pie",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":445,"FAT":24.4,"CHO":54.93,"PRO":3.87,"SFA":10.868,"POLY":3.165,"MONO":6.962,"CHOL":14,"TDFB":1.2,"VITC":0,"B12":0.06,"NA":370,"ZN":0.5,"FE":1.99,"FATRN":0.242,"K":93,"CA":24.35,"VTAIU":677.53,"B6":0.02,"SUGR":36.02},
+				"halal" : "false"
+			}
+		],
+		"DESSERTS" : [
+			{
+				"name" : "Chocolate Chip Peanut Butter Cookies",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"BREADS" : [
+			{
+				"name" : "Multigrain Loaf Bread",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"VEGAN SPECIAL" : [
+			{
+				"name" : "Sugar Snap Peas",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Brown Basmati Rice",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Veg Lo Mein W/ Edamame & Mustard Green",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"STIR FRY STATION" : [
+			{
+				"name" : "Steamed White Rice",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Beef Stir Fry W/ Broccoli & Ginger",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"SOUPS" : [
+			{
+				"name" : "Tomato Soup",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"SOUPS" : [
+			{
+				"name" : "Masa Ball Soup W/red Curry Coconut Broth",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"PLAT DU JOUR" : [
+			{
+				"name" : "Sugar Snap Peas",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Rice Fried W/pork",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Chicken Lo Mein (2)",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"PIZZA PARLOR" : [
+			{
+				"name" : "Roasted Veg Pesto/pine Nuts Pizza",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":405,"FAT":20.35,"CHO":40.37,"PRO":14.4,"SFA":5.923,"POLY":3.579,"MONO":4.063,"CHOL":18,"TDFB":2.5,"VITC":5.88,"B12":0.74,"NA":602,"ZN":1.41,"FE":3.03,"FATRN":0,"K":117,"CA":277.73,"VTAIU":606.31,"B6":0.08,"SUGR":1.28},
+				"halal" : "false"
+			},
+			{
+				"name" : "Pepperoni Pizza",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":306,"FAT":9.08,"CHO":41,"PRO":13.98,"SFA":4.609,"POLY":0.572,"MONO":2.939,"CHOL":21,"TDFB":2,"VITC":5.27,"B12":0.73,"NA":473,"ZN":1.45,"FE":2.69,"FATRN":0,"K":160,"CA":221.61,"VTAIU":484.51,"B6":0.09,"SUGR":2.12},
+				"halal" : "false"
+			},
+			{
+				"name" : "Cheese Pizza",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":325,"FAT":9.88,"CHO":41.34,"PRO":16.63,"SFA":5.59,"POLY":0.527,"MONO":2.787,"CHOL":23,"TDFB":1.9,"VITC":5.23,"B12":0.98,"NA":457,"ZN":1.76,"FE":2.66,"FATRN":0,"K":157,"CA":324.17,"VTAIU":557.79,"B6":0.08,"SUGR":2.17},
+				"halal" : "false"
+			}
+		],
+		"HONOR G GRILL" : [
+			{
+				"name" : "Tater Tots",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Char Grilled Hamburger",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "Grilled Cheese Sandwich",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : {"KCAL":285,"FAT":16.9,"CHO":27.72,"PRO":9.86,"SFA":8.751,"POLY":0.4,"MONO":1.576,"CHOL":40,"TDFB":2.1,"VITC":0.03,"B12":0.01,"NA":800,"ZN":0.16,"FE":1.64,"FATRN":0,"K":26,"CA":238.29,"VTAIU":517.08,"B6":0.02,"SUGR":4.06},
+				"halal" : "false"
+			}
+		],
+		"GLUTEN FREE" : [
+			{
+				"name" : "Chicken Lo Mein (gf)",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"8TH AVE DELI BREAD" : [
+			{
+				"name" : "Wheat Sub Roll",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			},
+			{
+				"name" : "White Sub Roll",
+				"vegan" : "false",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		]
+	},
+	"OUTTAKES" : {
+		"DESSERTS" : [
+			{
+				"name" : "Cookies Of The Day",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Spaghetti & Meatballs Ot",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Plain Bagel W/hummus",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":981,"FAT":36.44,"CHO":149.22,"PRO":21.09,"SFA":7.163,"POLY":11.266,"MONO":13.871,"CHOL":0,"TDFB":13,"VITC":23.14,"B12":0,"NA":1217,"ZN":4.31,"FE":11.38,"FATRN":0,"K":1068,"CA":205,"VTAIU":592.19,"B6":0.44,"SUGR":42.42},
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Plain Bagel W/cream Cheese",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : {"KCAL":1014,"FAT":38.71,"CHO":149.58,"PRO":21.17,"SFA":11.878,"POLY":6.487,"MONO":17.567,"CHOL":47,"TDFB":11.2,"VITC":6.93,"B12":0.18,"NA":1042,"ZN":3.26,"FE":9.73,"FATRN":0,"K":448,"CA":160.83,"VTAIU":733.41,"B6":0.23,"SUGR":42.1},
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Peanut Butter & Jelly Sandwich",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Chips Of The Day",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Fruit Of The Day",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Red Bean & Veggie Pasta Salad",
+				"vegan" : "true",
+				"ovolacto" : "true",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		]
+	},
+	"SPENCER" : {
+		"BREADS" : [
+			{
+				"name" : "Bread French White Mini",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"BREADS" : [
+			{
+				"name" : "Bread French Wheat Mini",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"BREADS" : [
+			{
+				"name" : "Rolls Ciabatta",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Pepperoni",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Beef",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Cheese",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Veggie",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Breaded Chicken Parmesan",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Breaded Chicken",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Muffaletta Panini",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Club Panini",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Kid @ Heart",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Swiss Gobbler",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Three Cheese",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Uniquely Vegan",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich The Iowan",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Black Bean Burger",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Sandwich Beef Burger",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Quesadilla Hummus",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Quesadilla Pepper Jack Cheese",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Vegetable",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Pepperoni",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Cheese",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Pizza Beef",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Potatoes French Fried",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Nachos Supreme",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Veggie Nachos",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Nachos",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		],
+		"ENTREES" : [
+			{
+				"name" : "Turkey Burger",
+				"vegan" : "false",
+				"ovolacto" : "false",
+				"passover" : "false",
+				"nutrition" : "NIL",
+				"halal" : "false"
+			}
+		]
+	}
+} 
