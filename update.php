@@ -65,15 +65,12 @@ echo '</br>';
 //if URI Exists
 exec('wget -r http://wm.grinnell.edu/calendar/menu/nutrition.xml -O ./Nutrition.xml', $out, $return_val);
 //save new file
-if($return_val == 0) echo("</br>Pulled nutrition.xml from server.</br>");
-else {
-exec('wget -r http://wm.grinnell.edu/calendar/menu/nutrition.xml -O ./Nutrition.xml', $out, $return_val);
-//save new file
-if ($return_val == 0){
-echo("</br>Pulled nutrition.xml from server.</br>");
-exec('chmod 755 ./nutrition.csv');
+if($return_val == 0) {
+	echo("</br>Pulled nutrition.xml from server.</br>");
+	exec('chmod 755 ./nutrition.xml');
 }
-}
+else
+	echo('Failed to pull nutrition file.');
 
 
 /****************************************************************************
