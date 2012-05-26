@@ -46,19 +46,19 @@ class Entree
   }
 
   public function returnJson(){
-    $tempName = str_replace('"','\\"',$this->name);
-	$tempName = trim($tempName, " ");
-    $ret = "{\n\t\t\t\t\"name\" : \"".$tempName."\",\n\t\t\t\t";
-    $ret = $ret."\"vegan\" : \"".$this->vegan."\",\n\t\t\t\t";
-    $ret = $ret."\"ovolacto\" : \"".$this->ovolacto."\",\n\t\t\t\t";
-    $ret = $ret."\"passover\" : \"".$this->passover."\",\n\t\t\t\t";
+      $tempName = str_replace('"','\\"',$this->name);
+    $ret = "{ \"name\" : \"".$tempName."\",\n";
+    $ret = $ret."\"vegan\" : \"".$this->vegan."\",\n";
+    $ret = $ret."\"ovolacto\" : \"".$this->ovolacto."\",\n";
+    $ret = $ret."\"passover\" : \"".$this->passover."\",\n";
 	if ((strcmp($this->nutrition, "")) == 0)
-		$ret = $ret."\"nutrition\" : \""."NIL"."\",\n\t\t\t\t";
+		$ret = $ret."\"nutrition\" : \""."NIL"."\",\n";
 	else
-		$ret = $ret."\"nutrition\" : ".$this->nutrition.",\n\t\t\t\t";
-    $ret = $ret."\"halal\" : \"".$this->halal."\"\n\t\t\t";
+		$ret = $ret."\"nutrition\" : ".$this->nutrition.",\n";
+    $ret = $ret."\"halal\" : \"".$this->halal."\"\n";
     $ret = $ret."}";
     return $ret;
+
   }
 
 }

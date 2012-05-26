@@ -33,14 +33,14 @@ class Meal{
   }
   
   public function writeAllJson(){
-    $ret = "{\n";
+    $ret = "{ ";
     //    print(count($this->venues));
     if(($temp = array_pop($this->venues)) !== NULL)
-      $ret = $ret."\t\t".$temp->venueJson();
+      $ret = $ret.$temp->venueJson();
       while(( $temp = array_pop($this->venues)) !== NULL){
-		$ret = $ret.",\n\t\t".$temp->venueJson();
-	}
-    $ret = $ret."\n\t}";
+      $ret = $ret.", \n".$temp->venueJson();
+    }
+    $ret = $ret."}";
     return $ret;
   }
 }

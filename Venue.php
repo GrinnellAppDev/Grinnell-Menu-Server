@@ -10,8 +10,7 @@ class Venue
   private static $instance;
   
   function __construct($venueName){
-	$tempName = trim($venueName, " ");
-    $this->name = $tempName;
+    $this->name = $venueName;
     $this->entrees = array();
   }
 
@@ -20,11 +19,11 @@ class Venue
   }
 
   public function venueJson(){
-    $ret = "\"".$this->name."\" : [\n\t\t\t";    
+    $ret = "\"".$this->name."\" : \n\t[\n\t\t ";    
     while(($temp = array_pop($this->entrees)) != NULL)
-      $ret = $ret.$temp->returnJson().",\n\t\t\t";
-    $ret=trim($ret,",\n\t\t\t");
-    $ret = $ret."\n\t\t]";
+      $ret = $ret.$temp->returnJson().",";
+    $ret=trim($ret,",");
+    $ret = $ret."]";
     return $ret;
   }
 
