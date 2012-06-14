@@ -1,5 +1,7 @@
 <?php
 
+include_once "Nutrition.php";
+
 class Entree
 {
   private $name;
@@ -36,18 +38,27 @@ class Entree
       $this->passover = "false";
       $this->halal = "false";
     }
+	$temp_nutrition = build_nutrition($itemName);
+	if ($temp_nutrition == null)
+		$this->nutrition = "";
+	else
+		$this->nutrition = $temp_nutrition;
   }
 
   public function returnJson(){
-    $tempName = str_replace('"','\\"',$this->name);
+      $tempName = str_replace('"','\\"',$this->name);
     $ret = "{ \"name\" : \"".$tempName."\",\n";
     $ret = $ret."\"vegan\" : \"".$this->vegan."\",\n";
     $ret = $ret."\"ovolacto\" : \"".$this->ovolacto."\",\n";
     $ret = $ret."\"passover\" : \"".$this->passover."\",\n";
-    $ret = $ret."\"nutrition\" : \""."NIL"."\",\n";
+	if ((strcmp($this->nutrition, "")) == 0)
+		$ret = $ret."\"nutrition\" : \""."NIL"."\",\n";
+	else
+		$ret = $ret."\"nutrition\" : ".$this->nutrition.",\n";
     $ret = $ret."\"halal\" : \"".$this->halal."\"\n";
     $ret = $ret."}";
     return $ret;
+
   }
 
 }
