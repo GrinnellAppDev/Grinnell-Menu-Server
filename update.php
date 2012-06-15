@@ -103,7 +103,8 @@ $return_val = 1;
 //save new file
 if($return_val == 0) echo("</br>Pulled menus.csv from server.</br>");
 else {
-exec('wget -r http://wm.grinnell.edu/calendar/menu/menu.csv -O ./menu.csv', $out, $return_val);
+//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//exec('wget -r http://wm.grinnell.edu/calendar/menu/menu.csv -O ./menu.csv', $out, $return_val);
 //save new file
 if ($return_val == 0){
 echo("</br>Pulled menu.csv from server.</br>");
