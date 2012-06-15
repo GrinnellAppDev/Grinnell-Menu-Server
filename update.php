@@ -20,7 +20,7 @@
 
 ini_set('display_errors', 'On');
 ini_set('memory_limit', '-1');
-set_time_limit(3600);
+set_time_limit(6000);
 include_once "Menu.php";
 include_once "Nutrition.php";
 
@@ -72,7 +72,7 @@ if($return_val == 0) {
 	exec('chmod 755 ./nutrition.xml');
 }
 else
-	echo('Failed to pull nutrition file.');
+	echo("</br>Failed to pull nutrition file.</br>");
 
 
 /****************************************************************************
@@ -81,16 +81,21 @@ else
 
 // setup output file
 $outfile = "nutrition.json";
-if( ($out_handle = fopen($outfile, 'w')) == false ){
-	echo('Failed to create nutrition file.');
-}
-$output = create_nutrition_json();
+// if nutrition.json already exists and we didn't pull new information, skip re-writing nutrition.json
+if((file_exists($outfile)) && ($return_val != 0))
+	echo("Will not overwrite nutrition.json</br>");
+else {
+	if(($out_handle = fopen($outfile, 'w')) == false){
+		echo('Failed to create nutrition file.');
+	}
+	$output = create_nutrition_json();
 
-// write the file
-fwrite($out_handle, $output);
-echo("</br>Wrote nutrition JSON.</br>");
-exec('chmod 755 ./nutrition.json');
-fclose($out_handle);
+	// write the file
+	fwrite($out_handle, $output);
+	echo("</br>Wrote nutrition JSON.</br>");
+	exec('chmod 755 ./nutrition.json');
+	fclose($out_handle);
+}
 
 /****************************************************************************
  * Check the server for a new menu.csv file.
@@ -101,18 +106,18 @@ fclose($out_handle);
 $return_val = 1;
 //exec('wget -r http://wm.grinnell.edu/calendar/menu/menus.csv -O ./menu.csv', $out, $return_val);
 //save new file
-if($return_val == 0) echo("</br>Pulled menus.csv from server.</br>");
+if($return_val == 0)
+	echo("</br>Pulled menus.csv from server.</br>");
 else {
-//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//exec('wget -r http://wm.grinnell.edu/calendar/menu/menu.csv -O ./menu.csv', $out, $return_val);
-//save new file
-if ($return_val == 0){
-echo("</br>Pulled menu.csv from server.</br>");
-exec('chmod 755 ./menu.csv');
+	//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//exec('wget -r http://wm.grinnell.edu/calendar/menu/menu.csv -O ./menu.csv', $out, $return_val);
+	//save new file
+	if ($return_val == 0){
+		echo("</br>Pulled menu.csv from server.</br>");
+		exec('chmod 755 ./menu.csv');
+	}
+	//else die("</br>Couldn't find new menu file on server.</br>");
 }
-//else die("</br>Couldn't find new menu file on server.</br>");
-}
-
 
 /****************************************************************************
  * Load the most recent CSV file.
