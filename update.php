@@ -63,7 +63,9 @@ echo '</br>';
  */
 
 //if URI Exists
-exec('wget -r http://wm.grinnell.edu/calendar/menu/nutrition.xml -O ./Nutrition.xml', $out, $return_val);
+//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$return_val = 1;
+//exec('wget -r http://wm.grinnell.edu/calendar/menu/nutrition.xml -O ./Nutrition.xml', $out, $return_val);
 //save new file
 if($return_val == 0) {
 	echo("</br>Pulled nutrition.xml from server.</br>");
@@ -95,7 +97,9 @@ fclose($out_handle);
  */
 
 //if URI Exists
-exec('wget -r http://wm.grinnell.edu/calendar/menu/menus.csv -O ./menu.csv', $out, $return_val);
+//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$return_val = 1;
+//exec('wget -r http://wm.grinnell.edu/calendar/menu/menus.csv -O ./menu.csv', $out, $return_val);
 //save new file
 if($return_val == 0) echo("</br>Pulled menus.csv from server.</br>");
 else {
