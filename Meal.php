@@ -17,17 +17,17 @@ class Meal{
     return $this->name;
   }
   
-  public function addDish($venueName,$entreeName){
+  public function addDish($venueName,$entreeName, &$json_a){
     // If the venue does not already exist, add the venue and the entree.
     $exists = false;
     for($i = 0; !$exists && ($i < count($this->venues)); $i++)
       if(strcmp($this->venues[$i]->name,$venueName) == 0){
         $exists = true;
-        $this->venues[$i]->add(new Entree($entreeName));
+        $this->venues[$i]->add(new Entree($entreeName, &$json_a));
       }
     if(!$exists){
       $newVen = new Venue($venueName);
-      $newVen->add(new Entree($entreeName));
+      $newVen->add(new Entree($entreeName, &$json_a));
       array_push($this->venues, $newVen);
     }
   }

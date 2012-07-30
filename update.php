@@ -18,6 +18,11 @@
 *
 *****************************************************/
 
+/*****************************************************
+* Enable garbage collection during script. Note that this line
+* requires a matching line below (at the very end of the code)
+*/
+gc_enable();
 ini_set('display_errors', 'On');
 ini_set('memory_limit', '-1');
 set_time_limit(6000);
@@ -145,7 +150,12 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
   // Check the Date.
   $date = str_replace("\0","",$menu_item_arr[21]);
   $date = explode('/', $date);
-
+  
+  // get the nutrition json so it can be passed down
+  $string = file_get_contents("nutrition.json");
+  $json_a = json_decode($string, true);
+  
+  
   // If the date cannot be read, forget the item.
   if(count($date) == 3){
     $date[2] = substr($date[2],0,4);
@@ -155,13 +165,15 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
     if(array_key_exists($curr_date, $menus)){
             $menus[$curr_date]->addDish(str_replace("\0","",$menu_item_arr[3]),
                           str_replace("\0","",$menu_item_arr[7]),
-                          str_replace("\0","",$menu_item_arr[8]));
+                          str_replace("\0","",$menu_item_arr[8]),
+						  &$json_a);
     }
     else{
       $menus[$curr_date] = new Menu;
       $menus[$curr_date]->addDish(str_replace("\0","",$menu_item_arr[3]),
                           str_replace("\0","",$menu_item_arr[7]),
-                          str_replace("\0","",$menu_item_arr[8]));
+                          str_replace("\0","",$menu_item_arr[8]),
+						  &$json_a);
     }
   }
   else {
@@ -184,6 +196,7 @@ for($i=0; $i<count($keys); $i++){
   if( ($out_handle = fopen($outfile, 'w'))  ==  false ){
     echo('Failed to create menu file.');
   }
+ 
   $output = $menus[$keys[$i]]->printMeals();
   fwrite($out_handle, $output);
   fclose($out_handle);
@@ -221,4 +234,6 @@ if( ($dates_handle = fopen('dates_array', 'w'))  ==  false ){
 fwrite($dates_handle, $dates_info);
 fclose($dates_handle);
 
+//The matching line to enable/disable garbage collection
+gc_disable();
 ?>

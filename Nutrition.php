@@ -36,9 +36,7 @@ $output = $output."\n} ";
 return $output;
 }
 
-function build_nutrition($name){
-$string = file_get_contents("nutrition.json");
-$json_a = json_decode($string, true);
+function build_nutrition($name, &$json_a){
 if (isset($json_a[$name]))
 	if (isset($json_a[$name]["KCAL"])){
 	$output = "{";
