@@ -162,6 +162,9 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
     $curr_date = remove_leading_zero($date[0]).
       '-'.remove_leading_zero($date[1]).
       '-'.remove_leading_zero($date[2]); // Ex. 2-28-2012
+	  echo ($menu_item_arr[3].'\n');
+	  echo ($menu_item_arr[7].'\n');
+	  echo ($menu_item_arr[8].'\n');
     if(array_key_exists($curr_date, $menus)){
             $menus[$curr_date]->addDish(str_replace("\0","",$menu_item_arr[3]),
                           str_replace("\0","",$menu_item_arr[7]),
