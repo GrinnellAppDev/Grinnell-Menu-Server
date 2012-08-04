@@ -71,8 +71,9 @@ class Menu{
       else $this->outtakes->addDish($venueName, $dishName, &$json_a);
     }
     else die("Did not recognize Meal:".$meal);
-  }
 	echo ($meal.'\n');
+  }
+	
   function printMeals(){
     $comma = false;
     $ret = "{ ";
