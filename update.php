@@ -68,9 +68,7 @@ echo '</br>';
  */
 
 //if URI Exists
-//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-$return_val = 1;
-//exec('wget -r http://wm.grinnell.edu/calendar/menu/nutrition.xml -O ./Nutrition.xml', $out, $return_val);
+exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/nutrition.xml', $out, $return_val);
 //save new file
 if($return_val == 0) {
 	echo("</br>Pulled nutrition.xml from server.</br>");
@@ -107,19 +105,19 @@ else {
  */
 
 //if URI Exists
-//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-$return_val = 1;
-//exec('wget -r http://wm.grinnell.edu/calendar/menu/menus.csv -O ./menu.csv', $out, $return_val);
+exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menu.csv', $out, $return_val);
 //save new file
-if($return_val == 0)
-	echo("</br>Pulled menus.csv from server.</br>");
+if($return_val == 0){
+	echo("</br>Pulled menu.csv from server.</br>");
+	exec('chmod 755 ./menu.csv');
+	}
 else {
-	//TEMPORARY FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//exec('wget -r http://wm.grinnell.edu/calendar/menu/menu.csv -O ./menu.csv', $out, $return_val);
+	exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menus.csv', $out, $return_val);
 	//save new file
 	if ($return_val == 0){
-		echo("</br>Pulled menu.csv from server.</br>");
-		exec('chmod 755 ./menu.csv');
+		echo("</br>Pulled menus.csv from server.</br>");
+		exec('chmod 755 ./menus.csv');
+		exec('mv ./menus.csv ./menu.csv');
 	}
 	//else die("</br>Couldn't find new menu file on server.</br>");
 }
