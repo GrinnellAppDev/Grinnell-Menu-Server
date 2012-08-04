@@ -139,6 +139,11 @@ $count = 0;
  */
  //MY VERSION OF PHP MADE ME TAKE OUT THE backslash (but that should be the default anyway)
  //while(($menu_item_arr = fgetcsv($menu_file,0,',','"','\\')) !== FALSE
+   
+  // get the nutrition json so it can be passed down
+  $string = file_get_contents("nutrition.json");
+  $json_a = json_decode($string, true);
+  
 while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
       && (count($menu_item_arr) >2))
 {  str_replace("\0","",$menu_item_arr);
@@ -151,29 +156,31 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
   $date = str_replace("\0","",$menu_item_arr[21]);
   $date = explode('/', $date);
   
-  // get the nutrition json so it can be passed down
-  $string = file_get_contents("nutrition.json");
-  $json_a = json_decode($string, true);
-  
-  
   // If the date cannot be read, forget the item.
   if(count($date) == 3){
+  
+  //Make sure the item is intended for outtakes or marketplace
+  // IF AT SOME POINT WE WANT TO ADD SPENCER GRILL MENU ITEMS,
+  // THIS WILL NEED TO BE CHANGED
+  $location = str_replace("\9", "", $menu_item_arr[1]);
+  $meal = str_replace("\0","",$menu_item_arr[3]);
+  $market = strpos($location, 'MARKETPLACE');
+  $outtake = strpos($meal, 'OUT TAKES');
+  if (($market !== false) || ($outtake !== false))
+  {
     $date[2] = substr($date[2],0,4);
     $curr_date = remove_leading_zero($date[0]).
       '-'.remove_leading_zero($date[1]).
       '-'.remove_leading_zero($date[2]); // Ex. 2-28-2012
-	  echo ($menu_item_arr[3].'\n');
-	  echo ($menu_item_arr[7].'\n');
-	  echo ($menu_item_arr[8].'\n');
     if(array_key_exists($curr_date, $menus)){
-            $menus[$curr_date]->addDish(str_replace("\0","",$menu_item_arr[3]),
+            $menus[$curr_date]->addDish($meal,
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
 						  &$json_a);
     }
     else{
       $menus[$curr_date] = new Menu;
-      $menus[$curr_date]->addDish(str_replace("\0","",$menu_item_arr[3]),
+      $menus[$curr_date]->addDish($meal,
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
 						  &$json_a);
@@ -183,8 +190,8 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
     echo('Failed to read menu item in row '.$count.'.</br>');
   }
   $count++;
+ }
 }
-
 echo "</br>";
 
 $keys = array_keys($menus);
