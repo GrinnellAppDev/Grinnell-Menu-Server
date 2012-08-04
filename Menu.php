@@ -72,7 +72,7 @@ class Menu{
     }
     else die("Did not recognize Meal:".$meal);
   }
-	echo $meal."\n";
+	echo ($meal.'\n');
   function printMeals(){
     $comma = false;
     $ret = "{ ";
