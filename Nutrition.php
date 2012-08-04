@@ -37,29 +37,74 @@ return $output;
 }
 
 function build_nutrition($name, &$json_a){
+//If the nutrition.json has an entry for the given dish
 if (isset($json_a[$name]))
+//If that dish has a value for KCAL
 	if (isset($json_a[$name]["KCAL"])){
+	//Get each nutritional value and crop it to 3 decimals
+	$KCAL = $json_a[$name]["KCAL"];
+	$KCAL_STR = number_format($KCAL, 3);
+	$FAT = $json_a[$name]["FAT"];
+	$FAT_STR = number_format($FAT, 3);
+	$CHO = $json_a[$name]["CHO"];
+	$CHO_STR = number_format($CHO, 3);
+	$PRO = $json_a[$name]["PRO"];
+	$PRO_STR = number_format($PRO, 3);
+	$SFA = $json_a[$name]["SFA"];
+	$SFA_STR = number_format($SFA, 3);
+	$POLY = $json_a[$name]["POLY"];
+	$POLY = number_format($POLY, 3);
+	$MONO = $json_a[$name]["MONO"];
+	$MONO_STR = number_format($MONO, 3);
+	$CHOL = $json_a[$name]["CHOL"];
+	$CHOL_STR = number_format($CHOL, 3);
+	$TDFB = $json_a[$name]["TDFB"];
+	$TDFB_STR = number_format($TDFB, 3);
+	$VITC = $json_a[$name]["VITC"];
+	$VITC_STR = number_format($VITC, 3);
+	$B12 = $json_a[$name]["B12"];
+	$B12_STR = number_format($B12, 3);
+	$NA = $json_a[$name]["NA"];
+	$NA_STR = number_format($NA, 3);
+	$ZN = $json_a[$name]["ZN"];
+	$ZN_STR = number_format($ZN, 3);
+	$FE = $json_a[$name]["FE"];
+	$FE_STR = number_format($FE, 3);
+	$FATRN = $json_a[$name]["FATRN"];
+	$FATRN_STR = number_format($FATRN, 3);
+	$K = $json_a[$name]["K"];
+	$K_STR = number_format($K, 3);
+	$CA = $json_a[$name]["CA"];
+	$CA_STR = number_format($CA, 3);
+	$VTAIU = $json_a[$name]["VTAIU"];
+	$VTAIU_STR = number_format($VTAIU, 3);
+	$B6 = $json_a[$name]["B6"];
+	$B6_STR = number_format($B6, 3);
+	$SUGR = $json_a[$name]["SUGR"];
+	$SUGR_STR = number_format($SUGR, 3);
+	
+	// Build the output
 	$output = "{";
-	$output = $output."\"KCAL\":".$json_a[$name]["KCAL"].",";
-	$output = $output."\"FAT\":".$json_a[$name]["FAT"].",";
-	$output = $output."\"CHO\":".$json_a[$name]["CHO"].",";
-	$output = $output."\"PRO\":".$json_a[$name]["PRO"].",";
-	$output = $output."\"SFA\":".$json_a[$name]["SFA"].",";
-	$output = $output."\"POLY\":".$json_a[$name]["POLY"].",";
-	$output = $output."\"MONO\":".$json_a[$name]["MONO"].",";
-	$output = $output."\"CHOL\":".$json_a[$name]["CHOL"].",";
-	$output = $output."\"TDFB\":".$json_a[$name]["TDFB"].",";
-	$output = $output."\"VITC\":".$json_a[$name]["VITC"].",";
-	$output = $output."\"B12\":".$json_a[$name]["B12"].",";
-	$output = $output."\"NA\":".$json_a[$name]["NA"].",";
-	$output = $output."\"ZN\":".$json_a[$name]["ZN"].",";
-	$output = $output."\"FE\":".$json_a[$name]["FE"].",";
-	$output = $output."\"FATRN\":".$json_a[$name]["FATRN"].",";
-	$output = $output."\"K\":".$json_a[$name]["K"].",";
-	$output = $output."\"CA\":".$json_a[$name]["CA"].",";
-	$output = $output."\"VTAIU\":".$json_a[$name]["VTAIU"].",";
-	$output = $output."\"B6\":".$json_a[$name]["B6"].",";
-	$output = $output."\"SUGR\":".$json_a[$name]["SUGR"]."}";
+	$output = $output."\"KCAL\":".$KCAL_STR.",";
+	$output = $output."\"FAT\":".$FAT_STR.",";
+	$output = $output."\"CHO\":".$CHO_STR.",";
+	$output = $output."\"PRO\":".$PRO_STR.",";
+	$output = $output."\"SFA\":".$SFA_STR.",";
+	$output = $output."\"POLY\":".$POLY_STR.",";
+	$output = $output."\"MONO\":".$MONO_STR.",";
+	$output = $output."\"CHOL\":".$CHOL_STR.",";
+	$output = $output."\"TDFB\":".$TDFB_STR.",";
+	$output = $output."\"VITC\":".$VITC_STR.",";
+	$output = $output."\"B12\":".$B12_STR.",";
+	$output = $output."\"NA\":".$NA_STR.",";
+	$output = $output."\"ZN\":".$ZN_STR.",";
+	$output = $output."\"FE\":".$FE_STR.",";
+	$output = $output."\"FATRN\":".$FATRN_STR.",";
+	$output = $output."\"K\":".$K_STR.",";
+	$output = $output."\"CA\":".$CA_STR.",";
+	$output = $output."\"VTAIU\":".$VTAIU_STR.",";
+	$output = $output."\"B6\":".$B6_STR.",";
+	$output = $output."\"SUGR\":".$SUGR_STR."}";
 	return $output;
 	}
 return null;
