@@ -53,7 +53,7 @@ if (isset($json_a[$name]))
 	$SFA = $json_a[$name]["SFA"];
 	$SFA_STR = number_format($SFA, 3);
 	$POLY = $json_a[$name]["POLY"];
-	$POLY = number_format($POLY, 3);
+	$POLY_STR = number_format($POLY, 3);
 	$MONO = $json_a[$name]["MONO"];
 	$MONO_STR = number_format($MONO, 3);
 	$CHOL = $json_a[$name]["CHOL"];
