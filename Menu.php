@@ -30,7 +30,7 @@ class Menu{
   
 
   function addDish($meal, $venueName, $dishName, &$json_a){
-
+	
     // Check if it has "(Spencer Grill)" or something similar in the dishname.
     $len = strlen($dishName);
     $dishName = preg_replace('/\(.*SG.*\)/i',"",$dishName);
@@ -72,7 +72,7 @@ class Menu{
     }
     else die("Did not recognize Meal:".$meal);
   }
-
+	echo $meal."\n";
   function printMeals(){
     $comma = false;
     $ret = "{ ";
