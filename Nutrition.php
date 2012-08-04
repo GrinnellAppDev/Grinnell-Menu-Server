@@ -144,7 +144,7 @@ if (isset($json_a[$name]))
 	$output = trim($output, ".").",";
 	$output = $output."\"SUGR\":".$SUGR_STR;
 	$output = trim($output, "0");
-	$output = trim($output, ".").",";
+	$output = trim($output, ".")."}";
 	return $output;
 	}
 return null;
