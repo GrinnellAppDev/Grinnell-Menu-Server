@@ -157,8 +157,7 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
   $date = explode('/', $date);
   
   // If the date cannot be read, forget the item.
-  if(count($date) == 3){
-  
+  if(count($date) == 3) {
   //Make sure the item is intended for outtakes or marketplace
   // IF AT SOME POINT WE WANT TO ADD SPENCER GRILL MENU ITEMS,
   // THIS WILL NEED TO BE CHANGED
@@ -166,8 +165,7 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
   $meal = str_replace("\0","",$menu_item_arr[3]);
   $market = strpos($location, 'MARKETPLACE');
   $outtake = strpos($meal, 'OUT TAKES');
-  if (($market !== false) || ($outtake !== false))
-  {
+  if (($market !== false) || ($outtake !== false)) {
     $date[2] = substr($date[2],0,4);
     $curr_date = remove_leading_zero($date[0]).
       '-'.remove_leading_zero($date[1]).
@@ -185,13 +183,13 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
                           str_replace("\0","",$menu_item_arr[8]),
 						  &$json_a);
     }
+   }
   }
   else {
     echo('Failed to read menu item in row '.$count.'.</br>');
   }
   $count++;
  }
-}
 echo "</br>";
 
 $keys = array_keys($menus);
