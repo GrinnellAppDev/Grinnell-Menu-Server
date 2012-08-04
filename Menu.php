@@ -33,6 +33,7 @@ class Menu{
 	
     // Check if it has "(Spencer Grill)" or something similar in the dishname.
     $len = strlen($dishName);
+	echo ($dishName.'\n');
     $dishName = preg_replace('/\(.*SG.*\)/i',"",$dishName);
     $dishName = preg_replace('/\(.*spencer.*\)/i',"",$dishName);
     if($len != strlen($dishName)){
@@ -71,7 +72,6 @@ class Menu{
       else $this->outtakes->addDish($venueName, $dishName, &$json_a);
     }
     else die("Did not recognize Meal:".$meal);
-	echo ($meal.'\n');
   }
 	
   function printMeals(){
