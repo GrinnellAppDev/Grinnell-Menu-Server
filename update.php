@@ -196,6 +196,8 @@ $keys = array_keys($menus);
  * Output jsons and save each new day's menu.
  */
 
+ $lastDate = "null";
+ 
 $written = false; // We print 'Menu created for:' only one time.
 for($i=0; $i<count($keys); $i++){
   $outfile = $keys[$i].'.json'; // e.g. 1-30-2012.json
@@ -215,6 +217,8 @@ for($i=0; $i<count($keys); $i++){
       $written = true;
     }
     echo $keys[$i]."  ";
+	
+	$lastDate = $keys[$i];
   }
 }
 
@@ -239,6 +243,17 @@ if( ($dates_handle = fopen('dates_array', 'w'))  ==  false ){
 }
 fwrite($dates_handle, $dates_info);
 fclose($dates_handle);
+
+// Save the last day for setting the date picker
+
+$last_date_info = "{\"Last_Day\":".$lastDate."}";
+
+if( ($last_date_handle = fopen('last_date.json', 'w'))  ==  false ){
+  echo('Failed to create last date json. Please report this to the Grinnell app-dev team.');
+}
+fwrite($last_date_handle, $last_date_info);
+fclose($last_date_handle);
+
 
 //The matching line to enable/disable garbage collection
 gc_disable();
