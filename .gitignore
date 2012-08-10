@@ -2,5 +2,7 @@
 .DS_Store
 *.json
 dates_array
+menu.csv
+nutrition.xml
 *.csv
 *.xml
