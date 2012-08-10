@@ -246,7 +246,7 @@ fclose($dates_handle);
 
 // Save the last day for setting the date picker
 
-$last_date_info = "{\"Last_Day\":".$lastDate."}";
+$last_date_info = "{\"Last_Day\":\"".$lastDate."\"}";
 
 if( ($last_date_handle = fopen('last_date.json', 'w'))  ==  false ){
   echo('Failed to create last date json. Please report this to the Grinnell app-dev team.');
