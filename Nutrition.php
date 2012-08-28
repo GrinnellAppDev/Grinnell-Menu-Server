@@ -25,11 +25,12 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	
 	//Check to make sure nutrition is by a valid serving size (not by the dozen)
 	$pos = strpos($item->ls_srvuofm, "Dozen");
-	echo $pos;
-	if ($pos === false)
+	if ($pos === false){
 		$output = $output."\n\t\t\"Dozen\":\"false\",";
-	else
+			echo $pos;}
+	else{
 		$output = $output."\n\t\t\"Dozen\":\"true\",";
+			echo $pos;}
 	
 	// iterate to the nutrition for the item itself (not its ingredients) and add this
 	foreach ($item->d_itm_nutr_analysis_nup_25_values_x->d_itm_nutr_analysis_nup_25_values_x_row as $element){
