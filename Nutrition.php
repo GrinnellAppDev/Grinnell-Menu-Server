@@ -20,6 +20,14 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	// add the name of the item
 	$tempName = str_replace('"','\\"',$item->srv_name);
 	$output = $output."\t\"".$tempName."\": {";
+		$dozen = $item->ls_srvuofm;
+	$pos = strpos($dozen, "dozen");
+	if ($pos === false)
+		$output = $output."\n\t\t\"Dozen\":\"false\",";
+	else
+		$output = $output."\n\t\t\"Dozen\":\"true\",";
+	
+	
 	// iterate to the nutrition for the item itself (not its ingredients) and add this
 	foreach ($item->d_itm_nutr_analysis_nup_25_values_x->d_itm_nutr_analysis_nup_25_values_x_row as $element){
 		$nutrient = trim($element->ls_element, " ");
@@ -39,112 +47,29 @@ return $output;
 function build_nutrition($name, &$json_a){
 //If the nutrition.json has an entry for the given dish
 if (isset($json_a[$name]))
-//If that dish has a value for KCAL
-	if (isset($json_a[$name]["KCAL"])){
-	//Get each nutritional value and crop it to 3 decimals
-	$KCAL = $json_a[$name]["KCAL"];
-	$KCAL_STR = number_format($KCAL, 3, '.', '');
-	$FAT = $json_a[$name]["FAT"];
-	$FAT_STR = number_format($FAT, 3, '.', '');
-	$CHO = $json_a[$name]["CHO"];
-	$CHO_STR = number_format($CHO, 3, '.', '');
-	$PRO = $json_a[$name]["PRO"];
-	$PRO_STR = number_format($PRO, 3, '.', '');
-	$SFA = $json_a[$name]["SFA"];
-	$SFA_STR = number_format($SFA, 3, '.', '');
-	$POLY = $json_a[$name]["POLY"];
-	$POLY_STR = number_format($POLY, 3, '.', '');
-	$MONO = $json_a[$name]["MONO"];
-	$MONO_STR = number_format($MONO, 3, '.', '');
-	$CHOL = $json_a[$name]["CHOL"];
-	$CHOL_STR = number_format($CHOL, 3, '.', '');
-	$TDFB = $json_a[$name]["TDFB"];
-	$TDFB_STR = number_format($TDFB, 3, '.', '');
-	$VITC = $json_a[$name]["VITC"];
-	$VITC_STR = number_format($VITC, 3, '.', '');
-	$B12 = $json_a[$name]["B12"];
-	$B12_STR = number_format($B12, 3, '.', '');
-	$NA = $json_a[$name]["NA"];
-	$NA_STR = number_format($NA, 3, '.', '');
-	$ZN = $json_a[$name]["ZN"];
-	$ZN_STR = number_format($ZN, 3, '.', '');
-	$FE = $json_a[$name]["FE"];
-	$FE_STR = number_format($FE, 3, '.', '');
-	$FATRN = $json_a[$name]["FATRN"];
-	$FATRN_STR = number_format($FATRN, 3, '.', '');
-	$K = $json_a[$name]["K"];
-	$K_STR = number_format($K, 3, '.', '');
-	$CA = $json_a[$name]["CA"];
-	$CA_STR = number_format($CA, 3, '.', '');
-	$VTAIU = $json_a[$name]["VTAIU"];
-	$VTAIU_STR = number_format($VTAIU, 3, '.', '');
-	$B6 = $json_a[$name]["B6"];
-	$B6_STR = number_format($B6, 3, '.', '');
+//If that dish has a value for Dozen
+	if (isset($json_a[$name]["Dozen"])){
+	
+	
+	$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO', 'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K', 'CA', 'VTAIU', 'B6', 'SUGR');
+	
+	for (int i = 0; i < 20; i++){
+		//Get each nutritional value and crop it to 3 decimals, build the output
+		$str = $array($i);
+		$output = "{";
+		$output = $output."\".$str.\":".number_format($json_a[$name][$str], 3, '.', '');
+		$output = trim($output, "0");
+		$output = trim($output, ".").",";
+	}
+	/*
 	$SUGR = $json_a[$name]["SUGR"];
 	$SUGR_STR = number_format($SUGR, 3, '.', '');
 	
-	// Build the output
-	$output = "{";
-	$output = $output."\"KCAL\":".$KCAL_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
 	$output = $output."\"FAT\":".$FAT_STR;
 	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"CHO\":".$CHO_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"PRO\":".$PRO_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"SFA\":".$SFA_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"POLY\":".$POLY_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"MONO\":".$MONO_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"CHOL\":".$CHOL_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"TDFB\":".$TDFB_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"VITC\":".$VITC_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"B12\":".$B12_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"NA\":".$NA_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"ZN\":".$ZN_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"FE\":".$FE_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"FATRN\":".$FATRN_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"K\":".$K_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"CA\":".$CA_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"VTAIU\":".$VTAIU_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"B6\":".$B6_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";
-	$output = $output."\"SUGR\":".$SUGR_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".")."}";
+	$output = trim($output, ".").",";*/
+
+	$output = trim($output, ",")."}";
 	return $output;
 	}
 return null;
