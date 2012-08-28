@@ -21,10 +21,8 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$tempName = str_replace('"','\\"',$item->srv_name);
 	$output = $output."\t\"".$tempName."\": {";
 	
-	echo "here";
 	//Check to make sure nutrition is by a valid serving size (not by the dozen)
-	$dozen = $item->ls_srvuofm;
-	$pos = strpos($dozen, "Dozen");
+	$pos = strpos($item->ls_srvuofm, "Dozen");
 	if ($pos === false)
 		$output = $output."\n\t\t\"Dozen\":\"false\",";
 	else
