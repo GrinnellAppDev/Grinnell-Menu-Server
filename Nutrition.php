@@ -49,7 +49,7 @@ function build_nutrition($name, &$json_a){
 if (isset($json_a[$name]))
 //If that dish has a value for KCAL
 	if (isset($json_a[$name]["KCAL"])){
-		$array = array("KCAL", 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO', 'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K', 'CA', 'VTAIU', 'B6', 'SUGR');
+		$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO', 'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K', 'CA', 'VTAIU', 'B6', 'SUGR');
 		for ($i = 0; $i < 20; $i++){
 			//Get each nutritional value and crop it to 3 decimals
 			$str = $array[$i];

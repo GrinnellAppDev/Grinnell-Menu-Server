@@ -99,13 +99,6 @@ else {
 	exec('chmod 755 ./nutrition.json');
 	fclose($out_handle);
 }
-$out_handle = fopen($outfile, 'w');
-$output = create_nutrition_json();
-fwrite($out_handle, $output);
-	echo("</br>Wrote nutrition JSON.</br>");
-	exec('chmod 755 ./nutrition.json');
-	fclose($out_handle);
-
 
 /****************************************************************************
  * Check the server for a new menu.csv file.
