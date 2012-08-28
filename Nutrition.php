@@ -49,22 +49,19 @@ function build_nutrition($name, &$json_a){
 if (isset($json_a[$name]))
 //If that dish has a value for Dozen
 	if (isset($json_a[$name]["Dozen"])){
-	
-	
-	$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO', 'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K', 'CA', 'VTAIU', 'B6', 'SUGR');
-	int $i;
-	for ($i = 0; $i < 20; $i++){
-		//Get each nutritional value and crop it to 3 decimals
-		$str = $array($i);
-		$number = number_format($json_a[$name][$str], 3, '.', '')
-		if ((strpos($json_a[$name]["Dozen"], false)) !== false)
-			$number = $number/12;
-		//Build the output
-		$output = "{";
-		$output = $output."\".$str.\":".$number;
-		$output = trim($output, "0");
-		$output = trim($output, ".").",";
-	}
+		$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO', 'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K', 'CA', 'VTAIU', 'B6', 'SUGR');
+		for ($i = 0; $i < 20; $i++){
+			//Get each nutritional value and crop it to 3 decimals
+			$str = $array($i);
+			$number = number_format($json_a[$name][$str], 3, '.', '')
+			if ((strpos($json_a[$name]["Dozen"], false)) !== false)
+				$number = $number/12;
+			//Build the output
+			$output = "{";
+			$output = $output."\".$str.\":".$number;
+			$output = trim($output, "0");
+			$output = trim($output, ".").",";
+		}
 	/*
 	$SUGR = $json_a[$name]["SUGR"];
 	$SUGR_STR = number_format($SUGR, 3, '.', '');
@@ -73,8 +70,8 @@ if (isset($json_a[$name]))
 	$output = trim($output, "0");
 	$output = trim($output, ".").",";*/
 
-	$output = trim($output, ",")."}";
-	return $output;
+		$output = trim($output, ",")."}";
+		return $output;
 	}
 return null;
 }
