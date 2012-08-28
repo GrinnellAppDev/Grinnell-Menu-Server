@@ -53,8 +53,8 @@ if (isset($json_a[$name]))
 		for ($i = 0; $i < 20; $i++){
 			//Get each nutritional value and crop it to 3 decimals
 			$str = $array[$i];
-			echo $str;
-			$number = number_format($json_a[$name][$str], 3, '.', '');
+			$number = $json_a[$name][$str];
+			$number = number_format($number, 3, '.', '');
 			$dozen_str = $json_a[$name]["Dozen"];
 			$pos = strpos($dozen_str, "false");
 			if ($pos !== false)
