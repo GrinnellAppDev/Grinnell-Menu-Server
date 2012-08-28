@@ -5,6 +5,7 @@
 * Grinnell College '14
 *
 * This file creates .json file from the xml of all nutritional information.
+* It also adds the nutrition information to the day json
 *
 *****************************************************/
 
@@ -19,6 +20,7 @@ $output = "{\n";
 foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item){
 	// add the name of the item
 	$tempName = str_replace('"','\\"',$item->srv_name);
+	$tempName = trim($tempName);
 	$output = $output."\t\"".$tempName."\": {";
 	
 	//Check to make sure nutrition is by a valid serving size (not by the dozen)
