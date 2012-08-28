@@ -85,9 +85,9 @@ else
 // setup output file
 $outfile = "nutrition.json";
 // if nutrition.json already exists and we didn't pull new information, skip re-writing nutrition.json
-//if((file_exists($outfile)) && ($return_val != 0))
+if((file_exists($outfile)) && ($return_val != 0))
 	echo("Will not overwrite nutrition.json</br>");
-//else {
+else {
 	if(($out_handle = fopen($outfile, 'w')) == false){
 		echo('Failed to create nutrition file.');
 	}
@@ -98,7 +98,14 @@ $outfile = "nutrition.json";
 	echo("</br>Wrote nutrition JSON.</br>");
 	exec('chmod 755 ./nutrition.json');
 	fclose($out_handle);
-//}
+}
+$out_handle = fopen($outfile, 'w');
+$output = create_nutrition_json();
+fwrite($out_handle, $output);
+	echo("</br>Wrote nutrition JSON.</br>");
+	exec('chmod 755 ./nutrition.json');
+	fclose($out_handle);
+
 
 /****************************************************************************
  * Check the server for a new menu.csv file.
