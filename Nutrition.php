@@ -22,17 +22,18 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$output = $output."\t\"".$tempName."\": {";
 	
 	//Check to make sure nutrition is by a valid serving size (not by the dozen)
-	//$pos = strpos($item->ls_srvuofm, "Dozen");
-	//if ($pos === false)
+	$pos = strpos($item->ls_srvuofm, "Dozen");
+	if ($pos === false)
 		$output = $output."\n\t\t\"Dozen\":\"false\",";
-	//else
-	//	$output = $output."\n\t\t\"Dozen\":\"true\",";
+	else
+		$output = $output."\n\t\t\"Dozen\":\"true\",";
 	
 	// iterate to the nutrition for the item itself (not its ingredients) and add this
 	foreach ($item->d_itm_nutr_analysis_nup_25_values_x->d_itm_nutr_analysis_nup_25_values_x_row as $element){
 		$nutrient = trim($element->ls_element, " ");
 		$output = $output."\n\t\t\"$nutrient\":\"$element->ptn1_qty\",";
-		}
+	}
+	
 	// remove trailing coma and finalize the output
 	$output = trim($output, ",");
 	$output = $output."\n\t},\n";
@@ -49,7 +50,9 @@ function build_nutrition($name, &$json_a){
 if (isset($json_a[$name]))
 //If that dish has a value for KCAL
 	if (isset($json_a[$name]["KCAL"])){
-		$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO', 'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K', 'CA', 'VTAIU', 'B6', 'SUGR');
+		$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO',
+			'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K',
+			'CA', 'VTAIU', 'B6', 'SUGR');
 		for ($i = 0; $i < 20; $i++){
 			//Get each nutritional value and crop it to 3 decimals
 			$str = $array[$i];
