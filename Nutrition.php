@@ -54,7 +54,8 @@ if (isset($json_a[$name]))
 			//Get each nutritional value and crop it to 3 decimals
 			$str = $array($i);
 			$number = number_format($json_a[$name][$str], 3, '.', '')
-			if ((strpos($json_a[$name]["Dozen"], false)) !== false)
+			$pos = strpos($json_a[$name]["Dozen"], false);
+			if ($pos !== false)
 				$number = $number/12;
 			//Build the output
 			$output = "{";
