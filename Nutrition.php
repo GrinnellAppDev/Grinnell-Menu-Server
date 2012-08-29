@@ -62,13 +62,13 @@ if (isset($json_a[$name]))
 			$str = $array[$i];
 			$number = $json_a[$name][$str];
 			$number = number_format($number, 3, '.', '');
-			$dozen_str = $json_a[$name]["Dozen"];
-			$pos = strpos($dozen_str, "false");
-			if ($pos !== false)
-				$number = $number/12;
+			//$dozen_str = $json_a[$name]["Dozen"];
+			//$pos = strpos($dozen_str, "false");
+			//if ($pos !== false)
+			//	$number = $number/12;
 			//Build the output
 			$output = "{";
-			$output = $output."\".$str.\":".$number;
+			$output = $output."\"$str\":".$number;
 			$output = trim($output, "0");
 			$output = trim($output, ".").",";
 		}
