@@ -23,7 +23,8 @@ class Venue
   if ((strcmp($this->name, "GLUTEN FREE")) == 0)
 	$GF = true;
   else $GF = false;
-    $ret = "\"".$this->name."\" : [";    
+  
+    $ret = "\"".$this->name."\" : \n\t[\n\t\t ";    
     while(($temp = array_pop($this->entrees)) != NULL)
       $ret = $ret.$temp->returnJson($GF).",";
     $ret=trim($ret,",");

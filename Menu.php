@@ -79,7 +79,7 @@ class Menu{
     if(is_null($this->breakfast))
       ;
     else {
-      $ret = $ret."\"BREAKFAST\" : \n";
+      $ret = $ret."\"BREAKFAST\" : ";
       $ret = $ret.$this->breakfast->writeAllJson();
       $comma = true;
     }
@@ -89,7 +89,7 @@ class Menu{
       if($comma)
         $ret = $ret.",";
       $comma = true;
-      $ret = $ret."\n\"LUNCH\" : \n";
+      $ret = $ret."\"LUNCH\" : ";
       $ret = $ret.$this->lunch->writeAllJson();
     }
     if(is_null($this->dinner))
@@ -98,7 +98,7 @@ class Menu{
       if($comma)
         $ret = $ret.",";
       $comma = true;
-      $ret = $ret."\n\"DINNER\" : \n";
+      $ret = $ret."\"DINNER\" : ";
       $ret = $ret.$this->dinner->writeAllJson();
     }
     if(is_null($this->outtakes))
@@ -106,7 +106,7 @@ class Menu{
     else {
       if($comma)
         $ret = $ret.",";
-      $ret = $ret."\n\"OUTTAKES\" : \n";
+      $ret = $ret."\"OUTTAKES\" : ";
       $comma = true;
       $ret = $ret.$this->outtakes->writeAllJson();
     }
@@ -115,7 +115,7 @@ class Menu{
     else {
       if($comma)
         $ret = $ret.",";
-      $ret = $ret."\n\"SPENCER\" : \n";
+      $ret = $ret."\"SPENCER\" : ";
       $comma = true;
       $ret = $ret.$this->spencer->writeAllJson();
     }

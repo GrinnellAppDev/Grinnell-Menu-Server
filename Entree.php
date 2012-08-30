@@ -108,7 +108,7 @@ class Entree
 
   public function returnJson($GF){
     $tempName = str_replace('"','\\"',$this->name);
-    $ret = "\n{\"name\" : \"".$tempName."\",\n";
+    $ret = "{ \"name\" : \"".$tempName."\",\n";
     $ret = $ret."\"vegan\" : \"".$this->vegan."\",\n";
     $ret = $ret."\"ovolacto\" : \"".$this->ovolacto."\",\n";
 	if ($GF)
@@ -118,9 +118,9 @@ class Entree
     $ret = $ret."\"passover\" : \"".$this->passover."\",\n";
 	$ret = $ret."\"halal\" : \"".$this->halal."\",\n";
 	if ((strcmp($this->nutrition, "")) == 0)
-		$ret = $ret."\"nutrition\" : \""."NIL"."\"";
+		$ret = $ret."\"nutrition\" : \""."NIL"."\"\n";
 	else
-		$ret = $ret."\"nutrition\" : ".$this->nutrition;
+		$ret = $ret."\"nutrition\" : ".$this->nutrition."\n";
     $ret = $ret."}";
     return $ret;
 
