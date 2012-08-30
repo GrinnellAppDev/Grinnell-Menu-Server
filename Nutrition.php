@@ -48,8 +48,8 @@ return $output;
 }
 
 function build_nutrition($dishID, &$json_a){
+$dishID = trim($dishID, ".00");
 //If the nutrition.json has an entry for the given dish
-echo $dishID;
 if (isset($json_a[$dishID]))
 //If that dish has a value for KCAL
 	if (isset($json_a[$dishID]["KCAL"])){
