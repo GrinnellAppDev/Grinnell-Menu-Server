@@ -12,7 +12,7 @@ class Entree
   private $nutrition;
 
   /** Construct the item with the string from csv */
-  function __construct($itemName, &$json_a){
+  function __construct($itemName, $dishID, &$json_a){
     $splitName = split('\*',$itemName); //dish name and fields delimited by *
     if(count($splitName) == 2){
       $this->name = ucwords(strtolower($splitName[1]));
@@ -38,7 +38,7 @@ class Entree
       $this->passover = "false";
       $this->halal = "false";
     }
-	$temp_nutrition = build_nutrition($itemName, &$json_a);
+	$temp_nutrition = build_nutrition($dishID, &$json_a);
 	if ($temp_nutrition == null)
 		$this->nutrition = "";
 	else

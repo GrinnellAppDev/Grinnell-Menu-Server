@@ -172,6 +172,7 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
             $menus[$curr_date]->addDish($meal,
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
+						  str_replace("\0","",$menu_item_arr[12]),
 						  &$json_a);
     }
     else{
@@ -179,6 +180,7 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
       $menus[$curr_date]->addDish($meal,
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
+						  str_replace("\0","",$menu_item_arr[12]),
 						  &$json_a);
     }
    }

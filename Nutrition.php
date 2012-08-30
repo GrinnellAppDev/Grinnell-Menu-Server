@@ -18,8 +18,8 @@ $xml = simplexml_load_file($file) or die ("Unable to load XML file!");
 $output = "{\n";
 // iterate through each menu item
 foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item){
-	// add the name of the item
-	$tempName = str_replace('"','\\"',$item->srv_name);
+	// add the ID of the item
+	$tempName = str_replace('"','\\"',$item->srv_itemuofm_intid);
 	$tempName = trim($tempName);
 	$output = $output."\t\"".$tempName."\": {";
 	
@@ -49,11 +49,11 @@ $output = $output."\n} ";
 return $output;
 }
 
-function build_nutrition($name, &$json_a){
+function build_nutrition($dishID, &$json_a){
 //If the nutrition.json has an entry for the given dish
-if (isset($json_a[$name]))
+if (isset($json_a[$dishID]))
 //If that dish has a value for KCAL
-	if (isset($json_a[$name]["KCAL"])){
+	if (isset($json_a[$dishID]["KCAL"])){
 		$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO',
 			'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K',
 			'CA', 'VTAIU', 'B6', 'SUGR');
@@ -61,7 +61,7 @@ if (isset($json_a[$name]))
 		for ($i = 0; $i < 20; $i++){
 			//Get each nutritional value and crop it to 3 decimals
 			$str = $array[$i];
-			$number = $json_a[$name][$str];
+			$number = $json_a[$dishID][$str];
 			$number = number_format($number, 3, '.', '');
 			//$dozen_str = $json_a[$name]["Dozen"];
 			//$pos = strpos($dozen_str, "false");
