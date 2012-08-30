@@ -52,7 +52,8 @@ class Entree
 	$length1 = strlen($itemName);
 	if($length1 != $length2)
 		$this->gluten_free = "true";
-	else $this->gluten_free = "false";	
+	else $this->gluten_free = "false";
+	$itemName = str_replace("To", "to", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
 	/*
@@ -97,7 +98,7 @@ class Entree
     $ret = $ret."\"passover\" : \"".$this->passover."\",\n";
 	$ret = $ret."\"halal\" : \"".$this->halal."\",\n";
 	if ((strcmp($this->nutrition, "")) == 0)
-		$ret = $ret."\"nutrition\" : \""."NIL"."\",\n";
+		$ret = $ret."\"nutrition\" : \""."NIL"."\"\n";
 	else
 		$ret = $ret."\"nutrition\" : ".$this->nutrition."\n";
     $ret = $ret."}";
