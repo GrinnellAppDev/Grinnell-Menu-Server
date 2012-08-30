@@ -61,12 +61,12 @@ if (isset($json_a[$dishID]))
 			//Get each nutritional value and crop it to 3 decimals
 			$str = $array[$i];
 			$number = $json_a[$dishID][$str];
-			$number = number_format($number, 3, '.', '');
 			$dozen_str = $json_a[$dishID]["Dozen"];
 			$pos = strpos($dozen_str, "false");
 			if ($pos !== false)
 				$number = $number/12;
-			
+			$number = number_format($number, 3, '.', '');
+
 			//Build the output
 			$output = $output."\"$str\":".$number;
 			$output = trim($output, "0");
