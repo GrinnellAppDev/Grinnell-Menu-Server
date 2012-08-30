@@ -25,12 +25,10 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	
 	//Check to make sure nutrition is by a valid serving size (not by the dozen)
 	$pos = strpos($item->ls_srvuofm, "Dozen");
-	if ($pos === false){
+	if ($pos === false)
 		$output = $output."\n\t\t\"Dozen\":\"false\",";
-			echo 'here1';}
-	else{
+	else
 		$output = $output."\n\t\t\"Dozen\":\"true\",";
-			echo 'here2';}
 	
 	// iterate to the nutrition for the item itself (not its ingredients) and add this
 	foreach ($item->d_itm_nutr_analysis_nup_25_values_x->d_itm_nutr_analysis_nup_25_values_x_row as $element){
@@ -51,6 +49,7 @@ return $output;
 
 function build_nutrition($dishID, &$json_a){
 //If the nutrition.json has an entry for the given dish
+echo $dishID;
 if (isset($json_a[$dishID]))
 //If that dish has a value for KCAL
 	if (isset($json_a[$dishID]["KCAL"])){
@@ -63,12 +62,12 @@ if (isset($json_a[$dishID]))
 			$str = $array[$i];
 			$number = $json_a[$dishID][$str];
 			$number = number_format($number, 3, '.', '');
-			//$dozen_str = $json_a[$name]["Dozen"];
-			//$pos = strpos($dozen_str, "false");
-			//if ($pos !== false)
-			//	$number = $number/12;
-			//Build the output
+			$dozen_str = $json_a[$name]["Dozen"];
+			$pos = strpos($dozen_str, "false");
+			if ($pos !== false)
+				$number = $number/12;
 			
+			//Build the output
 			$output = $output."\"$str\":".$number;
 			$output = trim($output, "0");
 			$output = trim($output, ".").",";
