@@ -19,7 +19,7 @@ class Venue
   }
 
   public function venueJson(){
-    $ret = "\"".$this->name."\" : \n\t[\n\t\t ";    
+    $ret = "\"".$this->name."\" : [";    
     while(($temp = array_pop($this->entrees)) != NULL)
       $ret = $ret.$temp->returnJson().",";
     $ret=trim($ret,",");

@@ -91,16 +91,16 @@ class Entree
 
   public function returnJson(){
     $tempName = str_replace('"','\\"',$this->name);
-    $ret = "{ \"name\" : \"".$tempName."\",\n";
+    $ret = "\n{\"name\" : \"".$tempName."\",\n";
     $ret = $ret."\"vegan\" : \"".$this->vegan."\",\n";
     $ret = $ret."\"ovolacto\" : \"".$this->ovolacto."\",\n";
 	$ret = $ret."\"gluten_free\" : \"".$this->gluten_free."\",\n";
     $ret = $ret."\"passover\" : \"".$this->passover."\",\n";
 	$ret = $ret."\"halal\" : \"".$this->halal."\",\n";
 	if ((strcmp($this->nutrition, "")) == 0)
-		$ret = $ret."\"nutrition\" : \""."NIL"."\"\n";
+		$ret = $ret."\"nutrition\" : \""."NIL"."\"";
 	else
-		$ret = $ret."\"nutrition\" : ".$this->nutrition."\n";
+		$ret = $ret."\"nutrition\" : ".$this->nutrition;
     $ret = $ret."}";
     return $ret;
 
