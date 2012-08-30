@@ -25,8 +25,8 @@ for($i = 0; $i<count($keys); $i++){
   if($maxLookahead < $diff)
     $maxLookahead = $diff;
 }
-
+$maxLookahead = 5;
 // Returns 1 if we have today's date, 8 if we have the entire next week, etc.
-echo $maxLookahead;
+echo "{ \"days\": ".$maxLookahead."}";
 
 ?>
