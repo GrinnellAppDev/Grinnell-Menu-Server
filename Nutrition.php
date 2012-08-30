@@ -62,7 +62,7 @@ if (isset($json_a[$dishID]))
 			$str = $array[$i];
 			$number = $json_a[$dishID][$str];
 			$number = number_format($number, 3, '.', '');
-			$dozen_str = $json_a[$name]["Dozen"];
+			$dozen_str = $json_a[$dishID]["Dozen"];
 			$pos = strpos($dozen_str, "false");
 			if ($pos !== false)
 				$number = $number/12;
