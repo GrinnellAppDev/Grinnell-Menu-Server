@@ -78,9 +78,14 @@ class Entree
 	else $this->gluten_free = "false";
 	
 	//This cleans up the dish name a little more
+	$itemName = ucwords(strtolower($itemName));
+	$itemName = str_replace("And", "and", $itemName);	
+	$itemName = str_replace("Of", "of", $itemName);
 	$itemName = str_replace("The", "the", $itemName);
 	$itemName = str_replace("For", "for", $itemName);
 	$itemName = str_replace("To", "to", $itemName);
+	// Changing To -> to also changes Tofu -> tofu, so change that back
+	$itemName = str_replace("tofu", "Tofu", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
 	/*
