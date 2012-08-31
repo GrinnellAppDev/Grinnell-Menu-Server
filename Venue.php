@@ -10,7 +10,7 @@ class Venue
   private static $instance;
   
   function __construct($venueName){
-	$venueName = trim($venueName);
+	//$venueName = trim($venueName);
     $this->name = $venueName;
     $this->entrees = array();
   }

@@ -124,9 +124,9 @@ class Entree
     $ret = $ret."\"vegan\" : \"".$this->vegan."\",\n";
     $ret = $ret."\"ovolacto\" : \"".$this->ovolacto."\",\n";
 	// If the venue is Gluten Free, the dish should be too
-	//if ($GF)
-	//	$ret = $ret."\"gluten_free\" : \"true\",\n";
-	//else
+	if ($GF)
+		$ret = $ret."\"gluten_free\" : \"true\",\n";
+	else
 		$ret = $ret."\"gluten_free\" : \"".$this->gluten_free."\",\n";
     $ret = $ret."\"passover\" : \"".$this->passover."\",\n";
 	$ret = $ret."\"halal\" : \"".$this->halal."\",\n";
