@@ -79,47 +79,15 @@ class Entree
 	
 	//This cleans up the dish name a little more
 	$itemName = ucwords(strtolower($itemName));
-	$itemName = str_replace("On A", "on a", $itemName);
-	$itemName = str_replace("And", "and", $itemName);	
-	$itemName = str_replace("Of", "of", $itemName);
-	$itemName = str_replace("The", "the", $itemName);
-	$itemName = str_replace("For", "for", $itemName);
-	$itemName = str_replace("To", "to", $itemName);
-	// Changing To -> to also changes Tofu -> tofu, etc. so change those back
-	$itemName = str_replace("tof", "Tof", $itemName);
-	$itemName = str_replace("top", "Top", $itemName);
-	$itemName = str_replace("tor", "Tor", $itemName);
-	$itemName = str_replace("tot", "Tot", $itemName);
-	$itemName = str_replace("fore", "Fore", $itemName);
-	$itemName = str_replace("\"the Works", "\"The Works", $itemName);
+	$itemName = str_replace(" A ", " a ", $itemName);
+	$itemName = str_replace(" On ", " on ", $itemName);
+	$itemName = str_replace(" And ", " and ", $itemName);	
+	$itemName = str_replace(" Of ", " of ", $itemName);
+	$itemName = str_replace(" The ", " the ", $itemName);
+	$itemName = str_replace(" For ", " for ", $itemName);
+	$itemName = str_replace(" To ", " to ", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
-	/*
-    $splitName = split('\*',$itemName); //dish name and fields delimited by *
-    if(count($splitName) == 2){
-      $this->name = ucwords(strtolower($splitName[1]));
-      if(ereg('O',$splitName[0]) > 0)
-        $this->ovolacto = "true";
-      else $this->ovolacto = "false";
-      if(ereg('V',$splitName[0]) > 0){
-        $this->vegan = "true";
-        $this->ovolacto = "true"; // If it is vegan, then it is also ovolacto.
-      }
-      else $this->vegan = "false";
-      if(ereg('P',$splitName[0]) > 0)
-        $this->passover = "true";
-      else $this->passover = "false";
-      if(ereg('H',$splitName[0]) > 0)
-        $this->halal = "true";
-        else $this->halal = "false";
-    }
-    else {
-      $this->name = ucwords(strtolower($splitName[0]));
-      $this->vegan = "false";
-      $this->ovolacto = "false";
-      $this->passover = "false";
-      $this->halal = "false";
-    }*/
 	
 	// And this checks for and builds the nutrition
 	$temp_nutrition = build_nutrition($dishID, &$json_a);
