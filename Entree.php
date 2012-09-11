@@ -90,7 +90,7 @@ class Entree
 	else $this->gluten_free = "false";
 	
 	//This cleans up the dish name a little more
-	$itemName = str_replace(" W/", " w/ ", $itemName);
+	$itemName = str_replace(" w/", " w/ ", $itemName);
 	$itemName = ucwords(strtolower($itemName));
 	$itemName = str_replace(" A ", " a ", $itemName);
 	$itemName = str_replace(" On ", " on ", $itemName);
