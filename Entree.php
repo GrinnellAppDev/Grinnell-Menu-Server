@@ -104,6 +104,7 @@ class Entree
 	$itemName = str_replace("- ", "-", $itemName);
 	$itemName = str_replace("  ", " ", $itemName);
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
+	$itemName = str_replace("\"the Works", "\"The Works", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
 	
