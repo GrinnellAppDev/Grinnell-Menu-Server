@@ -102,6 +102,7 @@ class Entree
 	$itemName = str_replace(" To ", " to ", $itemName);
 	$itemName = str_replace(" W/ ", " w/", $itemName);
 	$itemName = str_replace("- ", "-", $itemName);
+	$itemName = str_replace("  ", " ", $itemName);
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
