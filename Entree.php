@@ -91,6 +91,7 @@ class Entree
 	
 	//This cleans up the dish name a little more
 	$itemName = str_replace(" w/", " w/ ", $itemName);
+	$itemName = str_replace("-", "- ", $itemName);
 	$itemName = ucwords(strtolower($itemName));
 	$itemName = str_replace(" A ", " a ", $itemName);
 	$itemName = str_replace(" On ", " on ", $itemName);
@@ -99,7 +100,8 @@ class Entree
 	$itemName = str_replace(" The ", " the ", $itemName);
 	$itemName = str_replace(" For ", " for ", $itemName);
 	$itemName = str_replace(" To ", " to ", $itemName);
-	$itemName = str_replace(" W/ ", " w/ ", $itemName);
+	$itemName = str_replace(" W/ ", " w/", $itemName);
+	$itemName = str_replace("- ", "-", $itemName);
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
