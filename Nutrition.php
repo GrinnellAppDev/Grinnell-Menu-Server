@@ -48,47 +48,38 @@ return $output;
 }
 
 function build_nutrition($dishID, &$json_a){
-$dishID = trim($dishID, ".00");
-//If the nutrition.json has an entry for the given dish
-if (isset($json_a[$dishID]))
-//If that dish has a value for KCAL
-	if (isset($json_a[$dishID]["KCAL"])){
+	$dishID = trim($dishID, ".00");
+	//If the nutrition.json has an entry for the given dish
+	if (isset($json_a[$dishID]))
+		//If that dish has a value for KCAL
+		if (isset($json_a[$dishID]["KCAL"])){
+			if (!strcmp($json_a[$dishID]["KCAL"], "0"))
+				$output = $output."NIL";
+			else{
+				$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO',
+					'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K',
+					'CA', 'VTAIU', 'B6', 'SUGR');
+				$output = "{";
+				$dozen_str = $json_a[$dishID]["Dozen"];
+				$pos = strpos($dozen_str, "false");
+				for ($i = 0; $i < 20; $i++){
+					//Get each nutritional value and crop it to 3 decimals
+					$str = $array[$i];
+					$number = $json_a[$dishID][$str];
 
-		if ($json_a[$dishID]["KCAL"] == 0)
-			$output = $output."NIL";
-		else{
-		$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO',
-			'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K',
-			'CA', 'VTAIU', 'B6', 'SUGR');
-			$output = "{";
-		for ($i = 0; $i < 20; $i++){
-			//Get each nutritional value and crop it to 3 decimals
-			$str = $array[$i];
-			$number = $json_a[$dishID][$str];
-			$dozen_str = $json_a[$dishID]["Dozen"];
-			$pos = strpos($dozen_str, "false");
-			if ($pos !== false)
-				$number = $number/12;
-			$number = number_format($number, 3, '.', '');
+					if ($pos !== false)
+						$number = $number/12;
+					$number = number_format($number, 3, '.', '');
 
-
-			//Build the output
-			$output = $output."\"$str\":".$number;
-			$output = trim($output, "0");
-			$output = trim($output, ".").",";
-		}
-	}
-	/*
-	$SUGR = $json_a[$name]["SUGR"];
-	$SUGR_STR = number_format($SUGR, 3, '.', '');
-	
-	$output = $output."\"FAT\":".$FAT_STR;
-	$output = trim($output, "0");
-	$output = trim($output, ".").",";*/
-
+				//Build the output
+				$output = $output."\"$str\":".$number;
+				$output = trim($output, "0");
+				$output = trim($output, ".").",";
+				}
+			}
 		$output = trim($output, ",")."}";
 		return $output;
 	}
-return null;
+	return null;
 }
 ?>
