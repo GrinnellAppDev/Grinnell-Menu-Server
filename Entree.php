@@ -109,7 +109,7 @@ class Entree
 	$this->name = $itemName;
 	
 	// And this checks for and builds the nutrition
-	if (!strcmp($this->name, "Belgian Waffle Bar") && !strcmp($this->name, "Pho Bar") 
+/*	if (!strcmp($this->name, "Belgian Waffle Bar") && !strcmp($this->name, "Pho Bar") 
 		&& !strcmp($this->name, "Whipped Topping") && !strcmp($this->name, "Burrito Bar") 
 		&& !strcmp($this->name, "Whipped Topping (32 Oz)") 
 		&& !strcmp($this->name, "Mac & Cheese Bar") && !strcmp($this->name, "Sukiyaki Bar") 
@@ -121,15 +121,15 @@ class Entree
 		&& !strcmp($this->name, "Asian Noodle House") 
 		&& !strcmp($this->name, "Chicken for Risotto Bar") 
 		&& !strcmp($this->name, "Meats for Risotto Bar") && !strcmp($this->name, "Paella Bar"))
-	{
+	{*/
 		$temp_nutrition = build_nutrition($dishID, &$json_a);
 		if ($temp_nutrition == null)
 			$this->nutrition = "";
 		else
 			$this->nutrition = $temp_nutrition;
-	}
+/*	}
 	else
-		$this->nutrition = "";
+		$this->nutrition = "";*/
   }
 
   public function returnJson($GF){
