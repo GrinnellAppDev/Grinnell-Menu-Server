@@ -109,11 +109,27 @@ class Entree
 	$this->name = $itemName;
 	
 	// And this checks for and builds the nutrition
-	$temp_nutrition = build_nutrition($dishID, &$json_a);
-	if ($temp_nutrition == null)
-		$this->nutrition = "";
+	if (!strcmp($this->name, "Belgian Waffle Bar") && !strcmp($this->name, "Pho Bar") 
+		&& !strcmp($this->name, "Whipped Topping") && !strcmp($this->name, "Burrito Bar") 
+		&& !strcmp($this->name, "Whipped Topping (32 Oz)") 
+		&& !strcmp($this->name, "Mac & Cheese Bar") && !strcmp($this->name, "Sukiyaki Bar") 
+		&& !strcmp($this->name, "Potato Skin Bar") 
+		&& !strcmp($this->name, "Cilantro Pesto Sauce") 
+		&& !strcmp($this->name, "Burrito Bar (8th Avenue Deli)") 
+		&& !strcmp($this->name, "Burrito Bar (Saute)") 
+		&& !strcmp($this->name, "Baked Potato Bar") && !strcmp($this->name, "Brioche Bread") 
+		&& !strcmp($this->name, "Asian Noodle House") 
+		&& !strcmp($this->name, "Chicken for Risotto Bar") 
+		&& !strcmp($this->name, "Meats for Risotto Bar") && !strcmp($this->name, "Paella Bar"))
+	{
+		$temp_nutrition = build_nutrition($dishID, &$json_a);
+		if ($temp_nutrition == null)
+			$this->nutrition = "";
+		else
+			$this->nutrition = $temp_nutrition;
+	}
 	else
-		$this->nutrition = $temp_nutrition;
+		$this->nutrition = "";
   }
 
   public function returnJson($GF){

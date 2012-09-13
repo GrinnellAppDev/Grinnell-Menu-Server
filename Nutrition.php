@@ -53,6 +53,10 @@ $dishID = trim($dishID, ".00");
 if (isset($json_a[$dishID]))
 //If that dish has a value for KCAL
 	if (isset($json_a[$dishID]["KCAL"])){
+
+		if ($json_a[$dishID]["KCAL"] == 0)
+			$output = $output."NIL";
+		else{
 		$array = array('KCAL', 'FAT', 'CHO', 'PRO', 'SFA', 'POLY', 'MONO',
 			'CHOL', 'TDFB', 'VITC', 'B12', 'NA', 'ZN', 'FE', 'FATRN', 'K',
 			'CA', 'VTAIU', 'B6', 'SUGR');
@@ -67,11 +71,13 @@ if (isset($json_a[$dishID]))
 				$number = $number/12;
 			$number = number_format($number, 3, '.', '');
 
+
 			//Build the output
 			$output = $output."\"$str\":".$number;
 			$output = trim($output, "0");
 			$output = trim($output, ".").",";
 		}
+	}
 	/*
 	$SUGR = $json_a[$name]["SUGR"];
 	$SUGR_STR = number_format($SUGR, 3, '.', '');
