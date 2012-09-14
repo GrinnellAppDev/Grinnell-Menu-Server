@@ -109,6 +109,7 @@ class Entree
 	$this->name = $itemName;
 	
 	// And this checks for and builds the nutrition
+	// This if statement removes nutritional information from dishes that are incorrect  (DHall staff tells us)
 	if (!strcmp($this->name, "Belgian Waffle Bar") || !strcmp($this->name, "Chicken for Risotto Bar") 
 		|| !strcmp($this->name, "Meats for Risotto Bar") || !strcmp($this->name, "Brioche Bread")
 		|| !strcmp($this->name, "Whipped Topping (32 Oz)") || !strcmp($this->name, "Pho Bar")
@@ -117,7 +118,12 @@ class Entree
 		|| !strcmp($this->name, "Burrito Bar (Saute)") || !strcmp($this->name, "Cilantro Pesto Sauce") 
 		|| !strcmp($this->name, "Burrito Bar (8th Avenue Deli)") || !strcmp($this->name, "Paella Bar")
 		|| !strcmp($this->name, "Potato Skin Bar") || !strcmp($this->name, "Asian Noodle House") 
-		|| !strcmp($this->name, "Baked Potato Bar"))
+		|| !strcmp($this->name, "Baked Potato Bar") || !strcmp($this->name, "Steel Cut Oatmeal Bar")
+		|| !strcmp($this->name, "Cheese Quesadilla Bar") || !strcmp($this->name, "Chicken Strips")
+		|| !strcmp($this->name, "Chicken Nuggets") || !strcmp($this->name, "Beef Burritos") 
+		|| !strcmp($this->name, "Homemade Tortilla Chips at the Grill") || !strcmp($this->name, "Nacho Bar")
+		|| !strcmp($this->name, "Cheddar Cheese & Sour Cream") || !strcmp($this->name, "Beef Taco Bar")
+		|| !strcmp($this->name, "Cheddar Cheese & Sour Cream listed under Condiments"))
 		$this->nutrition = "";
 	else{
 		$temp_nutrition = build_nutrition($dishID, &$json_a);
