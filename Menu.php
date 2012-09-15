@@ -121,7 +121,7 @@ class Menu{
     }
     if($comma)
       $ret = $ret.",";
-     $ret = $ret."\n\"PASSOVER\" : "\"false\"";
+     $ret = $ret."\n\"PASSOVER\" : \"false\"\n";
     $comma = true;
     $ret = $ret."} ";
     return $ret;
