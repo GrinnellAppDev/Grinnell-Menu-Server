@@ -119,6 +119,10 @@ class Menu{
       $comma = true;
       $ret = $ret.$this->spencer->writeAllJson();
     }
+    if($comma)
+      $ret = $ret.",";
+     $ret = $ret."\n\"PASSOVER\" : "\"false\"";
+    $comma = true;
     $ret = $ret."} ";
     return $ret;
   }
