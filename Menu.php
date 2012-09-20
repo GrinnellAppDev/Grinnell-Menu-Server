@@ -121,7 +121,9 @@ class Menu{
     }
     if($comma)
       $ret = $ret.",";
-     $ret = $ret."\n\"PASSOVER\" : \"false\"\n";
+//THIS IS THE MANUAL SWITCH TO HANDLE PASSOVER
+//Always use all lower case
+     $ret = $ret."\n\"PASSOVER\" : \"true\"\n";
     $comma = true;
     $ret = $ret."} ";
     return $ret;
