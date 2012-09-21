@@ -68,9 +68,14 @@ echo '</br>';
  */
 
 //if URI Exists
+$lastmodified = filemtime ('./nutrition.xml');
 exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/nutrition.xml', $out, $return_val);
 //save new file
 if($return_val == 0) {
+	if ($lastmodified == filemtime ('./nutrition.xml')){
+		echo("</br>Nutrition file on server isn't new. Didn't Pull.</br>");
+		$return_val = 1;
+	}
 	echo("</br>Pulled nutrition.xml from server.</br>");
 	exec('chmod 755 ./nutrition.xml');
 }
@@ -105,19 +110,31 @@ else {
  */
 
 //if URI Exists
+$lastmodified = filemtime ('./menu.csv');
 exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menu.csv', $out, $return_val);
 //save new file
 if($return_val == 0){
-	echo("</br>Pulled menu.csv from server.</br>");
-	exec('chmod 755 ./menu.csv');
+	if ($lastmodified == filemtime ('./menu.csv')){
+		echo("</br>Menu file on server isn't new. Didn't Pull.</br>");
+		$return_val = 1;
 	}
+	else{
+		echo("</br>Pulled menu.csv from server.</br>");
+		exec('chmod 755 ./menu.csv');
+	}
+}
 else {
 	exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menus.csv', $out, $return_val);
 	//save new file
 	if ($return_val == 0){
-		echo("</br>Pulled menus.csv from server.</br>");
 		exec('chmod 755 ./menus.csv');
 		exec('mv ./menus.csv ./menu.csv');
+		if ($lastmodified == filemtime ('./menu.csv')){
+			echo("</br>Menu file on server isn't new. Didn't Pull.</br>");
+			$return_val = 1;
+		}
+		else
+			echo("</br>Pulled menus.csv from server.</br>");
 	}
 	//else die("</br>Couldn't find new menu file on server.</br>");
 }
