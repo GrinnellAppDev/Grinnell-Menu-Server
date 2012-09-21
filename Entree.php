@@ -20,15 +20,20 @@ class Entree
 	//  by checking the length of itemName, removing any indicators
 	//  and rechecking the length to see if it has changed
 	
+	//Dairy Free (TODO - Handle this)
+	$itemName = str_replace("df", "", $itemName);
+	$itemName = str_replace("Df", "", $itemName);
+	$itemName = str_replace("DF", "", $itemName);
+
 	//Ovolacto
 	$length1 = strlen($itemName);
 	$itemName = str_replace("OL*", "", $itemName);
 	$itemName = str_replace("Ol*", "", $itemName);
 	$itemName = str_replace("ol*", "", $itemName);
-        $itemName = str_replace("(OL)", "", $itemName);
-        $itemName = str_replace("(Ol)", "", $itemName);
-        $itemName = str_replace("(ol)", "", $itemName);
-        $itemName = str_replace("9OL)", "", $itemName);
+    $itemName = str_replace("(OL)", "", $itemName);
+    $itemName = str_replace("(Ol)", "", $itemName);
+    $itemName = str_replace("(ol)", "", $itemName);
+    $itemName = str_replace("9OL)", "", $itemName);
 	$itemName = str_replace("9Ol)", "", $itemName);
 	$itemName = str_replace("9ol)", "", $itemName);
 	$length2 = strlen($itemName);
@@ -39,9 +44,9 @@ class Entree
 	//Vegan
   	$itemName = str_replace("V*", "", $itemName);
    	$itemName = str_replace("v*", "", $itemName);
-        $itemName = str_replace("(V)", "", $itemName);
-        $itemName = str_replace("(v)", "", $itemName);
-        $itemName = str_replace("9V)", "", $itemName);
+   	$itemName = str_replace("(V)", "", $itemName);
+   	$itemName = str_replace("(v)", "", $itemName);
+   	$itemName = str_replace("9V)", "", $itemName);
 	$itemName = str_replace("9v)", "", $itemName);
 	$length1 = strlen($itemName);
 	if($length1 != $length2){
@@ -53,9 +58,9 @@ class Entree
 	//Passover
 	$itemName = str_replace("P*", "", $itemName);
 	$itemName = str_replace("p*", "", $itemName);
-        $itemName = str_replace("(P)", "", $itemName);
-        $itemName = str_replace("(p)", "", $itemName);
-        $itemName = str_replace("9P)", "", $itemName);
+	$itemName = str_replace("(P)", "", $itemName);
+	$itemName = str_replace("(p)", "", $itemName);
+	$itemName = str_replace("9P)", "", $itemName);
 	$itemName = str_replace("9p)", "", $itemName);
 	$length2 = strlen($itemName);
 	if($length1 != $length2)
@@ -65,10 +70,10 @@ class Entree
 	//Halal
 	$itemName = str_replace("H*", "", $itemName);
 	$itemName = str_replace("h*", "", $itemName);
-        $itemName = str_replace("(H)", "", $itemName);
-        $itemName = str_replace("(h)", "", $itemName);
-        $itemName = str_replace("9H)", "", $itemName);
-        $itemName = str_replace("9h)", "", $itemName);
+	$itemName = str_replace("(H)", "", $itemName);
+	$itemName = str_replace("(h)", "", $itemName);
+	$itemName = str_replace("9H)", "", $itemName);
+	$itemName = str_replace("9h)", "", $itemName);
 	$length1 = strlen($itemName);
 	if($length1 != $length2)
 		$this->halal = "true";
@@ -78,12 +83,12 @@ class Entree
 	$itemName = str_replace("GF*", "", $itemName);
 	$itemName = str_replace("Gf*", "", $itemName);
 	$itemName = str_replace("gf*", "", $itemName);
-        $itemName = str_replace("(GF)", "", $itemName);
-        $itemName = str_replace("(Gf)", "", $itemName);
-        $itemName = str_replace("(gf)", "", $itemName);
-        $itemName = str_replace("9GF)", "", $itemName);
-        $itemName = str_replace("9Gf)", "", $itemName);
-        $itemName = str_replace("9gf)", "", $itemName);
+	$itemName = str_replace("(GF)", "", $itemName);
+	$itemName = str_replace("(Gf)", "", $itemName);
+	$itemName = str_replace("(gf)", "", $itemName);
+	$itemName = str_replace("9GF)", "", $itemName);
+	$itemName = str_replace("9Gf)", "", $itemName);
+	$itemName = str_replace("9gf)", "", $itemName);
 	$length1 = strlen($itemName);
 	if($length1 != $length2)
 		$this->gluten_free = "true";
