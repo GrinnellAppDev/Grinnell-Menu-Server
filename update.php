@@ -76,8 +76,10 @@ if($return_val == 0) {
 		echo("</br>Nutrition file on server isn't new. Didn't Pull.</br>");
 		$return_val = 1;
 	}
-	echo("</br>Pulled nutrition.xml from server.</br>");
-	exec('chmod 755 ./nutrition.xml');
+	else{
+		echo("</br>Pulled nutrition.xml from server.</br>");
+		exec('chmod 755 ./nutrition.xml');
+	}
 }
 else
 	echo("</br>Failed to pull nutrition file.</br>");
