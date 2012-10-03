@@ -111,6 +111,7 @@ class Entree
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
 	$itemName = str_replace("Nyc", "NYC", $itemName);
 	$itemName = str_replace("\"the Works", "\"The Works", $itemName);
+	$itemName = str_replace("(turkey)", "(Turkey)", $itemName);
 	$itemName = str_replace("(plat Du Jour)", "", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
