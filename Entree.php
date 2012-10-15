@@ -96,6 +96,7 @@ class Entree
 	
 	//This cleans up the dish name a little more
 	$itemName = str_replace(" w/", " w/ ", $itemName);
+	$itemName = str_replace(" W/", " w/ ", $itemName);
 	$itemName = str_replace("-", "- ", $itemName);
 	$itemName = ucwords(strtolower($itemName));
 	$itemName = str_replace(" A ", " a ", $itemName);
@@ -108,6 +109,7 @@ class Entree
 	$itemName = str_replace(" W/ ", " w/", $itemName);
 	$itemName = str_replace("- ", "-", $itemName);
 	$itemName = str_replace("  ", " ", $itemName);
+	$itemName = str_replace(" O'b", " O'B", $itemName);
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
 	$itemName = str_replace("Nyc", "NYC", $itemName);
 	$itemName = str_replace("\"the Works", "\"The Works", $itemName);
