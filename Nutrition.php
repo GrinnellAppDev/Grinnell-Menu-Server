@@ -63,7 +63,7 @@ function build_nutrition($dishID, &$json_a){
 					'CA', 'VTAIU', 'B6', 'SUGR');
 				$output = "{";
 				$dozen_str = $json_a[$dishID]["Dozen"];
-				$pos = strpos($dozen_str, "false");
+				$pos = strpos($dozen_str, "true");
 				for ($i = 0; $i < 20; $i++){
 					//Get each nutritional value and crop it to 3 decimals
 					$str = $array[$i];
