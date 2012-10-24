@@ -79,6 +79,7 @@ if($return_val == 0) {
 	else{
 		echo("</br>Pulled nutrition.xml from server.</br>");
 		exec('chmod 755 ./nutrition.xml');
+    unlink("nutrition.json");
 	}
 }
 else
