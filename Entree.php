@@ -10,8 +10,8 @@ class Entree
   private $passover;    //  "   "   "   "   " for passover "   "
   private $halal;       //  "   "   "   "   " for halal    "   "
   private $gluten_free; //  "   "   "   "   " gluten free  "   "
-  private $nutrition;   // Nil if there is no nutrtion, else contains array of nutrition values
-
+  private $nutrition;   // Nil if there is no nutrition, else contains array of nutrition values
+  private $ID;          // Contains a unique dish ID
 
   /** Construct the item with the string from csv */
   function __construct($itemName, $dishID, &$json_a){
@@ -20,6 +20,8 @@ class Entree
 	//  by checking the length of itemName, removing any indicators
 	//  and rechecking the length to see if it has changed
 	
+	$this->ID = $dishID;
+
 	//Dairy Free (TODO - Handle this)
 	$itemName = str_replace("df", "", $itemName);
 	$itemName = str_replace("Df", "", $itemName);
@@ -145,21 +147,22 @@ class Entree
 }
 
   public function returnJson($GF){
-    $tempName = str_replace('"','\\"',$this->name);
-    $ret = "\n{\"name\" : \"".$tempName."\",\n";
-    $ret = $ret."\"vegan\" : \"".$this->vegan."\",\n";
-    $ret = $ret."\"ovolacto\" : \"".$this->ovolacto."\",\n";
+    $tempName = str_replace('"','\\"', $this->name);
+    $ret = "\n{\"name\" : \"$tempName\",\n";
+    $ret = $ret."\"vegan\" : \"$this->vegan\",\n";
+    $ret = $ret."\"ovolacto\" : \"$this->ovolacto\",\n";
 	// If the venue is Gluten Free, the dish should be too
 	if ($GF)
 		$ret = $ret."\"gluten_free\" : \"true\",\n";
 	else
-		$ret = $ret."\"gluten_free\" : \"".$this->gluten_free."\",\n";
-    $ret = $ret."\"passover\" : \"".$this->passover."\",\n";
-	$ret = $ret."\"halal\" : \"".$this->halal."\",\n";
+		$ret = $ret."\"gluten_free\" : \"$this->gluten_free\",\n";
+    $ret = $ret."\"passover\" : \"$this->passover\",\n";
+	$ret = $ret."\"halal\" : \"$this->halal\",\n";
+	$ret = $ret."\"ID\" : \"$this->ID\",\n";
 	if (!strcmp($this->nutrition, ""))
-		$ret = $ret."\"nutrition\" : \""."NIL"."\"";
+		$ret = $ret."\"nutrition\" : \"NIL\"";
 	else
-		$ret = $ret."\"nutrition\" : ".$this->nutrition;
+		$ret = $ret."\"nutrition\" : $this->nutrition";
     $ret = $ret."}";
     return $ret;
   }
