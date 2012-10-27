@@ -88,7 +88,7 @@ function build_nutrition($dishID, &$json_a){
 			$servSizeStr = $json_a[$dishID]["ServSize"];
 			$output = trim($output, ",")."},";
 
-		$output = $output."{\"ServSize\":\"$servSizeStr\"};
+		$output = $output."{\"ServSize\":\"$servSizeStr\"}";
 		$output = trim($output, ",")."}";
 		return $output;
 	}
