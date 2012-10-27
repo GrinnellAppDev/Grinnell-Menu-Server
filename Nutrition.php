@@ -85,7 +85,10 @@ function build_nutrition($dishID, &$json_a){
 				$output = trim($output, ".").",";
 				}
 			}
-			$servSizeStr = $json_a[$dishID]["ServSize"];
+			if ($pos !== false)
+				$servSizeStr = "1 Cookie";
+			else
+				$servSizeStr = $json_a[$dishID]["ServSize"];
 			$output = trim($output, ",")."},";
 			$output = $output."\n\"ServSize\":\"$servSizeStr\",";
 			$output = $output."\n\"ID\":\"$dishID\"";
