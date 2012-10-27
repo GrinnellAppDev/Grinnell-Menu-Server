@@ -22,14 +22,19 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$tempName = str_replace('"','\\"',$item->srv_itemuofm_intid);
 	$tempName = trim($tempName);
 	$output = $output."\t\"".$tempName."\": {";
-	
+	$serving = $item->ls_srvuofm;
+	$serving = str_replace('(', '', $serving);
+	$serving = str_replace(')', '', $serving);
+	$serving = str_replace('Oz', 'Oz.', $serving);
+	$serving = str_replace('OZ', 'Oz.', $serving);
 	//Check to make sure nutrition is by a valid serving size (not by the dozen)
-	$pos = strpos($item->ls_srvuofm, "Dozen");
+	$pos = strpos($serving, "Dozen");
 	if ($pos === false)
 		$output = $output."\n\t\t\"Dozen\":\"false\",";
 	else
 		$output = $output."\n\t\t\"Dozen\":\"true\",";
-	$output = $output."\n\t\t\"ServSize\":\"".$item->ls_srvuofm."\",";
+		
+	$output = $output."\n\t\t\"ServSize\":\"".$serving."\",";
 	
 	// iterate to the nutrition for the item itself (not its ingredients) and add this
 	foreach ($item->d_itm_nutr_analysis_nup_25_values_x->d_itm_nutr_analysis_nup_25_values_x_row as $element){
@@ -81,7 +86,9 @@ function build_nutrition($dishID, &$json_a){
 				}
 			}
 			$servSizeStr = $json_a[$dishID]["ServSize"];
-		$output = $output."\"ServSize\":\"$servSizeStr\",";
+			$output = trim($output, ",")."},";
+
+		$output = $output."{\"ServSize\":\"$servSizeStr\"};
 		$output = trim($output, ",")."}";
 		return $output;
 	}
