@@ -35,7 +35,7 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$pos = strpos($serving, "Slice");
 	if ($pos !== false)
 		$serving = "1 Slice";	
-		$pos = strpos($serving, "x");
+		$pos = strpos($serving, "X");
 	if ($pos !== false)
 		$serving = "1 Piece";	
 	$output = $output."\n\t\t\"ServSize\":\"".$serving."\",";
