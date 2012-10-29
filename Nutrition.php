@@ -31,10 +31,10 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$serving = str_replace('Oz', 'Oz.', $serving);
 	$pos = strpos($serving, "Cut");
 	if ($pos === true)
-		$serving = '1 Piece';
+		$serving = "1 Piece";
 	$pos = strpos($serving, "Slice");
 	if ($pos === true)
-		$serving = '1 Slice';	
+		$serving = "1 Slice";	
 	$output = $output."\n\t\t\"ServSize\":\"".$serving."\",";
 	
 	//Check to make sure nutrition is by a valid serving size (not by the dozen)
