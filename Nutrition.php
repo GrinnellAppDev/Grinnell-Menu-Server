@@ -30,10 +30,10 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$serving = ucwords(strtolower($serving));
 	$serving = str_replace('Oz', 'Oz.', $serving);
 	$pos = strpos($serving, "Cut");
-	if ($pos === true)
+	if ($pos !== false)
 		$serving = "1 Piece";
 	$pos = strpos($serving, "Slice");
-	if ($pos === true)
+	if ($pos !== false)
 		$serving = "1 Slice";	
 	$output = $output."\n\t\t\"ServSize\":\"".$serving."\",";
 	
