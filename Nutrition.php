@@ -18,10 +18,12 @@ $xml = simplexml_load_file($file) or die ("Unable to load XML file!");
 $output = "{\n";
 // iterate through each menu item
 foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item){
-	// add the ID of the item
+	// Add the ID of the item
 	$tempName = str_replace('"','\\"',$item->srv_itemuofm_intid);
 	$tempName = trim($tempName);
-	$output = $output."\t\"".$tempName."\": {";
+	$output = $output."\t\"$tempName\": {";
+
+	// Add serving size
 	$serving = $item->ls_srvuofm;
 	$serving = str_replace('(', '', $serving);
 	$serving = str_replace(')', '', $serving);
