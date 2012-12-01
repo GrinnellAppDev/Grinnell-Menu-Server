@@ -97,10 +97,14 @@ class Entree
 	else $this->gluten_free = "false";
 	
 	//This cleans up the dish name a little more
-	$itemName = str_replace(" w/", " w/ ", $itemName);
-	$itemName = str_replace(" W/", " w/ ", $itemName);
+	$itemName = str_replace("/", "/ ", $itemName);
+	$itemName = str_replace(".", ". ", $itemName);
+	$itemName = str_replace("(", "( ", $itemName);
 	$itemName = str_replace("-", "- ", $itemName);
+	$itemName = str_replace("\"", "\" ", $itemName);
+	$itemName = str_replace("'", "' ", $itemName);
 	$itemName = ucwords(strtolower($itemName));
+	$itemName = str_replace(" W/", " w/", $itemName);
 	$itemName = str_replace(" A ", " a ", $itemName);
 	$itemName = str_replace(" On ", " on ", $itemName);
 	$itemName = str_replace(" And ", " and ", $itemName);	
@@ -108,15 +112,16 @@ class Entree
 	$itemName = str_replace(" The ", " the ", $itemName);
 	$itemName = str_replace(" For ", " for ", $itemName);
 	$itemName = str_replace(" To ", " to ", $itemName);
-	$itemName = str_replace(" W/ ", " w/", $itemName);
+	$itemName = str_replace("/ ", "/", $itemName);
+	$itemName = str_replace(". ", ".", $itemName);
+	$itemName = str_replace("( ", "(", $itemName);
 	$itemName = str_replace("- ", "-", $itemName);
+	$itemName = str_replace("\" ", "\"", $itemName);
+	$itemName = str_replace("' ", "'", $itemName);
 	$itemName = str_replace("  ", " ", $itemName);
-	$itemName = str_replace(" O'b", " O'B", $itemName);
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
 	$itemName = str_replace("Nyc", "NYC", $itemName);
-	$itemName = str_replace("\"the Works", "\"The Works", $itemName);
-	$itemName = str_replace("(turkey)", "(Turkey)", $itemName);
-	$itemName = str_replace("(plat Du Jour)", "", $itemName);
+	$itemName = str_replace("(Plat Du Jour)", "", $itemName);
 	$itemName = trim($itemName);
 	$this->name = $itemName;
 	
