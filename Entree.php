@@ -117,6 +117,7 @@ class Entree
 	$itemName = str_replace("( ", "(", $itemName);
 	$itemName = str_replace("- ", "-", $itemName);
 	$itemName = str_replace("\" ", "\"", $itemName);
+	$itemName = str_replace("\"t", "\"T", $itemName);
 	$itemName = str_replace("' ", "'", $itemName);
 	$itemName = str_replace("  ", " ", $itemName);
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
