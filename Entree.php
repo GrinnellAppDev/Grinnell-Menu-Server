@@ -103,6 +103,10 @@ class Entree
 	$itemName = str_replace("  ", " ", $itemName);
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
 	$itemName = str_replace("Nyc", "NYC", $itemName);
+	$itemName = str_replace("Frank'S", "Frank's", $itemName);
+	$itemName = str_replace("Scott'S", "Scott's", $itemName);
+	$itemName = str_replace("Devil'S", "Devil's", $itemName);
+	$itemName = str_replace("M&m", "M&M", $itemName);
 	$itemName = str_replace("(Plat Du Jour)", "", $itemName);
 	$itemName = trim($itemName);
 	$itemName = ucfirst($itemName);
