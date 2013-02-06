@@ -93,6 +93,8 @@ class Entree
 	$itemName = str_replace(" The ", " the ", $itemName);
 	$itemName = str_replace(" For ", " for ", $itemName);
 	$itemName = str_replace(" To ", " to ", $itemName);
+	$itemName = str_replace(" In ", " in ", $itemName);
+	$itemName = str_replace(" With ", " w/", $itemName);
 	$itemName = str_replace("/ ", "/", $itemName);
 	$itemName = str_replace(". ", ".", $itemName);
 	$itemName = str_replace("( ", "(", $itemName);
@@ -104,9 +106,13 @@ class Entree
 	$itemName = str_replace("Bbq", "BBQ", $itemName);
 	$itemName = str_replace("Nyc", "NYC", $itemName);
 	$itemName = str_replace(" Ww ", " WW ", $itemName); //Whole wheat
+	$itemName = str_replace("Cider-glazed", "Cider-Glazed", $itemName);
+	$itemName = str_replace("(red", "(Red", $itemName);
 	$itemName = str_replace("Frank'S", "Frank's", $itemName);
 	$itemName = str_replace("Scott'S", "Scott's", $itemName);
 	$itemName = str_replace("Devil'S", "Devil's", $itemName);
+	$itemName = str_replace("Shepherd'S", "Shepherd's", $itemName);
+	$itemName = str_replace("M & M", "M&M", $itemName);
 	$itemName = str_replace("M&m", "M&M", $itemName);
 	$itemName = str_replace("(Plat Du Jour)", "", $itemName);
 	$itemName = str_replace("(Hoh)", "", $itemName);
