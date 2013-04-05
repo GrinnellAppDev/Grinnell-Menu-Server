@@ -95,12 +95,13 @@ else
 // setup output file
 $outfile = "nutrition.json";
 // if nutrition.json already exists and we didn't pull new information, skip re-writing nutrition.json
-$xmlTime = filemtime ('./nutrition.xml');
+/*$xmlTime = filemtime ('./nutrition.xml');
 $jsonTime = filemtime ('./nutrition.json');
 
 if ($jsonTime == false || $xmlTime == false)
-  echo("Error reading nutrition file tiemstamps");
-if((file_exists($outfile)) && ($return_val != 0) && ($xmlTime < $jsonTime))
+  echo("Error reading nutrition file tiemstamps");*/
+if((file_exists($outfile)) && ($return_val != 0) //&& ($xmlTime < $jsonTime)
+  )
   echo("Will not overwrite nutrition.json</br>");
 else {
   if(($out_handle = fopen($outfile, 'w')) == false){
