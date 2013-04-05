@@ -19,6 +19,7 @@ class Entree
 	//  whether the dish falls into a particular nutritional realm
 	//  by checking the length of itemName, removing any indicators
 	//  and rechecking the length to see if it has changed
+	$dishID = trim($dishID, ".00");
 	$this->ID = $dishID;
 
 	//Make everything lower case, so we can easily check for nutrition markers
