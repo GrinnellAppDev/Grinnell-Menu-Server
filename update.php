@@ -74,18 +74,18 @@ $lastmodified = filemtime ('./nutrition.xml');
 exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/nutrition.xml', $out, $return_val);
 //save new file
 if($return_val == 0) {
-	if ($lastmodified == filemtime ('./nutrition.xml')){
-		echo("</br>Nutrition file on server isn't new. Didn't Pull.</br>");
-		$return_val = 1;
-	}
-	else{
-		echo("</br>Pulled nutrition.xml from server.</br>");
-		exec('chmod 755 ./nutrition.xml');
+  if ($lastmodified == filemtime ('./nutrition.xml')){
+    echo("</br>Nutrition file on server isn't new. Didn't Pull.</br>");
+    $return_val = 1;
+  }
+  else{
+    echo("</br>Pulled nutrition.xml from server.</br>");
+    exec('chmod 755 ./nutrition.xml');
     unlink("nutrition.json");
-	}
+  }
 }
 else
-	echo("</br>Failed to pull nutrition file.</br>");
+  echo("</br>Failed to pull nutrition file.</br>");
 
 
 /****************************************************************************
@@ -101,18 +101,18 @@ $jsonTime = filemtime ('./nutrition.json');
 if ($jsonTime == false || $xmlTime == false)
   echo("Error reading nutrition file tiemstamps");
 if((file_exists($outfile)) && ($return_val != 0) && ($xmlTime < $jsonTime))
-	echo("Will not overwrite nutrition.json</br>");
+  echo("Will not overwrite nutrition.json</br>");
 else {
-	if(($out_handle = fopen($outfile, 'w')) == false){
-		echo('Failed to create nutrition file.');
-	}
-	$output = create_nutrition_json();
+  if(($out_handle = fopen($outfile, 'w')) == false){
+    echo('Failed to create nutrition file.');
+  }
+  $output = create_nutrition_json();
 
-	// write the file
-	fwrite($out_handle, $output);
-	echo("</br>Wrote nutrition JSON.</br>");
-	exec('chmod 755 ./nutrition.json');
-	fclose($out_handle);
+  // write the file
+  fwrite($out_handle, $output);
+  echo("</br>Wrote nutrition JSON.</br>");
+  exec('chmod 755 ./nutrition.json');
+  fclose($out_handle);
 }
 
 /****************************************************************************
@@ -125,30 +125,30 @@ $lastmodified = filemtime ('./menu.csv');
 exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menu.csv', $out, $return_val);
 //save new file
 if($return_val == 0){
-	if ($lastmodified == filemtime ('./menu.csv')){
-		echo("</br>Menu file on server isn't new. Didn't Pull.</br>");
-		$return_val = 1;
-	}
-	else{
-		echo("</br>Pulled menu.csv from server.</br>");
-		exec('chmod 755 ./menu.csv');
-	}
+  if ($lastmodified == filemtime ('./menu.csv')){
+    echo("</br>Menu file on server isn't new. Didn't Pull.</br>");
+    $return_val = 1;
+  }
+  else{
+    echo("</br>Pulled menu.csv from server.</br>");
+    exec('chmod 755 ./menu.csv');
+  }
 }
 else {
   //wget only pulls the file if the one at the location is newer than the local copy
-	exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menus.csv', $out, $return_val);
-	//save new file
-	if ($return_val == 0){
-		exec('chmod 755 ./menus.csv');
-		exec('mv ./menus.csv ./menu.csv');
-		if ($lastmodified == filemtime ('./menu.csv')){
-			echo("</br>Menu file on server isn't new. Didn't Pull.</br>");
-			$return_val = 1;
-		}
-		else
-			echo("</br>Pulled menus.csv from server.</br>");
-	}
-	//else die("</br>Couldn't find new menu file on server.</br>");
+  exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menus.csv', $out, $return_val);
+  //save new file
+  if ($return_val == 0){
+    exec('chmod 755 ./menus.csv');
+    exec('mv ./menus.csv ./menu.csv');
+    if ($lastmodified == filemtime ('./menu.csv')){
+      echo("</br>Menu file on server isn't new. Didn't Pull.</br>");
+      $return_val = 1;
+    }
+    else
+      echo("</br>Pulled menus.csv from server.</br>");
+  }
+  //else die("</br>Couldn't find new menu file on server.</br>");
 }
 
 /****************************************************************************
@@ -170,8 +170,7 @@ $count = 0;
   // get the nutrition json so it can be passed down
   $string = file_get_contents("nutrition.json");
   $json_a = json_decode($string, true);
-  echo($string);
-  echo($json_a);
+
 while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
       && (count($menu_item_arr) >2))
 {  str_replace("\0","",$menu_item_arr);
@@ -202,16 +201,16 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
             $menus[$curr_date]->addDish($meal,
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
-						  str_replace("\0","",$menu_item_arr[12]),
-						  &$json_a);
+              str_replace("\0","",$menu_item_arr[12]),
+              &$json_a);
     }
     else{
       $menus[$curr_date] = new Menu;
       $menus[$curr_date]->addDish($meal,
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
-						  str_replace("\0","",$menu_item_arr[12]),
-						  &$json_a);
+              str_replace("\0","",$menu_item_arr[12]),
+              &$json_a);
     }
    }
   }
@@ -249,8 +248,8 @@ for($i=0; $i<count($keys); $i++){
       $written = true;
     }
     echo $keys[$i]."  ";
-	
-	$lastDate = $keys[$i];
+  
+  $lastDate = $keys[$i];
   }
 }
 
