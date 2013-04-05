@@ -68,7 +68,7 @@ return $output;
 
 function build_nutrition($dishID, &$json_a){
 	//echo("here");
-	echo(&$json_a);
+	echo($json_a);
 	//$dishID = trim($dishID, ".00");
 	//If the nutrition.json has an entry for the given dish
 	if (isset($json_a[$dishID]))
