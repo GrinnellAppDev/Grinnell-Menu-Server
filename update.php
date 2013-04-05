@@ -170,7 +170,7 @@ $count = 0;
   // get the nutrition json so it can be passed down
   $string = file_get_contents("nutrition.json");
   $json_a = json_decode($string, true);
-
+echo($json_a);
 while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
       && (count($menu_item_arr) >2))
 {  str_replace("\0","",$menu_item_arr);
