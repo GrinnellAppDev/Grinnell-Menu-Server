@@ -68,9 +68,9 @@ return $output;
 
 function build_nutrition($dishID, &$json_a){
 	if ($json_a == null)
-		echo("json_a is null";
+		echo("json_a is null");
 	else
-		echo("json_a is not null";
+		echo("json_a is not null");
 	//$dishID = trim($dishID, ".00");
 	//If the nutrition.json has an entry for the given dish
 	if (isset($json_a[$dishID]))
