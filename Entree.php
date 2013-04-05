@@ -15,6 +15,7 @@ class Entree
 
   /** Construct the item with the string from csv */
   function __construct($itemName, $dishID, &$json_a){
+  	echo($dishID);
   	echo($json_a);
 	// Each section below looks for markers that indicate 
 	//  whether the dish falls into a particular nutritional realm
