@@ -68,11 +68,13 @@ echo '</br>';
  */
 
 //if URI Exists
-$lastmodified = filemtime ('./nutrition.xml');
+$lastmodified = filemtime('./nutrition.xml');
+
+//wget only pulls the file if the one at the location is newer than the local copy
 exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/nutrition.xml', $out, $return_val);
 //save new file
 if($return_val == 0) {
-	if ($lastmodified == filemtime ('./nutrition.xml')){
+	if ($lastmodified == filemtime('./nutrition.xml')){
 		echo("</br>Nutrition file on server isn't new. Didn't Pull.</br>");
 		$return_val = 1;
 	}
@@ -93,7 +95,7 @@ else
 // setup output file
 $outfile = "nutrition.json";
 // if nutrition.json already exists and we didn't pull new information, skip re-writing nutrition.json
-if((file_exists($outfile)) && ($return_val != 0))
+if((file_exists($outfile)) && ($return_val != 0) && filemtime('./nutrition.xml') < filemtime('./nutrition.json'))
 	echo("Will not overwrite nutrition.json</br>");
 else {
 	if(($out_handle = fopen($outfile, 'w')) == false){
@@ -114,6 +116,7 @@ else {
 
 //if URI Exists
 $lastmodified = filemtime ('./menu.csv');
+//wget only pulls the file if the one at the location is newer than the local copy
 exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menu.csv', $out, $return_val);
 //save new file
 if($return_val == 0){
@@ -127,6 +130,7 @@ if($return_val == 0){
 	}
 }
 else {
+  //wget only pulls the file if the one at the location is newer than the local copy
 	exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menus.csv', $out, $return_val);
 	//save new file
 	if ($return_val == 0){
