@@ -30,7 +30,9 @@ class Menu{
   
 
   function addDish($meal, $venueName, $dishName, $dishID, &$json_a){
-        echo($dishID);
+    echo("In menu.php </br>");
+    echo($dishID);
+    echo("In menu.php </br>");
     echo($json_a);
     // Check if it has "(Spencer Grill)" or something similar in the dishname.
     $len = strlen($dishName);
