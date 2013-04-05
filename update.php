@@ -95,7 +95,9 @@ else
 // setup output file
 $outfile = "nutrition.json";
 // if nutrition.json already exists and we didn't pull new information, skip re-writing nutrition.json
-if((file_exists($outfile)) && ($return_val != 0) && filemtime('./nutrition.xml') < filemtime('./nutrition.json'))
+$xmlTime = filemtime('./nutrition.xml');
+$jsonTime = filemtime('./nutrition.json')
+if((file_exists($outfile)) && ($return_val != 0) && ($xmlTime < $jsonTime))
 	echo("Will not overwrite nutrition.json</br>");
 else {
 	if(($out_handle = fopen($outfile, 'w')) == false){
