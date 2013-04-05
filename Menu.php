@@ -30,9 +30,6 @@ class Menu{
   
 
   function addDish($meal, $venueName, $dishName, $dishID, &$json_a){
-        echo($dishID);
-
-	echo($json_a);
     // Check if it has "(Spencer Grill)" or something similar in the dishname.
     $len = strlen($dishName);
     $dishName = preg_replace('/\(.*SG.*\)/i',"",$dishName);

@@ -19,9 +19,6 @@ class Meal{
   
   public function addDish($venueName,$entreeName, $dishID, &$json_a){
     // If the venue does not already exist, add the venue and the entree.
-        echo($dishID);
-
-    echo($json_a);
     $exists = false;
     for($i = 0; !$exists && ($i < count($this->venues)); $i++)
       if(strcmp($this->venues[$i]->name,$venueName) == 0){
