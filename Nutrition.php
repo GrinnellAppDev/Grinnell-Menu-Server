@@ -29,6 +29,7 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$serving = str_replace(')', '', $serving);
 	$serving = ucwords(strtolower($serving));
 	$serving = str_replace('Oz', 'Oz.', $serving);
+	$serving = str_replace('"','\\"', $serving);
 	$pos = strpos($serving, "Cut");
 	if ($pos !== false)
 		$serving = "1 Piece";
@@ -67,10 +68,7 @@ return $output;
 }
 
 function build_nutrition($dishID, &$json_a){
-	if ($json_a == null)
-		echo("json_a is null");
-	else
-		echo("json_a is not null");
+	//echo("here");
 	//$dishID = trim($dishID, ".00");
 	//If the nutrition.json has an entry for the given dish
 	if (isset($json_a[$dishID]))
