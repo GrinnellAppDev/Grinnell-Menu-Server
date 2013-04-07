@@ -171,6 +171,8 @@ $count = 0;
   $string = file_get_contents("nutrition.json");
   $json_a = json_decode($string, true);
 
+if($json_a == null)
+  echo("Error parsing nutrition.json");
 while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
       && (count($menu_item_arr) >2))
 {  str_replace("\0","",$menu_item_arr);
