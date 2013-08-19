@@ -71,7 +71,7 @@ echo '</br>';
 $lastmodified = filemtime ('./nutrition.xml');
 
 //wget only pulls the file if the one at the location is newer than the local copy
-exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/nutrition.xml', $out, $return_val);
+exec('wget -N -t 3 http://wwwarchive.grinnell.edu/calendar/menu/nutrition.xml', $out, $return_val);
 //save new file
 if($return_val == 0) {
   if ($lastmodified == filemtime ('./nutrition.xml')){
@@ -122,7 +122,7 @@ else {
 //if URI Exists
 $lastmodified = filemtime ('./menu.csv');
 //wget only pulls the file if the one at the location is newer than the local copy
-exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menu.csv', $out, $return_val);
+exec('wget -N -t 3 http://wwwarchive.grinnell.edu/calendar/menu/menu.csv', $out, $return_val);
 //save new file
 if($return_val == 0){
   if ($lastmodified == filemtime ('./menu.csv')){
@@ -136,7 +136,7 @@ if($return_val == 0){
 }
 else {
   //wget only pulls the file if the one at the location is newer than the local copy
-  exec('wget -N -t 3 http://wm.grinnell.edu/calendar/menu/menus.csv', $out, $return_val);
+  exec('wget -N -t 3 http://wwwarchive.grinnell.edu/calendar/menu/menus.csv', $out, $return_val);
   //save new file
   if ($return_val == 0){
     exec('chmod 755 ./menus.csv');
