@@ -249,7 +249,7 @@ for($i=0; $i<count($keys); $i++){
       echo('Menu created for:</br>');
       $written = true;
     }
-    echo $keys[$i]."  ";
+    echo $keys[$i]."</br>";
   
   $lastDate = $keys[$i];
   }
