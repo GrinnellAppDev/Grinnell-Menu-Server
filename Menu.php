@@ -69,7 +69,7 @@ class Menu{
       }
       else $this->outtakes->addDish($venueName, $dishName, $dishID, &$json_a);
     }
-    else die("Did not recognize Meal:".$meal);
+    else echo("Did not recognize Meal: ".$meal."  skipped Dish: ". $dishName."</br>");
   }
 	
   function printMeals(){
