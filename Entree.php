@@ -77,6 +77,7 @@ class Entree
 	else $this->gluten_free = "false";
 	
 	//This cleans up the dish name a little more
+	$itemName = str_replace("*", "", $itemName);
 	$itemName = str_replace("/", "/ ", $itemName);
 	$itemName = str_replace(".", ". ", $itemName);
 	$itemName = str_replace("(", "( ", $itemName);
