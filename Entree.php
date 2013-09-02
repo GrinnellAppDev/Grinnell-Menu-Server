@@ -117,6 +117,7 @@ class Entree
 	$itemName = str_replace("M&m", "M&M", $itemName);
 	$itemName = str_replace("(Plat Du Jour)", "", $itemName);
 	$itemName = str_replace("(Hoh)", "", $itemName);
+	$itemName = str_replace("(2)", "", $itemName);
 	$itemName = trim($itemName);
 	$itemName = ucfirst($itemName);
 	$this->name = $itemName;
