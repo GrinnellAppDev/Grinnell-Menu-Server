@@ -113,6 +113,7 @@ class Entree
 	$itemName = str_replace("Scott'S", "Scott's", $itemName);
 	$itemName = str_replace("Devil'S", "Devil's", $itemName);
 	$itemName = str_replace("Shepherd'S", "Shepherd's", $itemName);
+	$itemName = str_replace("Buddha'S", "Buddha's", $itemName);
 	$itemName = str_replace("M & M", "M&M", $itemName);
 	$itemName = str_replace("M&m", "M&M", $itemName);
 	$itemName = str_replace("(Plat Du Jour)", "", $itemName);
