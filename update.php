@@ -99,7 +99,7 @@ $xmlTime = filemtime ('./nutrition.xml');
 $jsonTime = filemtime ('./nutrition.json');
 
 if ($jsonTime == false || $xmlTime == false)
-  echo("Error reading nutrition file tiemstamps");
+  echo("</br>Error reading nutrition file timestamps");
 if((file_exists($outfile)) && ($return_val != 0) && ($xmlTime < $jsonTime))
   echo("Will not overwrite nutrition.json</br>");
 else {
