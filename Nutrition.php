@@ -48,8 +48,6 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	else
 		$output = $output."\n\t\t\"Dozen\":\"true\",";
 		
-	$output = $output."\n\t\t\"ServSize\":\"".$serving."\",";
-	
 	// iterate to the nutrition for the item itself (not its ingredients) and add this
 	foreach ($item->d_itm_nutr_analysis_nup_25_values_x->d_itm_nutr_analysis_nup_25_values_x_row as $element){
 		$nutrient = trim($element->ls_element, " ");
