@@ -115,7 +115,8 @@ function build_nutrition($dishID, &$json_a){
 			$output = $output."\n\"ServSize\":\"$servSizeStr\",";
 			
 			// add ingredients list
-			$output = $output."\n\"Ingredients\":\"$json_a[$dishID]["ingredients"]\"";
+			$ingredientsStr = $json_a[$dishID]["ingredients"];
+			$output = $output."\n\"Ingredients\":\"$ingredientsStr\"";
 			return $output;
 	}
 	return null;
