@@ -117,8 +117,10 @@ function build_nutrition($dishID, &$json_a){
 			// add ingredients list
 			$ingredientsArray = $json_a[$dishID]["ingredients"];
 			$output = $output."\n\"Ingredients\":[";
-			foreach($ingredientsArray as $ingredient)
+			foreach($ingredientsArray as $ingredient) {
+				$ingredient = str_replace("\"", "\\\"", $ingredient);
 				$output = $output."\"$ingredient\",";
+			}
 			$output = trim($output, ",")."]";	
 			return $output;
 	}
