@@ -54,9 +54,16 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 		$output = $output."\n\t\t\"$nutrient\":\"$element->ptn1_qty\",";
 	}
 	
+	$output = $output."\n\t\t\"ingredients\":[";
+	// iterate through the ingredients and add them
+	foreach ($item->d_itm_recipe_perportion_ingr_analysis_25->d_itm_recipe_perportion_ingr_analysis_25_row as $ingredientRow){
+		$ingredient = trim($ingredientRow->prd_name, " ");
+		$output = $output."\n\t\t\t\"$ingredient\",";
+	}
+	
 	// remove trailing coma and finalize the output
 	$output = trim($output, ",");
-	$output = $output."\n\t},\n";
+	$output = $output."\n\t\t\t]\n\t},\n";
 }
 // remove trailing coma and finalize the output
 $output = trim($output, ",\n");
