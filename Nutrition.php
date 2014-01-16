@@ -57,7 +57,7 @@ foreach ($xml->xpath('//d_itm_recipe_perportion_nutr_analysis_group1') as $item)
 	$output = $output."\n\t\t\"ingredients\":[";
 	// iterate through the ingredients and add them
 	foreach ($item->d_itm_recipe_perportion_ingr_analysis_25->d_itm_recipe_perportion_ingr_analysis_25_row as $ingredientRow){
-		$ingredient = trim($ingredientRow->prd_name, " ");
+		$ingredient = trim($ingredientRow->name, " ");
 		$ingredient = str_replace("\"", "\\\"", $ingredient);
 		$ingredient = ucwords(strtolower($ingredient));
 		$output = $output."\n\t\t\t\"$ingredient\",";
