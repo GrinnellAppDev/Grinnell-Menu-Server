@@ -85,7 +85,7 @@ if($return_val == 0) {
   }
 }
 else
-  echo("</br>Failed to pull nutrition file with error ".$return_val." .</br>");
+  echo("</br>Failed to pull nutrition file with error ".$return_val.".</br>");
 
 
 /****************************************************************************
