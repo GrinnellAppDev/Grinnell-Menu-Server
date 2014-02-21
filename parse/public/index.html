@@ -53,7 +53,7 @@
           Parse.initialize("rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD", "50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc");  
           var MenuFile = Parse.Object.extend("MenuFile");
           var menuFile = new MenuFile();
-          menuFile.set("file", data.url);
+          menuFile.set("file", data);
           menuFile.save(null, {
             success: function(object) {
               $(".success").show();
