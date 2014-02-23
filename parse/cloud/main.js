@@ -1,4 +1,4 @@
-// Use Parse.Cloud.define to define as many cloud functions as you want.
+; // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
 Parse.Cloud.define("hello", function(request, response) {
 	response.success("Hello world!");
@@ -11,13 +11,47 @@ Parse.Cloud.job("update_menus", function(request, response) {
 	query.first({
 		success: function(result) {
 			var file = result.get("file");
-			console.log(file);
 			Parse.Cloud.httpRequest({
 				url: file.url
 			}).then(function(fileResponse) {
 				// The file contents are in response.buffer.
-				console.log(fileResponse.buffer.toString());
-				response.success();
+				var $ = jQuery = require('cloud/jquery.js');
+				require('cloud/jquery.csv.js');
+				var output = $.csv.toArrays(fileResponse.buffer.toString());
+
+				var menusArray = new Array();
+
+				// i is 1 to skip over the header row
+				for (var i = 1; i < output.length; i++) {
+					var location = output[i][1];
+					var meal = output[i][3];
+
+					// Skip over all the spencer grill items that aren't out takes
+					if (meal.indexOf("OUT TAKES") || location.indexOf("MARKETPLACE")) {
+						var date = output[i][21];
+						var name = output[i][8];
+						var id = output[i][12];
+						var station = output[i][7];
+
+						var dishQuery = new Parse.Query("Dish");
+						dishQuery.equalTo("dishID", id);
+						dishQuery.first({
+							success: function(dish) {
+								if (dish) {
+									// TODO - Update flags here
+								} else {
+									dish = new Parse.Object("Dish");
+									dish.set("dishID", id);
+									dish.set("name", name);
+								}
+								buildDatabase(date, meal, station, dish, menusArray, i, output.length);
+							},
+							error: function(error) {
+								response.error("Error looking for dish: " + error.description);
+							}
+						});
+					}
+				}
 			});
 		},
 		error: function(error) {
@@ -25,6 +59,168 @@ Parse.Cloud.job("update_menus", function(request, response) {
 		}
 	});
 });
+
+function buildDatabase(date, meal, station, dish, menusArray, i, length) {
+	var menuQuery = new Parse.Query("Menu");
+	menuQuery.equalTo("date", date);
+	menuQuery.first({
+		success: function(menu) {
+			if (menu) {
+				var mealObject = menu.get(meal);
+				if (mealObject) {
+					var stationObject = mealObject.get(station);
+					if (stationObject) {
+						var dishes = stationObject.get("dishes");
+						dishes.push(dish);
+					} else {
+						stationObject = buildStationObject(dish, station);
+						mealObject.set(station, stationObject);
+					}
+				} else {
+					mealObject = buildMealObject(dish, station);
+					menu.set(meal, mealObject);
+					if (!menusArray.Contains(menu)) {
+						menusArray.push(menu);
+					}
+				}
+			} else {
+				var mealObject = buildMealObject(dish, station);
+
+				menu = new Parse.Object("Menu");
+				menu.set("date", date);
+				menu.set(meal, mealObject);
+				menusArray.push(menu);
+			}
+			if (i >= length) {
+				Parse.Object.saveAll(menusArray, {
+					success: function(menusArray) {
+						response.success("menus updated");
+					},
+					error: function(menusArray, error) {
+						response.error("Error saving menus: " + error.description);
+					}
+				});
+			}
+		},
+		error: function(error) {
+			response.error("Error looking for menu: " + error.description);
+		}
+	});
+}
+
+function buildStationObject(dish, station) {
+	var dishes = new Array(dish);
+
+	var stationObject = new Parse.Object("Station");
+	stationObject.set("name", station);
+	stationObject.set("dishes", dishes);
+	return stationObject;
+}
+
+function buildMealObject(dish, station) {
+	var stationObject = buildStationObject(dish, station);
+
+	var mealObject = new Parse.Object("Meal");
+	var stations = new Array(stationObject);
+	mealObject.set("stations", stations);
+	return mealObject;
+}
+/*
+				var lazy = require("lazy"),
+					fs = require("fs");
+
+				new lazy(fs.createReadStream(fileResponse.buffer))
+					.lines
+					.forEach(function(line) {
+						console.log(line.toString());
+					});*/
+
+/*
+function toObjects(csv, options, callback) {
+	var options = (options !== undefined ? options : {});
+	var config = {};
+	var defaults: {
+		separator: ',',
+		delimiter: '"',
+		headers: true
+	},
+		config.callback = ((callback !== undefined && typeof(callback) === 'function') ? callback : false);
+	config.separator = 'separator' in options ? options.separator : defaults.separator;
+	config.delimiter = 'delimiter' in options ? options.delimiter : defaults.delimiter;
+	config.headers = 'headers' in options ? options.headers : defaults.headers;
+	options.start = 'start' in options ? options.start : 1;
+
+	// account for headers
+	if (config.headers) {
+		options.start++;
+	}
+	if (options.end && config.headers) {
+		options.end++;
+	}
+
+	// setup
+	var lines = [];
+	var data = [];
+
+	var options = {
+		delimiter: config.delimiter,
+		separator: config.separator,
+		onParseEntry: options.onParseEntry,
+		onParseValue: options.onParseValue,
+		start: options.start,
+		end: options.end,
+		state: {
+			rowNum: 1,
+			colNum: 1
+		},
+		match: false
+	};
+
+	// fetch the headers
+	var headerOptions = {
+		delimiter: config.delimiter,
+		separator: config.separator,
+		start: 1,
+		end: 1,
+		state: {
+			rowNum: 1,
+			colNum: 1
+		}
+	}
+	var headerLine = $.csv.parsers.splitLines(csv, headerOptions);
+	var headers = $.csv.toArray(headerLine[0], options);
+
+	// fetch the data
+	var lines = $.csv.parsers.splitLines(csv, options);
+
+	// reset the state for re-use
+	options.state.colNum = 1;
+	if (headers) {
+		options.state.rowNum = 2;
+	} else {
+		options.state.rowNum = 1;
+	}
+
+	// convert data to objects
+	for (var i = 0, len = lines.length; i < len; i++) {
+		var entry = $.csv.toArray(lines[i], options);
+		var object = {};
+		for (var j in headers) {
+			object[headers[j]] = entry[j];
+		}
+		data.push(object);
+
+		// update row state
+		options.state.rowNum++;
+	}
+
+	// push the value to a callback if one is defined
+	if (!config.callback) {
+		return data;
+	} else {
+		config.callback('', data);
+	}
+}
 
 // The following code is from stack overflow:
 //  http://stackoverflow.com/questions/8493195/how-can-i-parse-a-csv-string-with-javascript
@@ -47,4 +243,4 @@ function CSVtoArray(text) {
 	// Handle special case of empty last value.
 	if (/,\s*$/.test(text)) a.push('');
 	return a;
-};
+};*/
