@@ -1,9 +1,3 @@
-; // Use Parse.Cloud.define to define as many cloud functions as you want.
-// For example:
-Parse.Cloud.define("hello", function(request, response) {
-	response.success("Hello world!");
-});
-
 Parse.Cloud.job("update_menus", function(request, response) {
 	var query = new Parse.Query("MenuFile");
 	query.first({
@@ -25,14 +19,14 @@ Parse.Cloud.job("update_menus", function(request, response) {
 					var counter = output.length;
 					output.forEach(function(dishRow) {
 						var location = dishRow[1].toString();
-						var meal = dishRow[3].toString();
+						var meal = dishRow[3].toString().trim();
 
 						// Skip over all the spencer grill items that aren't out takes
 						if (0 <= meal.indexOf("OUT TAKES") || 0 <= location.indexOf("MARKETPLACE")) {
-							var date = dishRow[21];
-							var name = dishRow[8].toString();
+							var date = dishRow[21].toString().replace('0:00', '').trim();
+							var name = dishRow[8].toString().trim();
 							var identificationNumber = dishRow[12];
-							var station = dishRow[7].toString();
+							var station = dishRow[7].toString().trim();
 
 							var dishQuery = new Parse.Query("Dish");
 							dishQuery.equalTo("dishID", identificationNumber);
@@ -103,19 +97,18 @@ function buildDatabase(output, response) {
 
 	output.forEach(function(dishRow) {
 		var location = dishRow[1].toString();
-		var meal = dishRow[3].toString();
+		var meal = dishRow[3].toString().trim();
 
 		// Skip over all the spencer grill items that aren't out takes
 		if (0 <= meal.indexOf("OUT TAKES") || 0 <= location.indexOf("MARKETPLACE")) {
-			var date = dishRow[21];
+			var date = dishRow[21].toString().replace('0:00', '').trim();
 			var identificationNumber = dishRow[12];
-			var station = dishRow[7].toString();
+			var station = dishRow[7].toString().trim();
 
 			var dishQuery = new Parse.Query("Dish");
 			dishQuery.equalTo("dishID", identificationNumber);
 			dishQuery.first({
 				success: function(dish) {
-
 					buildDatabaseHelper(date, meal, station, dish, --counter, response);
 				},
 				error: function(dish, error) {
@@ -131,75 +124,6 @@ function buildDatabase(output, response) {
 	});
 
 }
-/*
-function buildDatabase_old(date, meal, station, dish, counter, response) {
-	var menuQuery = new Parse.Query("Menu");
-	menuQuery.equalTo("date", date);
-	menuQuery.first({
-		success: function(menu) {
-			if (undefined !== menu) {
-				var mealObject = menu.get(meal);
-				if (mealObject) {
-					var stationObject = mealObject.get(station);
-					if (stationObject) {
-						var dishes = stationObject.get("dishes");
-						safeAddObjectToArray(dish, dishes);
-						stationObject.save(null, {
-							success: function(stationObject) {
-								checkLastDish(counter);
-							},
-							error: function(error) {
-								response.error("Error saving station: " + error.description);
-							}
-						});
-					} else {
-						var newStationObject = buildStationObject(dish, station);
-						mealObject.set(station, newStationObject);
-						mealObject.save(null, {
-							success: function(mealObject) {
-								checkLastDish(counter);
-							},
-							error: function(mealObject, error) {
-								response.error("Error saving meal: " + error.description);
-							}
-						});
-					}
-				} else {
-					var newmealObject = buildMealObject(dish, station);
-
-					menu.set(meal, newMealObject);
-					menu.save(null, {
-						success: function(menu) {
-							checkLastDish(counter);
-						},
-						error: function(menu, error) {
-							response.error('Failed to create new menu, with error code: ' + error.description);
-						}
-					});
-				}
-
-			} else {
-				var mealObject = buildMealObject(dish, station);
-				var Menu = Parse.Object.extend("Menu");
-				var newMenu = new Menu();
-
-				newMenu.set("date", date);
-				newMenu.set(meal, mealObject);
-				newMenu.save(null, {
-					success: function(newMenu) {
-						checkLastDish(counter);
-					},
-					error: function(error) {
-						response.error('Failed to save create menu, with error code: ' + error.description);
-					}
-				});
-			}
-		},
-		error: function(error) {
-			response.error("Error looking for menu: " + error.description);
-		}
-	});
-}*/
 
 function checkLastDish(counter) {
 	// If last dish
@@ -209,10 +133,64 @@ function checkLastDish(counter) {
 		return false;
 	}
 }
-// Todo - this doesn't work right
+
+// This only works if the exact object exists...
 function safeAddObjectToArray(object, array) {
 	if (-1 == array.indexOf(object)) {
+		console.log("Adding object to array")
 		array.push(object);
+	} else {
+		console.log("Not adding object to array")
+	}
+}
+
+function addDishToStation(dish, station) {
+	var dishes = station.get("dishes");
+	if (undefined === dishes) {
+		dishes = new Array(dish);
+		station.set("dishes", dishes);
+	} else {
+		safeAddObjectToArray(dish, dishes);
+	}
+}
+
+function addStationToMeal(station, meal) {
+	var stations = station.get("stations");
+	if (undefined === stations) {
+		stations = new Array(station);
+		meal.set("stations", stations);
+	} else {
+		safeAddObjectToArray(station, stations);
+	}
+}
+
+function buildStation(stationObject, station, dish, mealObject, statKey) {
+	if (stationObject) { // Station exists in the mealObject
+		addDishToStation(dish, stationObject);
+		stationsMap[statKey] = stationObject;
+	} else if (undefined !== stationsMap[statKey]) { // Station exists in stationsMap only
+		addDishToStation(dish, stationsMap[statKey]);
+	} else { // Station doesn't exist, create it!
+		stationObject = buildStationObject(dish, station);
+		addStationToMeal(stationObject, mealObject);
+		stationsMap[statKey] = stationObject;
+	}
+}
+
+
+function buildMeal(menu, meal, station, dish, mealKey, statKey) {
+	var mealObject = menu.get(meal);
+	if (mealObject) { // Meal is in parse already
+		var stationObject = mealObject.get(station);
+		buildStation(stationObject, station, dish, mealObject, statKey);
+		mealsMap[mealKey] = mealObject;
+	} else if (undefined !== mealsMap[mealKey]) { // Not in parse, but in mealsMap
+		var stationObject = mealsMap[mealKey].get(station);
+		buildStation(stationObject, station, dish, mealsMap[mealKey], statKey);
+	} else { // Not in parse or mealsMap, create it!
+		mealObject = buildMealObject(dish, station);
+		menu.set(meal, mealObject);
+		mealsMap[mealKey] = mealObject;
 	}
 }
 
@@ -227,84 +205,13 @@ function buildDatabaseHelper(date, meal, station, dish, counter, response) {
 			console.log("Date: " + date + " Meal: " + meal + " Station: " + station);
 			console.log("mealKey: " + mealKey + " statKey: " + statKey + " menuKey: " + menuKey);
 
-			if (menu) {
-				var mealObject = menu.get(meal);
-				if (mealObject) {
-					var stationObject = mealObject.get(station);
-					if (stationObject) {
-						var dishes = stationObject.get("dishes");
-						safeAddObjectToArray(dish, dishes);
-						stationsMap[statKey] = stationObject;
-					} else if (undefined !== stationsMap[statKey]) {
-						var dishes = stationsMap[statKey].get("dishes");
-						safeAddObjectToArray(dish, dishes);
-					} else {
-						stationObject = buildStationObject(dish, station);
-						var stations = new Array(stationObject);
-						mealObject.set("stations", stations);
-						stationsMap[statKey] = stationObject;
-					}
-					mealsMap[mealKey] = mealObject;
-				} else if (undefined !== mealsMap[mealKey]) {
-					var stationObject = mealsMap[mealKey].get(station);
-					var statKey = date + meal + station;
-					if (stationObject) {
-						var dishes = stationObject.get("dishes");
-						safeAddObjectToArray(dish, dishes);
-						stationsMap[statKey] = stationObject;
-					} else if (undefined !== stationsMap[statKey]) {
-						var dishes = stationsMap[statKey].get("dishes");
-						safeAddObjectToArray(dish, dishes);
-					} else {
-						stationObject = buildStationObject(dish, station);
-						mealsMap[mealKey].set(station, stationObject);
-						stationsMap[statKey] = stationObject;
-					}
-				} else {
-					mealObject = buildMealObject(dish, station);
-					menu.set(meal, mealObject);
-					mealsMap[mealKey] = mealObject;
-				}
+			if (menu) { // Menu is in parse
+				buildMeal(menu, meal, station, dish, mealKey, statKey);
 				menusMap[menuKey] = menu;
-			} else if (undefined !== menusMap[menuKey]) {
+			} else if (undefined !== menusMap[menuKey]) { // Menu is in menusMap
 				menu = menusMap[menuKey];
-				var mealObject = menu.get(meal);
-				if (mealObject) {
-					var stationObject = mealObject.get(station);
-					if (stationObject) {
-						var dishes = stationObject.get("dishes");
-						safeAddObjectToArray(dish, dishes);
-						stationsMap[statKey] = stationObject;
-					} else if (undefined !== stationsMap[statKey]) {
-						var dishes = stationsMap[statKey].get("dishes");
-						safeAddObjectToArray(dish, dishes);
-					} else {
-						stationObject = buildStationObject(dish, station);
-						mealObject.set(station, stationObject);
-						stationsMap[statKey] = stationObject;
-					}
-					mealsMap[mealKey] = mealObject;
-				} else if (undefined !== mealsMap[mealKey]) {
-					var stationObject = mealsMap[mealKey].get(station);
-					var statKey = date + meal + station;
-					if (stationObject) {
-						var dishes = stationObject.get("dishes");
-						safeAddObjectToArray(dish, dishes);
-						stationsMap[statKey] = stationObject;
-					} else if (undefined !== stationsMap[statKey]) {
-						var dishes = stationsMap[statKey].get("dishes");
-						safeAddObjectToArray(dish, dishes);
-					} else {
-						stationObject = buildStationObject(dish, station);
-						mealsMap[mealKey].set(station, stationObject);
-						stationsMap[statKey] = stationObject;
-					}
-				} else {
-					mealObject = buildMealObject(dish, station);
-					menu.set(meal, mealObject);
-					mealsMap[mealKey] = mealObject;
-				}
-			} else {
+				buildMeal(menu, meal, station, dish, mealKey, statKey);
+			} else { // Menu doesn't exist, create it
 				var mealObject = buildMealObject(dish, station);
 				mealsMap[mealKey] = mealObject;
 
@@ -315,7 +222,6 @@ function buildDatabaseHelper(date, meal, station, dish, counter, response) {
 			}
 
 			if (checkLastDish(counter)) {
-				console.log("Trying to call saveEverything");
 				saveEverything(response);
 			}
 		},
@@ -364,21 +270,11 @@ function saveEverything(response) {
 	});
 }
 
-
 function buildStationObject(dish, station) {
-	var dishes = new Array(dish);
 	var Station = Parse.Object.extend("Station");
 	var stationObject = new Station();
+	addDishToStation(dish, stationObject);
 	stationObject.set("name", station);
-	stationObject.set("dishes", dishes);
-	/*stationObject.save(null, {
-		success: function(stationObject) {
-			return stationObject;
-		},
-		error: function(error) {
-			response.error("Error saving station: " + error.description);
-		}
-	});*/
 	return stationObject;
 }
 
@@ -386,134 +282,6 @@ function buildMealObject(dish, station) {
 	var stationObject = buildStationObject(dish, station);
 	var Meal = Parse.Object.extend("Meal");
 	var mealObject = new Meal();
-	var stations = new Array(stationObject);
-	mealObject.set("stations", stations);
-	/*mealObject.save(null, {
-		success: function(mealObject) {
-			return mealObject;
-		},
-		error: function(error) {
-			response.error("Error saving meal: " + error.description);
-		}
-	});*/
+	addStationToMeal(stationObject, mealObject);
 	return mealObject;
 }
-/*
-				var lazy = require("lazy"),
-					fs = require("fs");
-
-				new lazy(fs.createReadStream(fileResponse.buffer))
-					.lines
-					.forEach(function(line) {
-						console.log(line.toString());
-					});*/
-
-/*
-function toObjects(csv, options, callback) {
-	var options = (options !== undefined ? options : {});
-	var config = {};
-	var defaults: {
-		separator: ',',
-		delimiter: '"',
-		headers: true
-	},
-		config.callback = ((callback !== undefined && typeof(callback) === 'function') ? callback : false);
-	config.separator = 'separator' in options ? options.separator : defaults.separator;
-	config.delimiter = 'delimiter' in options ? options.delimiter : defaults.delimiter;
-	config.headers = 'headers' in options ? options.headers : defaults.headers;
-	options.start = 'start' in options ? options.start : 1;
-
-	// account for headers
-	if (config.headers) {
-		options.start++;
-	}
-	if (options.end && config.headers) {
-		options.end++;
-	}
-
-	// setup
-	var lines = [];
-	var data = [];
-
-	var options = {
-		delimiter: config.delimiter,
-		separator: config.separator,
-		onParseEntry: options.onParseEntry,
-		onParseValue: options.onParseValue,
-		start: options.start,
-		end: options.end,
-		state: {
-			rowNum: 1,
-			colNum: 1
-		},
-		match: false
-	};
-
-	// fetch the headers
-	var headerOptions = {
-		delimiter: config.delimiter,
-		separator: config.separator,
-		start: 1,
-		end: 1,
-		state: {
-			rowNum: 1,
-			colNum: 1
-		}
-	}
-	var headerLine = $.csv.parsers.splitLines(csv, headerOptions);
-	var headers = $.csv.toArray(headerLine[0], options);
-
-	// fetch the data
-	var lines = $.csv.parsers.splitLines(csv, options);
-
-	// reset the state for re-use
-	options.state.colNum = 1;
-	if (headers) {
-		options.state.rowNum = 2;
-	} else {
-		options.state.rowNum = 1;
-	}
-
-	// convert data to objects
-	for (var i = 0, len = lines.length; i < len; i++) {
-		var entry = $.csv.toArray(lines[i], options);
-		var object = {};
-		for (var j in headers) {
-			object[headers[j]] = entry[j];
-		}
-		data.push(object);
-
-		// update row state
-		options.state.rowNum++;
-	}
-
-	// push the value to a callback if one is defined
-	if (!config.callback) {
-		return data;
-	} else {
-		config.callback('', data);
-	}
-}
-
-// The following code is from stack overflow:
-//  http://stackoverflow.com/questions/8493195/how-can-i-parse-a-csv-string-with-javascript
-// Return array of string values, or NULL if CSV string not well formed.
-function CSVtoArray(text) {
-	var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
-	var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
-	// Return NULL if input string is not well formed CSV string.
-	if (!re_valid.test(text)) return null;
-	var a = []; // Initialize array to receive values.
-	text.replace(re_value, // "Walk" the string using replace with callback.
-		function(m0, m1, m2, m3) {
-			// Remove backslash from \' in single quoted values.
-			if (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
-			// Remove backslash from \" in double quoted values.
-			else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
-			else if (m3 !== undefined) a.push(m3);
-			return ''; // Return empty string.
-		});
-	// Handle special case of empty last value.
-	if (/,\s*$/.test(text)) a.push('');
-	return a;
-};*/

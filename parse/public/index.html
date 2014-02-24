@@ -2,8 +2,8 @@
 <head>
   <meta charset="utf-8">
 
-  <title>My Parse App</title>
-  <meta name="description" content="My Parse App">
+  <title>Update Menu</title>
+  <meta name="description" content="Update Menu">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -53,21 +53,21 @@
           Parse.initialize("rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD", "50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc"); 
           var query = new Parse.Query("MenuFile");
           query.first({
-              success: function(menuFile) {
-                menuFile.set("file", data);
-                menuFile.save(null, {
-                    success: function(object) {
-                        alert("File uploaded");
-                        $(".success").show();
-                    },
-                    error: function(model, error) {
-                        $(".error").show();
-                    }
-                });
-              },
-              error: function(error) {
-                $(".error").show();
-              }
+            success: function(menuFile) {
+              menuFile.set("file", data);
+              menuFile.save(null, {
+                success: function(object) {
+                  alert("File uploaded");
+                  $(".success").show();
+                },
+                error: function(model, error) {
+                  $(".error").show();
+                }
+              });
+            },
+            error: function(error) {
+              $(".error").show();
+            }
           });          
         },
         error: function(data) {
