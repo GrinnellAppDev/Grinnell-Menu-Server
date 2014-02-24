@@ -15,7 +15,8 @@ Parse.Cloud.job("update_menus", function(request, response) {
 				success: function(fileResponse) {
 					var $ = jQuery = require('cloud/jquery.js');
 					require('cloud/jquery.csv.js');
-					var output = $.csv.toArrays(fileResponse.buffer.toString());
+					var output = new Array();
+					output = $.csv.toArrays(fileResponse.buffer.toString());
 					console.log(output.length);
 
 					var dishesHashMap = {};
@@ -44,20 +45,19 @@ Parse.Cloud.job("update_menus", function(request, response) {
 										newDish.set("dishID", identificationNumber);
 										//buildDatabase(date, meal, station, newDish, counter, response);
 									} else {
-										console.log("dish was previously defined");
 										// TODO - Update flags here
 										//   if we do this, we need to re-save it
 										//buildDatabase(date, meal, station, dish, counter, response);
 									}
 									dishesHashMap[identificationNumber] = newDish;
-									saveAllDishes(dishesHashMap, --counter, response);
+									saveAllDishes(dishesHashMap, --counter, response, output);
 								},
 								error: function(dish, error) {
 									response.error("Error looking for dish: " + error.description);
 								}
 							});
 						} else {
-							saveAllDishes(dishesHashMap, --counter, response);
+							saveAllDishes(dishesHashMap, --counter, response, output);
 						}
 					});
 				},
@@ -73,7 +73,7 @@ Parse.Cloud.job("update_menus", function(request, response) {
 });
 
 
-function saveAllDishes(dishesHashMap, counter, response) {
+function saveAllDishes(dishesHashMap, counter, response, output) {
 	if (checkLastDish(counter)) {
 		var dishesArray = new Array();
 
@@ -83,7 +83,8 @@ function saveAllDishes(dishesHashMap, counter, response) {
 
 		Parse.Object.saveAll(dishesArray, {
 			success: function(dishesArray) {
-				response.success();
+				buildDatabase(output, response);
+				//response.success();
 			},
 			error: function(dishesArray, error) {
 				response.error("Error saving dishes: " + error.description);
@@ -91,8 +92,47 @@ function saveAllDishes(dishesHashMap, counter, response) {
 		});
 	}
 }
+var stationsMap, mealsMap, menusMap;
 
-function buildDatabase(date, meal, station, dish, counter, response) {
+function buildDatabase(output, response) {
+	var counter = output.length;
+
+	mealsMap = {};
+	menusMap = {};
+	stationsMap = {};
+
+	output.forEach(function(dishRow) {
+		var location = dishRow[1].toString();
+		var meal = dishRow[3].toString();
+
+		// Skip over all the spencer grill items that aren't out takes
+		if (0 <= meal.indexOf("OUT TAKES") || 0 <= location.indexOf("MARKETPLACE")) {
+			var date = dishRow[21];
+			var identificationNumber = dishRow[12];
+			var station = dishRow[7].toString();
+
+			var dishQuery = new Parse.Query("Dish");
+			dishQuery.equalTo("dishID", identificationNumber);
+			dishQuery.first({
+				success: function(dish) {
+
+					buildDatabaseHelper(date, meal, station, dish, --counter, response);
+				},
+				error: function(dish, error) {
+					response.error("Error looking for dish: " + error.description);
+				}
+			});
+		} else {
+			if (checkLastDish(--counter)) {
+				console.log("Trying to call saveEverything");
+				saveEverything(response);
+			}
+		}
+	});
+
+}
+/*
+function buildDatabase_old(date, meal, station, dish, counter, response) {
 	var menuQuery = new Parse.Query("Menu");
 	menuQuery.equalTo("date", date);
 	menuQuery.first({
@@ -159,7 +199,7 @@ function buildDatabase(date, meal, station, dish, counter, response) {
 			response.error("Error looking for menu: " + error.description);
 		}
 	});
-}
+}*/
 
 function checkLastDish(counter) {
 	// If last dish
@@ -176,20 +216,170 @@ function safeAddObjectToArray(object, array) {
 	}
 }
 
+function buildDatabaseHelper(date, meal, station, dish, counter, response) {
+	var menuQuery = new Parse.Query("Menu");
+	menuQuery.equalTo("date", date);
+	menuQuery.first({
+		success: function(menu) {
+			var mealKey = date + meal;
+			var statKey = date + meal + station;
+			var menuKey = date;
+			console.log("Date: " + date + " Meal: " + meal + " Station: " + station);
+			console.log("mealKey: " + mealKey + " statKey: " + statKey + " menuKey: " + menuKey);
+
+			if (menu) {
+				var mealObject = menu.get(meal);
+				if (mealObject) {
+					var stationObject = mealObject.get(station);
+					if (stationObject) {
+						var dishes = stationObject.get("dishes");
+						safeAddObjectToArray(dish, dishes);
+						stationsMap[statKey] = stationObject;
+					} else if (undefined !== stationsMap[statKey]) {
+						var dishes = stationsMap[statKey].get("dishes");
+						safeAddObjectToArray(dish, dishes);
+					} else {
+						stationObject = buildStationObject(dish, station);
+						var stations = new Array(stationObject);
+						mealObject.set("stations", stations);
+						stationsMap[statKey] = stationObject;
+					}
+					mealsMap[mealKey] = mealObject;
+				} else if (undefined !== mealsMap[mealKey]) {
+					var stationObject = mealsMap[mealKey].get(station);
+					var statKey = date + meal + station;
+					if (stationObject) {
+						var dishes = stationObject.get("dishes");
+						safeAddObjectToArray(dish, dishes);
+						stationsMap[statKey] = stationObject;
+					} else if (undefined !== stationsMap[statKey]) {
+						var dishes = stationsMap[statKey].get("dishes");
+						safeAddObjectToArray(dish, dishes);
+					} else {
+						stationObject = buildStationObject(dish, station);
+						mealsMap[mealKey].set(station, stationObject);
+						stationsMap[statKey] = stationObject;
+					}
+				} else {
+					mealObject = buildMealObject(dish, station);
+					menu.set(meal, mealObject);
+					mealsMap[mealKey] = mealObject;
+				}
+				menusMap[menuKey] = menu;
+			} else if (undefined !== menusMap[menuKey]) {
+				menu = menusMap[menuKey];
+				var mealObject = menu.get(meal);
+				if (mealObject) {
+					var stationObject = mealObject.get(station);
+					if (stationObject) {
+						var dishes = stationObject.get("dishes");
+						safeAddObjectToArray(dish, dishes);
+						stationsMap[statKey] = stationObject;
+					} else if (undefined !== stationsMap[statKey]) {
+						var dishes = stationsMap[statKey].get("dishes");
+						safeAddObjectToArray(dish, dishes);
+					} else {
+						stationObject = buildStationObject(dish, station);
+						mealObject.set(station, stationObject);
+						stationsMap[statKey] = stationObject;
+					}
+					mealsMap[mealKey] = mealObject;
+				} else if (undefined !== mealsMap[mealKey]) {
+					var stationObject = mealsMap[mealKey].get(station);
+					var statKey = date + meal + station;
+					if (stationObject) {
+						var dishes = stationObject.get("dishes");
+						safeAddObjectToArray(dish, dishes);
+						stationsMap[statKey] = stationObject;
+					} else if (undefined !== stationsMap[statKey]) {
+						var dishes = stationsMap[statKey].get("dishes");
+						safeAddObjectToArray(dish, dishes);
+					} else {
+						stationObject = buildStationObject(dish, station);
+						mealsMap[mealKey].set(station, stationObject);
+						stationsMap[statKey] = stationObject;
+					}
+				} else {
+					mealObject = buildMealObject(dish, station);
+					menu.set(meal, mealObject);
+					mealsMap[mealKey] = mealObject;
+				}
+			} else {
+				var mealObject = buildMealObject(dish, station);
+				mealsMap[mealKey] = mealObject;
+
+				menu = new Parse.Object("Menu");
+				menu.set("date", date);
+				menu.set(meal, mealObject);
+				menusMap[menuKey] = menu;
+			}
+
+			if (checkLastDish(counter)) {
+				console.log("Trying to call saveEverything");
+				saveEverything(response);
+			}
+		},
+		error: function(error) {
+			response.error("Error looking for menu: " + error.description);
+		}
+	});
+}
+
+function saveEverything(response) {
+	console.log("Trying to save everything");
+	var menusArray = new Array();
+	for (var i in menusMap) {
+		menusArray.push(menusMap[i]);
+	}
+	var stationsArray = new Array();
+	for (var i in stationsMap) {
+		stationsArray.push(stationsMap[i]);
+	}
+	var mealsArray = new Array();
+	for (var i in mealsMap) {
+		mealsArray.push(mealsMap[i]);
+	}
+
+	Parse.Object.saveAll(stationsArray, {
+		success: function(stationsArray) {
+			Parse.Object.saveAll(mealsArray, {
+				success: function(mealsArray) {
+					Parse.Object.saveAll(menusArray, {
+						success: function(menusArray) {
+							response.success("menus updated");
+						},
+						error: function(menusArray, error) {
+							response.error("Error saving menus: " + error.description);
+						}
+					});
+				},
+				error: function(mealsArray, error) {
+					response.error("Error saving meals: " + error.description);
+				}
+			});
+		},
+		error: function(stationsArray, error) {
+			response.error("Error saving stations: " + error.description);
+		}
+	});
+}
+
+
 function buildStationObject(dish, station) {
 	var dishes = new Array(dish);
 	var Station = Parse.Object.extend("Station");
 	var stationObject = new Station();
 	stationObject.set("name", station);
 	stationObject.set("dishes", dishes);
-	stationObject.save(null, {
+	/*stationObject.save(null, {
 		success: function(stationObject) {
 			return stationObject;
 		},
 		error: function(error) {
 			response.error("Error saving station: " + error.description);
 		}
-	});
+	});*/
+	return stationObject;
 }
 
 function buildMealObject(dish, station) {
@@ -198,14 +388,15 @@ function buildMealObject(dish, station) {
 	var mealObject = new Meal();
 	var stations = new Array(stationObject);
 	mealObject.set("stations", stations);
-	mealObject.save(null, {
+	/*mealObject.save(null, {
 		success: function(mealObject) {
 			return mealObject;
 		},
 		error: function(error) {
 			response.error("Error saving meal: " + error.description);
 		}
-	});
+	});*/
+	return mealObject;
 }
 /*
 				var lazy = require("lazy"),
