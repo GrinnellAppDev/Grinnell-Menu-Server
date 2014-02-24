@@ -171,7 +171,7 @@ function buildStation(stationObject, station, dish, mealObject, statKey) {
 	} else if (undefined !== stationsMap[statKey]) { // Station exists in stationsMap only
 		addDishToStation(dish, stationsMap[statKey]);
 	} else { // Station doesn't exist, create it!
-		stationObject = buildStationObject(dish, station);
+		stationObject = createStationObject(dish, station);
 		addStationToMeal(stationObject, mealObject);
 		stationsMap[statKey] = stationObject;
 	}
@@ -188,7 +188,7 @@ function buildMeal(menu, meal, station, dish, mealKey, statKey) {
 		var stationObject = mealsMap[mealKey].get(station);
 		buildStation(stationObject, station, dish, mealsMap[mealKey], statKey);
 	} else { // Not in parse or mealsMap, create it!
-		mealObject = buildMealObject(dish, station);
+		mealObject = createMealObject(dish, station);
 		menu.set(meal, mealObject);
 		mealsMap[mealKey] = mealObject;
 	}
@@ -212,7 +212,7 @@ function buildDatabaseHelper(date, meal, station, dish, counter, response) {
 				menu = menusMap[menuKey];
 				buildMeal(menu, meal, station, dish, mealKey, statKey);
 			} else { // Menu doesn't exist, create it
-				var mealObject = buildMealObject(dish, station);
+				var mealObject = createMealObject(dish, station);
 				mealsMap[mealKey] = mealObject;
 
 				menu = new Parse.Object("Menu");
@@ -270,7 +270,7 @@ function saveEverything(response) {
 	});
 }
 
-function buildStationObject(dish, station) {
+function createStationObject(dish, station) {
 	var Station = Parse.Object.extend("Station");
 	var stationObject = new Station();
 	addDishToStation(dish, stationObject);
@@ -278,8 +278,8 @@ function buildStationObject(dish, station) {
 	return stationObject;
 }
 
-function buildMealObject(dish, station) {
-	var stationObject = buildStationObject(dish, station);
+function createMealObject(dish, station) {
+	var stationObject = createStationObject(dish, station);
 	var Meal = Parse.Object.extend("Meal");
 	var mealObject = new Meal();
 	addStationToMeal(stationObject, mealObject);
