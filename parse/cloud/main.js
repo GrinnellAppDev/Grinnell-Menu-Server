@@ -18,8 +18,9 @@ Parse.Cloud.job("update_menus", function(request, response) {
 					var output = $.csv.toArrays(fileResponse.buffer.toString());
 					console.log(output.length);
 
+					var dishesHashMap = {};
 					output.shift(); // Remove headers row
-					output.splice(200, 1200); // remove a lot of data so we can actually test in reasonable time
+					//output.splice(200, 1200); // remove a lot of data so we can actually test in reasonable time
 					var counter = output.length;
 					output.forEach(function(dishRow) {
 						var location = dishRow[1].toString();
@@ -34,37 +35,29 @@ Parse.Cloud.job("update_menus", function(request, response) {
 
 							var dishQuery = new Parse.Query("Dish");
 							dishQuery.equalTo("dishID", identificationNumber);
-							dishQuery.find({
+							dishQuery.first({
 								success: function(dish) {
 									if (undefined === dish) {
 										var Dish = Parse.Object.extend("Dish");
 										var newDish = new Dish();
 										newDish.set("name", name);
 										newDish.set("dishID", identificationNumber);
-										newDish.save(null, {
-											success: function(newDish) {
-												// Execute any logic that should take place after the object is saved.
-												buildDatabase(date, meal, station, newDish, counter, response);
-											},
-											error: function(newDish, error) {
-												// Execute any logic that should take place if the save fails.
-												// error is a Parse.Error with an error code and description.
-												response.error('Failed to create new dish, with error code: ' + error.description);
-											}
-										});
+										//buildDatabase(date, meal, station, newDish, counter, response);
 									} else {
-										console.log("here");
+										console.log("dish was previously defined");
 										// TODO - Update flags here
 										//   if we do this, we need to re-save it
-										buildDatabase(date, meal, station, dish, counter, response);
+										//buildDatabase(date, meal, station, dish, counter, response);
 									}
+									dishesHashMap[identificationNumber] = newDish;
+									saveAllDishes(dishesHashMap, --counter, response);
 								},
 								error: function(dish, error) {
 									response.error("Error looking for dish: " + error.description);
 								}
 							});
 						} else {
-							checkLastDish(counter);
+							saveAllDishes(dishesHashMap, --counter, response);
 						}
 					});
 				},
@@ -78,6 +71,26 @@ Parse.Cloud.job("update_menus", function(request, response) {
 		}
 	});
 });
+
+
+function saveAllDishes(dishesHashMap, counter, response) {
+	if (checkLastDish(counter)) {
+		var dishesArray = new Array();
+
+		for (var i in dishesHashMap) {
+			dishesArray.push(dishesHashMap[i]);
+		}
+
+		Parse.Object.saveAll(dishesArray, {
+			success: function(dishesArray) {
+				response.success();
+			},
+			error: function(dishesArray, error) {
+				response.error("Error saving dishes: " + error.description);
+			}
+		});
+	}
+}
 
 function buildDatabase(date, meal, station, dish, counter, response) {
 	var menuQuery = new Parse.Query("Menu");
@@ -150,11 +163,11 @@ function buildDatabase(date, meal, station, dish, counter, response) {
 
 function checkLastDish(counter) {
 	// If last dish
-	--counter;
 	if (0 >= counter) {
-		response.success('dishes updated');
+		return true;
+	} else {
+		return false;
 	}
-
 }
 // Todo - this doesn't work right
 function safeAddObjectToArray(object, array) {
