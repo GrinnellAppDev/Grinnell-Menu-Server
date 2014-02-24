@@ -4,7 +4,6 @@ Parse.Cloud.define("hello", function(request, response) {
 	response.success("Hello world!");
 });
 
-var menusArray, stationsArray, mealsArray, dishesArray;
 Parse.Cloud.job("update_menus", function(request, response) {
 	var query = new Parse.Query("MenuFile");
 	query.descending("createdAt");
@@ -19,13 +18,8 @@ Parse.Cloud.job("update_menus", function(request, response) {
 				require('cloud/jquery.csv.js');
 				var output = $.csv.toArrays(fileResponse.buffer.toString());
 
-				menusArray = new Array();
-				stationsArray = new Array();
-				mealsArray = new Array();
-				dishesArray = new Array();
-
 				// i is 1 to skip over the header row
-				for (var i = 1; i < output.length; i++) {
+				for (var i = 1; i < 50; i++) { //output.length; i++) { TODO - uncomment this!!!!
 					var location = output[i][1];
 					var meal = output[i][3];
 
@@ -33,28 +27,49 @@ Parse.Cloud.job("update_menus", function(request, response) {
 					if (meal.indexOf("OUT TAKES") || location.indexOf("MARKETPLACE")) {
 						var date = output[i][21];
 						var name = output[i][8];
-						var id = output[i][12];
+						var identificationNumber = output[i][12];
 						var station = output[i][7];
 
 						var dishQuery = new Parse.Query("Dish");
-						dishQuery.equalTo("dishID", id);
-						dishQuery.first({
+						dishQuery.get(identificationNumber, {
 							success: function(dish) {
-								if (dish) {
-									// TODO - Update flags here
-								} else {
-									dish = new Parse.Object("Dish");
-									dish.set("dishID", id);
-									dish.set("name", name);
-								}
-								safeAddObjectToArray(dish, dishesArray);
+								// TODO - Update flags here
+								dish = dishes[0];
 
-								buildDatabase(date, meal, station, dish, i, output.length);
+								dish.save(null, {
+									success: function(dish) {
+										var meal = output[i][3];
+										var date = output[i][21];
+										var station = output[i][7];
+										buildDatabase(date, meal, station, dish, i, output.length);
+									},
+									error: function(dish, error) {
+										response.error("Error saving dish: " + error.description);
+									}
+								});
 							},
 							error: function(error) {
-								response.error("Error looking for dish: " + error.description);
+								var meal = output[i][3];
+								var date = output[i][21];
+								var station = output[i][7];
+								var name = output[i][8];
+								var identificationNumber = output[i][12];
+								dish = new Parse.Object("Dish");
+								dish.set("objectId", identificationNumber);
+								dish.set("name", name);
+								console.log(i);
+								dish.save(null, {
+									success: function(dish) {
+										buildDatabase(date, meal, station, dish, i, output.length);
+									},
+									error: function(dish, error) {
+										response.error("Error saving dish: " + error.description);
+									}
+								});
 							}
 						});
+					} else {
+						checkLastDish(i, output.length);
 					}
 				}
 			});
@@ -77,33 +92,53 @@ function buildDatabase(date, meal, station, dish, i, length) {
 					if (stationObject) {
 						var dishes = stationObject.get("dishes");
 						safeAddObjectToArray(dish, dishes);
+						stationObject.save(null, {
+							success: function(stationObject) {
+								checkLastDish(i, length);
+							},
+							error: function(stationObject, error) {
+								response.error("Error saving station: " + error.description);
+							}
+						});
 					} else {
 						stationObject = buildStationObject(dish, station);
 						mealObject.set(station, stationObject);
+						mealObject.save(null, {
+							success: function(mealObject) {
+								checkLastDish(i, length);
+							},
+							error: function(stationObject, error) {
+								response.error("Error saving meal: " + error.description);
+							}
+						});
 					}
-					safeAddObjectToArray(stationObject, stationsArray);
-
 				} else {
 					mealObject = buildMealObject(dish, station);
 					menu.set(meal, mealObject);
+					menu.save(null, {
+						success: function(menu) {
+							checkLastDish(i, length);
+						},
+						error: function(stationObject, error) {
+							response.error("Error saving menu: " + error.description);
+						}
+					});
 				}
-				safeAddObjectToArray(mealObject, mealsArray);
 
 			} else {
 				var mealObject = buildMealObject(dish, station);
-				safeAddObjectToArray(mealObject, mealsArray);
 
 				menu = new Parse.Object("Menu");
 				menu.set("date", date);
 				menu.set(meal, mealObject);
-			}
-			safeAddObjectToArray(menu, menusArray);
-			console.log("checking if we want to save everything");
-
-			if (i >= length) {
-				console.log("Trying to call saveEverything");
-
-				saveEverything();
+				menu.save(null, {
+					success: function(menu) {
+						checkLastDish(i, length);
+					},
+					error: function(stationObject, error) {
+						response.error("Error saving menu: " + error.description);
+					}
+				});
 			}
 		},
 		error: function(error) {
@@ -112,40 +147,12 @@ function buildDatabase(date, meal, station, dish, i, length) {
 	});
 }
 
-function saveEverything() {
-	console.log("Trying to save everything");
-	console.log(dishesArray);
-	Parse.Object.saveAll(dishesArray, {
-		success: function(dishesArray) {
-			Parse.Object.saveAll(stationsArray, {
-				success: function(stationsArray) {
-					Parse.Object.saveAll(mealsArray, {
-						success: function(mealsArray) {
-							Parse.Object.saveAll(menusArray, {
-								success: function(menusArray) {
-									response.success("menus updated");
-								},
-								error: function(menusArray, error) {
-									response.error("Error saving menus: " + error.description);
-								}
-							});
-						},
-						error: function(mealsArray, error) {
-							response.error("Error saving meals: " + error.description);
-						}
-					});
-				},
-				error: function(stationsArray, error) {
-					response.error("Error saving stations: " + error.description);
-				}
-			});
-		},
-		error: function(dishesArray, error) {
-			response.error("Error saving dishes: " + error.description);
-		}
-	});
+function checkLastDish(i, length) {
+	// If last dish
+	if (i == length - 1) {
+		response.success();
+	}
 }
-
 // Todo - this doesn't work right
 function safeAddObjectToArray(object, array) {
 	if (-1 == array.indexOf(object)) {
@@ -159,7 +166,14 @@ function buildStationObject(dish, station) {
 	var stationObject = new Parse.Object("Station");
 	stationObject.set("name", station);
 	stationObject.set("dishes", dishes);
-	return stationObject;
+	stationObject.save(null, {
+		success: function(stationObject) {
+			return stationObject;
+		},
+		error: function(stationObject, error) {
+			response.error("Error saving station: " + error.description);
+		}
+	});
 }
 
 function buildMealObject(dish, station) {
@@ -168,9 +182,14 @@ function buildMealObject(dish, station) {
 	var mealObject = new Parse.Object("Meal");
 	var stations = new Array(stationObject);
 	mealObject.set("stations", stations);
-	safeAddObjectToArray(stationObject, stationArray);
-
-	return mealObject;
+	mealObject.save(null, {
+		success: function(mealObject) {
+			return mealObject;
+		},
+		error: function(mealObject, error) {
+			response.error("Error saving meal: " + error.description);
+		}
+	});
 }
 /*
 				var lazy = require("lazy"),
