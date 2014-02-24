@@ -34,8 +34,15 @@ $(function() {
         //alert("File available at: " + data.url);
         Parse.initialize("rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD", "50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc");
         var query = new Parse.Query("MenuFile");
-        query.first({
-          success: function(menuFile) {
+        query.find({
+          success: function(menuFiles) {
+            var menuFile;
+            if (0 >= nutritionFiles.length) {
+              var MenuFile = Parse.Object.extend("MenuFile");
+              menuFile = new menuFile();
+            } else {
+              menuFile = menuFiles[0];
+            }
             menuFile.set("file", data);
             menuFile.save(null, {
               success: function(object) {
@@ -79,8 +86,15 @@ $(function() {
         //alert("File available at: " + data.url);
         Parse.initialize("rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD", "50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc");
         var query = new Parse.Query("NutritionFile");
-        query.first({
-          success: function(nutritionFile) {
+        query.find({
+          success: function(nutritionFiles) {
+            var nutritionFile;
+            if (0 >= nutritionFiles.length) {
+              var NutritionFile = Parse.Object.extend("NutritionFile");
+              nutritionFile = new NutritionFile();
+            } else {
+              nutritionFile = nutritionFiles[0];
+            }
             nutritionFile.set("file", data);
             nutritionFile.save(null, {
               success: function(object) {
