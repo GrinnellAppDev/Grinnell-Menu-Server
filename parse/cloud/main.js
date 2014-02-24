@@ -4,7 +4,7 @@ Parse.Cloud.define("hello", function(request, response) {
 	response.success("Hello world!");
 });
 
-
+var menusArray, stationsArray, mealsArray, dishesArray;
 Parse.Cloud.job("update_menus", function(request, response) {
 	var query = new Parse.Query("MenuFile");
 	query.descending("createdAt");
@@ -19,7 +19,10 @@ Parse.Cloud.job("update_menus", function(request, response) {
 				require('cloud/jquery.csv.js');
 				var output = $.csv.toArrays(fileResponse.buffer.toString());
 
-				var menusArray = new Array();
+				menusArray = new Array();
+				stationsArray = new Array();
+				mealsArray = new Array();
+				dishesArray = new Array();
 
 				// i is 1 to skip over the header row
 				for (var i = 1; i < output.length; i++) {
@@ -44,7 +47,9 @@ Parse.Cloud.job("update_menus", function(request, response) {
 									dish.set("dishID", id);
 									dish.set("name", name);
 								}
-								buildDatabase(date, meal, station, dish, menusArray, i, output.length);
+								safeAddObjectToArray(dish, dishesArray);
+
+								buildDatabase(date, meal, station, dish, i, output.length);
 							},
 							error: function(error) {
 								response.error("Error looking for dish: " + error.description);
@@ -60,7 +65,7 @@ Parse.Cloud.job("update_menus", function(request, response) {
 	});
 });
 
-function buildDatabase(date, meal, station, dish, menusArray, i, length) {
+function buildDatabase(date, meal, station, dish, i, length) {
 	var menuQuery = new Parse.Query("Menu");
 	menuQuery.equalTo("date", date);
 	menuQuery.first({
@@ -71,41 +76,81 @@ function buildDatabase(date, meal, station, dish, menusArray, i, length) {
 					var stationObject = mealObject.get(station);
 					if (stationObject) {
 						var dishes = stationObject.get("dishes");
-						dishes.push(dish);
+						safeAddObjectToArray(dish, dishes);
 					} else {
 						stationObject = buildStationObject(dish, station);
 						mealObject.set(station, stationObject);
 					}
+					safeAddObjectToArray(stationObject, stationsArray);
+
 				} else {
 					mealObject = buildMealObject(dish, station);
 					menu.set(meal, mealObject);
-					if (!menusArray.Contains(menu)) {
-						menusArray.push(menu);
-					}
 				}
+				safeAddObjectToArray(mealObject, mealsArray);
+
 			} else {
 				var mealObject = buildMealObject(dish, station);
+				safeAddObjectToArray(mealObject, mealsArray);
 
 				menu = new Parse.Object("Menu");
 				menu.set("date", date);
 				menu.set(meal, mealObject);
-				menusArray.push(menu);
 			}
+			safeAddObjectToArray(menu, menusArray);
+			console.log("checking if we want to save everything");
+
 			if (i >= length) {
-				Parse.Object.saveAll(menusArray, {
-					success: function(menusArray) {
-						response.success("menus updated");
-					},
-					error: function(menusArray, error) {
-						response.error("Error saving menus: " + error.description);
-					}
-				});
+				console.log("Trying to call saveEverything");
+
+				saveEverything();
 			}
 		},
 		error: function(error) {
 			response.error("Error looking for menu: " + error.description);
 		}
 	});
+}
+
+function saveEverything() {
+	console.log("Trying to save everything");
+	console.log(dishesArray);
+	Parse.Object.saveAll(dishesArray, {
+		success: function(dishesArray) {
+			Parse.Object.saveAll(stationsArray, {
+				success: function(stationsArray) {
+					Parse.Object.saveAll(mealsArray, {
+						success: function(mealsArray) {
+							Parse.Object.saveAll(menusArray, {
+								success: function(menusArray) {
+									response.success("menus updated");
+								},
+								error: function(menusArray, error) {
+									response.error("Error saving menus: " + error.description);
+								}
+							});
+						},
+						error: function(mealsArray, error) {
+							response.error("Error saving meals: " + error.description);
+						}
+					});
+				},
+				error: function(stationsArray, error) {
+					response.error("Error saving stations: " + error.description);
+				}
+			});
+		},
+		error: function(dishesArray, error) {
+			response.error("Error saving dishes: " + error.description);
+		}
+	});
+}
+
+// Todo - this doesn't work right
+function safeAddObjectToArray(object, array) {
+	if (-1 == array.indexOf(object)) {
+		array.push(object);
+	}
 }
 
 function buildStationObject(dish, station) {
@@ -123,6 +168,8 @@ function buildMealObject(dish, station) {
 	var mealObject = new Parse.Object("Meal");
 	var stations = new Array(stationObject);
 	mealObject.set("stations", stations);
+	safeAddObjectToArray(stationObject, stationArray);
+
 	return mealObject;
 }
 /*
