@@ -1,6 +1,8 @@
 $(function() {
   var menufile;
   var nutritionfile;
+  $("#menuloading").hide();
+  $("#nutritionloading").hide();
 
   // Set an event listener on the Choose File field.
   $('#menufileselect').bind("change", function(e) {
@@ -18,6 +20,7 @@ $(function() {
   // This function is called when the user clicks on Upload Menu to Parse. It will create the REST API request to upload this file to Parse.
   $('#uploadMENUbutton').click(function() {
     var serverUrl = 'https://api.parse.com/1/files/' + menufile.name;
+    $("#menuloading").show();
 
     $.ajax({
       type: "POST",
@@ -46,6 +49,7 @@ $(function() {
             menuFile.set("file", data);
             menuFile.save(null, {
               success: function(object) {
+                $("#menuloading").hide();
                 alert("File uploaded");
               },
               error: function(data) {
@@ -70,6 +74,7 @@ $(function() {
   // This function is called when the user clicks on Upload Nutrition to Parse. It will create the REST API request to upload this file to Parse.
   $('#uploadNUTRITIONbutton').click(function() {
     var serverUrl = 'https://api.parse.com/1/files/' + nutritionfile.name;
+    $("#nutritionloading").show();
 
     $.ajax({
       type: "POST",
@@ -98,6 +103,8 @@ $(function() {
             nutritionFile.set("file", data);
             nutritionFile.save(null, {
               success: function(object) {
+                $("#nutritionloading").hide();
+
                 alert("File uploaded");
               },
               error: function(data) {
