@@ -139,7 +139,7 @@ function addDishToStation(dish, station) {
 function buildDatabaseHelper(date, meal, station, dish, counter, response, stationsMap) {
 	var stationQuery = new Parse.Query("Station");
 	stationQuery.equalTo("date", date);
-	stationQuery.equalTo("station", station);
+	stationQuery.equalTo("name", station);
 	stationQuery.equalTo("meal", meal);
 	stationQuery.first({
 		success: function(stationObj) {
