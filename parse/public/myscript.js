@@ -4,20 +4,17 @@ $(function() {
   $("#menuloading").hide();
   $("#nutritionloading").hide();
 
-  // Set an event listener on the Choose File field.
   $('#menufileselect').bind("change", function(e) {
     var menufiles = e.target.files || e.dataTransfer.files;
-    // Our file var now holds the selected file
     menufile = menufiles[0];
   });
 
   $('#nutritionfileselect').bind("change", function(e) {
     var nutritionfiles = e.target.files || e.dataTransfer.files;
-    // Our file var now holds the selected file
     nutritionfile = nutritionfiles[0];
   });
 
-  // This function is called when the user clicks on Upload Menu to Parse. It will create the REST API request to upload this file to Parse.
+  // Upload menu to Parse on Click
   $('#uploadMENUbutton').click(function() {
     var serverUrl = 'https://api.parse.com/1/files/' + menufile.name;
     $("#menuloading").show();
@@ -34,15 +31,14 @@ $(function() {
       processData: false,
       contentType: false,
       success: function(data) {
-        //alert("File available at: " + data.url);
         Parse.initialize("rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD", "50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc");
         var query = new Parse.Query("MenuFile");
         query.find({
           success: function(menuFiles) {
             var menuFile;
-            if (0 >= nutritionFiles.length) {
+            if (0 >= menuFiles.length) {
               var MenuFile = Parse.Object.extend("MenuFile");
-              menuFile = new menuFile();
+              menuFile = new MenuFile();
             } else {
               menuFile = menuFiles[0];
             }
@@ -50,7 +46,7 @@ $(function() {
             menuFile.save(null, {
               success: function(object) {
                 $("#menuloading").hide();
-                alert("File uploaded");
+                alert("Menu file uploaded");
               },
               error: function(data) {
                 var obj = jQuery.parseJSON(data);
@@ -71,7 +67,7 @@ $(function() {
     });
   });
 
-  // This function is called when the user clicks on Upload Nutrition to Parse. It will create the REST API request to upload this file to Parse.
+  // Upload nutrition to Parse on Click
   $('#uploadNUTRITIONbutton').click(function() {
     var serverUrl = 'https://api.parse.com/1/files/' + nutritionfile.name;
     $("#nutritionloading").show();
@@ -88,7 +84,6 @@ $(function() {
       processData: false,
       contentType: false,
       success: function(data) {
-        //alert("File available at: " + data.url);
         Parse.initialize("rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD", "50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc");
         var query = new Parse.Query("NutritionFile");
         query.find({
@@ -104,8 +99,7 @@ $(function() {
             nutritionFile.save(null, {
               success: function(object) {
                 $("#nutritionloading").hide();
-
-                alert("File uploaded");
+                alert("Nutrition file uploaded");
               },
               error: function(data) {
                 var obj = jQuery.parseJSON(data);

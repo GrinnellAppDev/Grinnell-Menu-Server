@@ -37,8 +37,8 @@ Parse.Cloud.job("update_menus", function(request, response) {
 										dishesHashMap[identificationNumber] = newDish;
 									} else {
 										// TODO - Update flags here
-										//   if we do this, we need to re-save it
-										// dishesHashMap[identificationNumber] = dish;
+										dish.set("name", name);
+										dishesHashMap[identificationNumber] = dish;
 									}
 									saveAllDishes(dishesHashMap, --counter, response, output);
 								},
