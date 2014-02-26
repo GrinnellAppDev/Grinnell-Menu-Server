@@ -1,3 +1,22 @@
+Parse.Cloud.define("update_menus_trigger", function(request, response) {
+	var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
+	Parse.Cloud.httpRequest({
+		url: "https://api.parse.com/1/jobs/update_menus",
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'X-Parse-Application-Id': parseAppId,
+			'X-Parse-Master-Key': 'yLV2Mk9Eft2yhTHAcHvbTbxc5JRJJIyEPEpOIyCD'
+		},
+		success: function(httpResponse) {
+			response.success(httpResponse.text);
+		},
+		error: function(httpResponse) {
+			response.error('Request failed with response code ' + httpResponse.status);
+		}
+	});
+});
+
 Parse.Cloud.job("update_menus", function(request, response) {
 	var query = new Parse.Query("MenuFile");
 	query.first({
@@ -42,8 +61,8 @@ Parse.Cloud.job("update_menus", function(request, response) {
 									}
 									saveAllDishes(dishesHashMap, --counter, response, output);
 								},
-								error: function(dish, error) {
-									response.error("Error looking for dish: " + error.description);
+								error: function(error) {
+									response.error("Error looking for dish: " + error.message);
 								}
 							});
 						} else {
@@ -52,12 +71,12 @@ Parse.Cloud.job("update_menus", function(request, response) {
 					});
 				},
 				error: function(error) {
-					response('Request failed with response code ' + error.status)
+					response.error('Request failed with error: ' + error.message)
 				}
 			});
 		},
 		error: function(error) {
-			response.error("Error getting menu file: " + error.description);
+			response.error("Error getting menu file: " + error.message);
 		}
 	});
 });
@@ -73,8 +92,8 @@ function saveAllDishes(dishesHashMap, counter, response, output) {
 			success: function(dishesArray) {
 				buildDatabase(output, response);
 			},
-			error: function(dishesArray, error) {
-				response.error("Error saving dishes: " + error.description);
+			error: function(error) {
+				response.error("Error saving dishes: " + error.message);
 			}
 		});
 	}
@@ -100,8 +119,8 @@ function buildDatabase(output, response) {
 				success: function(dish) {
 					buildDatabaseHelper(date, meal, station, dish, --counter, response, stationsMap);
 				},
-				error: function(dish, error) {
-					response.error("Error looking for dish: " + error.description);
+				error: function(error) {
+					response.error("Error looking for dish: " + error.message);
 				}
 			});
 		} else {
@@ -158,7 +177,7 @@ function buildDatabaseHelper(date, meal, station, dish, counter, response, stati
 			saveEverything(response, stationsMap, counter);
 		},
 		error: function(error) {
-			response.error("Error looking for station: " + error.description);
+			response.error("Error looking for station: " + error.message);
 		}
 	});
 }
@@ -174,8 +193,8 @@ function saveEverything(response, stationsMap, counter) {
 			success: function(stationsArray) {
 				response.success("Updated Menu");
 			},
-			error: function(stationsArray, error) {
-				response.error("Error saving stations: " + error.description);
+			error: function(error) {
+				response.error("Error saving stations: " + error.message);
 			}
 		});
 	}
