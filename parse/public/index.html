@@ -35,12 +35,102 @@
     </div>
   </div>
 
-  <div id="updateDiv">
+  <div id="secondaryDiv">
     <input id="updateButton" type="button" value="Update Menus"/>
     <div id="menusUploading">
       <img src="./ajax-loader.gif"/>
     </div>
   </div>
+
+  <div id="secondaryDiv">
+    <table>
+      <tr> 
+        <th class="column-0"></th>
+        <th class="column-1">Monday</th>
+        <th class="column-2">Tuesday</th>
+        <th class="column-3">Wednesday</th>
+        <th class="column-4">Thursday</th>
+        <th class="column-5">Friday</th>
+        <th class="column-6">Saturday</th>
+        <th class="column-7">Sunday</th>
+      </tr>
+      <tr>
+        <td class="column-0">Breakfast</td>
+        <td class="column-1"><input type="text" id="b-mon" /></td>
+        <td class="column-2"><input type="text" id="b-tues" /></td>
+        <td class="column-3"><input type="text" id="b-wed" /></td>
+        <td class="column-4"><input type="text" id="b-thur" /></td>
+        <td class="column-5"><input type="text" id="b-fri" /></td>
+        <td class="column-6"><input type="text" id="b-sat" /></td>
+        <td class="column-7"><input type="text" id="b-sun" /></td>
+      </tr>
+      <tr>
+        <td class="column-0">Lunch</td>
+        <td class="column-1"><input type="text" id="l-mon" /></td>
+        <td class="column-2"><input type="text" id="l-tues" /></td>
+        <td class="column-3"><input type="text" id="l-wed" /></td>
+        <td class="column-4"><input type="text" id="l-thur" /></td>
+        <td class="column-5"><input type="text" id="l-fri" /></td>
+        <td class="column-6"><input type="text" id="l-sat" /></td>
+        <td class="column-7"><input type="text" id="l-sun" /></td>
+      </tr>
+      <tr>
+        <td class="column-0">Dinner</td>
+        <td class="column-1"><input type="text" id="d-mon" /></td>
+        <td class="column-2"><input type="text" id="d-tues" /></td>
+        <td class="column-3"><input type="text" id="d-wed" /></td>
+        <td class="column-4"><input type="text" id="d-thur" /></td>
+        <td class="column-5"><input type="text" id="d-fri" /></td>
+        <td class="column-6"><input type="text" id="d-sat" /></td>
+        <td class="column-7"><input type="text" id="d-sun" /></td>
+      </tr>
+      <tr>
+        <td class="column-0">Outtakes</td>
+        <td class="column-1"><input type="text" id="o-mon" /></td>
+        <td class="column-2"><input type="text" id="o-tues" /></td>
+        <td class="column-3"><input type="text" id="o-wed" /></td>
+        <td class="column-4"><input type="text" id="o-thur" /></td>
+        <td class="column-5"><input type="text" id="o-fri" /></td>
+        <td class="column-6"><input type="text" id="o-sat" /></td>
+        <td class="column-7"><input type="text" id="o-sun" /></td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="secondaryDiv">
+    <input id="saveTimesButton" type="button" value="Update Hours"/>
+    <div id="savingTimesSpinner">
+      <img src="./ajax-loader.gif"/>
+    </div>
+  </div>
+
   <script type="text/javascript" src="myscript.js"> </script>
 </body>
 </html>
+
+
+
+<!--
+  <!DOCTYPE html>
+<html>
+<head>
+    <title>HTML dynamic table using JavaScript</title>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body onload="load()">
+    <div id="mydata">
+        <b>Current data in the system ...</b>
+        <table id="myTableData"  border="1" cellpadding="2">
+            <tr>
+                <td>&nbsp;</td>
+                <td><b>Name</b></td>
+                <td><b>Age</b></td>
+            </tr>
+        </table>
+    </div>
+    <div id="myDynamicTable">
+        <input type="button" id="create" value="Click here" onclick="Javascript:addTable()">
+    </div>
+</body>
+</html>
+-->

@@ -1,13 +1,38 @@
 $(function() {
   $("#menuloading").hide();
   $("#nutritionloading").hide();
-  $("menusUploading").hide(); // TODO - WHY ISN'T THIS WORKING?????????????????????????????
+  $("#menusUploading").hide();
+  $("#savingTimesSpinner").hide();
+
+  var javascriptKey = '50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc';
+  var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
+  Parse.initialize(parseAppId, javascriptKey);
+
+
+  var timesQuery = new Parse.Query("Times");
+  timesQuery.find({
+    success: function(times) {
+      if (4 == times.length) { // There should be 4 rows in the times table
+        var bFast = times[0];
+        var lunch = times[1];
+        var dinner = times[2];
+        var outtakes = times[3];
+
+      }
+    },
+    error: function(data) {
+      var obj = jQuery.parseJSON(data);
+      alert(obj.error);
+    }
+  });
+
+
+
+  $("#b-mon").val('12345');
 
   var menufile;
   var nutritionfile;
-  var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
   var parseRESTAPIKey = 'MaU8mQTxCp6IfpZZQ2jKWi9RO2LpMwQe2jy8WZlt';
-  var javascriptKey = '50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc';
 
   $('#menufileselect').bind("change", function(e) {
     var menufiles = e.target.files || e.dataTransfer.files;
@@ -22,7 +47,7 @@ $(function() {
   // Call cloud function update menus
   $('#updateButton').click(function() {
     $("#menusUploading").show();
-    Parse.initialize(parseAppId, javascriptKey);
+
 
     // This one doesn't seem to do anything
     /*
@@ -60,6 +85,14 @@ $(function() {
         alert(obj.error);
       }
     });*/
+    $("#menusUploading").hide(); // REMOVE THIS EVENTUALLY (and only hide when the asynchronous task finsihes)
+  });
+
+  // Update times table in parse
+  $('#saveTimesButton').click(function() {
+    $("#savingTimesSpinner").show();
+
+    $("#savingTimesSpinner").hide(); // REMOVE THIS EVENTUALLY (and only hide when the asynchronous task finsihes)
   });
 
   // Upload menu to Parse on Click
@@ -79,7 +112,7 @@ $(function() {
       processData: false,
       contentType: false,
       success: function(data) {
-        Parse.initialize(parseAppId, javascriptKey);
+
         var query = new Parse.Query("MenuFile");
         query.find({
           success: function(menuFiles) {
@@ -135,7 +168,7 @@ $(function() {
       processData: false,
       contentType: false,
       success: function(data) {
-        Parse.initialize(parseAppId, javascriptKey);
+
         var query = new Parse.Query("NutritionFile");
         query.find({
           success: function(nutritionFiles) {
@@ -234,3 +267,45 @@ $(function() {
         alert(obj.error);
       }
     });*/
+
+
+
+/*
+function addRow() {
+          
+    var myName = document.getElementById("name");
+    var age = document.getElementById("age");
+    var table = document.getElementById("myTableData");
+ 
+    var rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+ 
+    row.insertCell(0).innerHTML= "Meal";
+    row.insertCell(1).innerHTML= myName.value;
+    row.insertCell(2).innerHTML= age.value;
+ 
+}
+ 
+function addTable() {
+      
+    var myTableDiv = document.getElementById("myDynamicTable");
+      
+    var table = document.createElement('TABLE');
+    
+    var tableBody = document.createElement('TBODY');
+    table.appendChild(tableBody);
+      
+    for (var i=0; i<3; i++){
+       var tr = document.createElement('TR');
+       tableBody.appendChild(tr);
+       
+       for (var j=0; j<4; j++){
+           var td = document.createElement('TD');
+           td.width='75';
+           td.appendChild(document.createTextNode("Cell " + i + "," + j));
+           tr.appendChild(td);
+       }
+    }
+    myTableDiv.appendChild(table);
+    
+}*/
