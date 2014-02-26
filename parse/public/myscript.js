@@ -1,15 +1,19 @@
 $(function() {
+  // Hide our spinners
   $("#menuloading").hide();
   $("#nutritionloading").hide();
-  $("#menusUploading").hide();
+  $("#menusUpdating").hide();
   $("#savingTimesSpinner").hide();
 
+  // Set up parse code things
+  var parseRESTAPIKey = 'MaU8mQTxCp6IfpZZQ2jKWi9RO2LpMwQe2jy8WZlt';
   var javascriptKey = '50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc';
   var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
   Parse.initialize(parseAppId, javascriptKey);
 
-
+  // Set up times table
   var timesQuery = new Parse.Query("Times");
+  timesQuery.ascending("createdAt");
   timesQuery.find({
     success: function(times) {
       if (4 == times.length) { // There should be 4 rows in the times table
@@ -17,7 +21,11 @@ $(function() {
         var lunch = times[1];
         var dinner = times[2];
         var outtakes = times[3];
-
+        addRow(bFast, "Breakfast");
+        addRow(lunch, "Lunch");
+        addRow(dinner, "Dinner");
+        addRow(outtakes, "Outtakes");
+        $("#timesloading").hide();
       }
     },
     error: function(data) {
@@ -26,19 +34,15 @@ $(function() {
     }
   });
 
-
-
-  $("#b-mon").val('12345');
-
+  // vars to hold the files selected by the choose file buttons
   var menufile;
   var nutritionfile;
-  var parseRESTAPIKey = 'MaU8mQTxCp6IfpZZQ2jKWi9RO2LpMwQe2jy8WZlt';
 
+  // set the file selectors to the holders
   $('#menufileselect').bind("change", function(e) {
     var menufiles = e.target.files || e.dataTransfer.files;
     menufile = menufiles[0];
   });
-
   $('#nutritionfileselect').bind("change", function(e) {
     var nutritionfiles = e.target.files || e.dataTransfer.files;
     nutritionfile = nutritionfiles[0];
@@ -46,8 +50,7 @@ $(function() {
 
   // Call cloud function update menus
   $('#updateButton').click(function() {
-    $("#menusUploading").show();
-
+    $("#menusUpdating").show();
 
     // This one doesn't seem to do anything
     /*
@@ -60,11 +63,11 @@ $(function() {
         'X-Parse-Master-Key': 'yLV2Mk9Eft2yhTHAcHvbTbxc5JRJJIyEPEpOIyCD'
       },
       success: function(httpResponse) {
-        $("#menusUploading").hide();
+        $("#menusUpdating").hide();
         alert(httpResponse.text);
       },
       error: function(httpResponse) {
-        $("#menusUploading").hide();
+        $("#menusUpdating").hide();
         alert('Request failed with response code ' + httpResponse.status);
       }
     });*/
@@ -74,25 +77,18 @@ $(function() {
     /*
     Parse.Cloud.run('update_menus_trigger', {}, {
       success: function(results) {
-        $("#menusUploading").hide();
+        $("#menusUpdating").hide();
         var fromParse = JSON.parse(results);
         var objectId = fromParse.objectId;
         alert(objectId);
       },
       error: function(data) {
-        $("#menusUploading").hide();
+        $("#menusUpdating").hide();
         var obj = jQuery.parseJSON(data);
         alert(obj.error);
       }
     });*/
-    $("#menusUploading").hide(); // REMOVE THIS EVENTUALLY (and only hide when the asynchronous task finsihes)
-  });
-
-  // Update times table in parse
-  $('#saveTimesButton').click(function() {
-    $("#savingTimesSpinner").show();
-
-    $("#savingTimesSpinner").hide(); // REMOVE THIS EVENTUALLY (and only hide when the asynchronous task finsihes)
+    $("#menusUpdating").hide(); // REMOVE THIS EVENTUALLY (and only hide when the asynchronous task finsihes)
   });
 
   // Upload menu to Parse on Click
@@ -206,10 +202,91 @@ $(function() {
       }
     });
   });
+
+  // Update times table in parse
+  $('#saveTimesButton').click(function() {
+    $("#savingTimesSpinner").show();
+    timesQuery.find({
+      success: function(times) {
+        if (4 == times.length) { // There should be 4 rows in the times table
+          times[0] = storeRow(times[0], 1);
+          times[1] = storeRow(times[1], 2);
+          times[2] = storeRow(times[2], 3);
+          times[3] = storeRow(times[3], 4);
+
+          Parse.Object.saveAll(times, {
+            success: function(times) {
+              $("#savingTimesSpinner").hide();
+              alert("Meal times updated");
+            },
+            error: function(data) {
+              $("#savingTimesSpinner").hide();
+              var obj = jQuery.parseJSON(data);
+              alert(obj.error);
+            }
+          });
+        }
+      },
+      error: function(data) {
+        var obj = jQuery.parseJSON(data);
+        alert(obj.error);
+      }
+    });
+  });
 });
 
+function addRow(meal, mealName) {
+  var table = document.getElementById("timesTable");
+  var rowCount = table.rows.length;
+  var row = table.insertRow(rowCount);
+  row.insertCell(-1).innerHTML = mealName;
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Monday") + '"" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Tuesday") + '"" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Wednesday") + '"" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Thursday") + '"" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Friday") + '"" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Saturday") + '"" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Sunday") + '"" />';
+}
+
+function storeRow(meal, rowNum) {
+  var cells = document.getElementById("timesTable").rows[rowNum].cells;
+  for (var i = 1; i < 8; i++) {
+    var cellVal = cells[i].innerHTML;
+    cellVal = cellVal.replace('<input type="text" value="', '');
+    cellVal = cellVal.replace('" "="">', '');
+    var dayOfWeek;
+    switch (i) {
+      case 1:
+        dayOfWeek = "Monday";
+        break;
+      case 2:
+        dayOfWeek = "Tuesday";
+        break;
+      case 3:
+        dayOfWeek = "Wednesday";
+        break;
+      case 4:
+        dayOfWeek = "Thursday";
+        break;
+      case 5:
+        dayOfWeek = "Friday";
+        break;
+      case 6:
+        dayOfWeek = "Saturday";
+        break;
+      default:
+        dayOfWeek = "Sunday";
+        break;
+    }
+    meal.set(dayOfWeek, cellVal); // WHY ISN'T THIS WORKING??????????????????????????????
+    //alert(meal.get(dayOfWeek));
+  }
+  return meal;
+}
+
 /*
-    $("menusUploading").show();
+    $("#menusUpdating").show();
 
     var https = require('https');
     var net = require('net');
@@ -240,7 +317,7 @@ $(function() {
     post_req.on('error', function(e) {
       console.error(e);
     });
-    $("menusUploading").hide();
+    $("#menusUpdating").hide();
     */
 
 
@@ -258,54 +335,12 @@ $(function() {
       processData: false,
       contentType: false,
       success: function(data) {
-        $("#menusUploading").hide();
+        $("#menusUpdating").hide();
         alert("Menu Updated");
       },
       error: function(data) {
-        $("#menusUploading").hide();
+        $("#menusUpdating").hide();
         var obj = jQuery.parseJSON(data);
         alert(obj.error);
       }
     });*/
-
-
-
-/*
-function addRow() {
-          
-    var myName = document.getElementById("name");
-    var age = document.getElementById("age");
-    var table = document.getElementById("myTableData");
- 
-    var rowCount = table.rows.length;
-    var row = table.insertRow(rowCount);
- 
-    row.insertCell(0).innerHTML= "Meal";
-    row.insertCell(1).innerHTML= myName.value;
-    row.insertCell(2).innerHTML= age.value;
- 
-}
- 
-function addTable() {
-      
-    var myTableDiv = document.getElementById("myDynamicTable");
-      
-    var table = document.createElement('TABLE');
-    
-    var tableBody = document.createElement('TBODY');
-    table.appendChild(tableBody);
-      
-    for (var i=0; i<3; i++){
-       var tr = document.createElement('TR');
-       tableBody.appendChild(tr);
-       
-       for (var j=0; j<4; j++){
-           var td = document.createElement('TD');
-           td.width='75';
-           td.appendChild(document.createTextNode("Cell " + i + "," + j));
-           tr.appendChild(td);
-       }
-    }
-    myTableDiv.appendChild(table);
-    
-}*/
