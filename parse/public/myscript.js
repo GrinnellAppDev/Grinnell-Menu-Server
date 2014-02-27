@@ -210,9 +210,9 @@ $(function() {
       success: function(times) {
         if (4 == times.length) { // There should be 4 rows in the times table
           times[0] = storeRow(times[0], 1);
-          times[1] = storeRow(times[1], 2);
-          times[2] = storeRow(times[2], 3);
-          times[3] = storeRow(times[3], 4);
+          // times[1] = storeRow(times[1], 2);
+          // times[2] = storeRow(times[2], 3);
+          // times[3] = storeRow(times[3], 4);
 
           Parse.Object.saveAll(times, {
             success: function(times) {
@@ -228,6 +228,7 @@ $(function() {
         }
       },
       error: function(data) {
+        $("#savingTimesSpinner").hide();
         var obj = jQuery.parseJSON(data);
         alert(obj.error);
       }
@@ -239,14 +240,23 @@ function addRow(meal, mealName) {
   var table = document.getElementById("timesTable");
   var rowCount = table.rows.length;
   var row = table.insertRow(rowCount);
+
+  //   row.insertCell(-1).innerHTML = mealName;
+  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Monday") + '" onchange="updateCell()" />';
+  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Tuesday") + '" onchange="updateCell()" />';
+  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Wednesday") + '" onchange="updateCell()" />';
+  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Thursday") + '" onchange="updateCell()" />';
+  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Friday") + '" onchange="updateCell()" />';
+  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Saturday") + '" onchange="updateCell()" />';
+  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Sunday") + '" onchange="updateCell()" />';
   row.insertCell(-1).innerHTML = mealName;
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Monday") + '"" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Tuesday") + '"" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Wednesday") + '"" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Thursday") + '"" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Friday") + '"" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Saturday") + '"" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Sunday") + '"" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Monday") + '" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Tuesday") + '" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Wednesday") + '" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Thursday") + '" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Friday") + '" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Saturday") + '" />';
+  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Sunday") + '" />';
 }
 
 function storeRow(meal, rowNum) {
@@ -254,7 +264,11 @@ function storeRow(meal, rowNum) {
   for (var i = 1; i < 8; i++) {
     var cellVal = cells[i].innerHTML;
     cellVal = cellVal.replace('<input type="text" value="', '');
-    cellVal = cellVal.replace('" "="">', '');
+    cellVal = cellVal.replace('" />', '');
+    cellVal = cellVal.replace('">', '');
+
+    alert("cellVal: " + cellVal);
+
     var dayOfWeek;
     switch (i) {
       case 1:
@@ -279,7 +293,7 @@ function storeRow(meal, rowNum) {
         dayOfWeek = "Sunday";
         break;
     }
-    meal.set(dayOfWeek, cellVal); // WHY ISN'T THIS WORKING??????????????????????????????
+    meal.set(dayOfWeek, cellVal);
     //alert(meal.get(dayOfWeek));
   }
   return meal;
