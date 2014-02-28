@@ -53,7 +53,6 @@ $(function() {
     $("#menusUpdating").show();
 
     // This one doesn't seem to do anything
-    /*
     Parse.Cloud.httpRequest({
       url: "https://api.parse.com/1/jobs/update_menus",
       method: 'POST',
@@ -70,7 +69,7 @@ $(function() {
         $("#menusUpdating").hide();
         alert('Request failed with response code ' + httpResponse.status);
       }
-    });*/
+    });
 
     // This one calls the trigger correctly, but it fails with a weird error:
     //     Uncaught SyntaxError: Unexpected end of input in <unknown file>:0
@@ -210,9 +209,9 @@ $(function() {
       success: function(times) {
         if (4 == times.length) { // There should be 4 rows in the times table
           times[0] = storeRow(times[0], 1);
-          // times[1] = storeRow(times[1], 2);
-          // times[2] = storeRow(times[2], 3);
-          // times[3] = storeRow(times[3], 4);
+          times[1] = storeRow(times[1], 2);
+          times[2] = storeRow(times[2], 3);
+          times[3] = storeRow(times[3], 4);
 
           Parse.Object.saveAll(times, {
             success: function(times) {
@@ -266,8 +265,9 @@ function storeRow(meal, rowNum) {
     cellVal = cellVal.replace('<input type="text" value="', '');
     cellVal = cellVal.replace('" />', '');
     cellVal = cellVal.replace('">', '');
-
-    alert("cellVal: " + cellVal);
+    console.log(cellVal);
+    // alert(cells[i].innerHTML);
+    // alert(cells[i].children); // [object HTMLCollection]
 
     var dayOfWeek;
     switch (i) {

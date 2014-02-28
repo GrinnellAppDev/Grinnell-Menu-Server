@@ -1,3 +1,40 @@
+Parse.Cloud.job("create_nutrition_database", function(request, response) {
+	var query = new Parse.Query("NutritionFile");
+	query.first({
+		success: function(result) {
+			var file = result.get("file");
+			Parse.Cloud.httpRequest({
+				url: file.url,
+				success: function(fileResponse) {
+					var xml = fileResponse.buffer.toString();
+					var xmlreader = require('cloud/xmlreader.js');
+
+					xmlreader.read(xml, function(err, res) {
+						if (err) {
+							return console.log(err);
+						}
+
+						console.log(res.d_itm_recipe_perportion_nutr_analysis.d_itm_recipe_perportion_nutr_analysis_row.srv_name.text());
+
+						// var path = res.d_itm_recipe_perportion_nutr_analysis;
+						// path.d_itm_recipe_perportion_nutr_analysis_row.each(function(i, dish) {
+						// 	console.log(dish.srv_name.text());
+
+					});
+
+					response.success("Loaded nutrition file, ready to parse it");
+				},
+				error: function(error) {
+					response.error("Error getting file: " + error.message);
+				}
+			});
+		},
+		error: function(error) {
+			response.error("Error querying nutrition file info: " + error.message);
+		}
+	})
+});
+
 Parse.Cloud.define("update_menus_trigger", function(request, response) {
 	var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
 	Parse.Cloud.httpRequest({
