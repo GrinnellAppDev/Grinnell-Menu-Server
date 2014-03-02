@@ -38,47 +38,15 @@ $(function() {
   var menufile;
   var nutritionfile;
 
-  var options = {
-
-    // Required. Called when a user selects an item in the Chooser.
-    success: function(files) {
-      nutritionfile = files[0].link;
-    },
-
-    // Optional. Called when the user closes the dialog without selecting a file
-    // and does not include any parameters.
-    cancel: function() {
-
-    },
-
-    // Optional. "preview" (default) is a preview link to the document for sharing,
-    // "direct" is an expiring link to download the contents of the file. For more
-    // information about link types, see Link types below.
-    linkType: "preview", // or "direct"
-
-    // Optional. A value of false (default) limits selection to a single file, while
-    // true enables multiple file selection.
-    multiselect: false, // or true
-
-    // Optional. This is a list of file extensions. If specified, the user will
-    // only be able to select files with these extensions. You may also specify
-    // file types, such as "video" or "images" in the list. For more information,
-    // see File types below. By default, all extensions are allowed.
-    extensions: ['.xml'],
-  };
-
-  var button = Dropbox.createChooseButton(options);
-  document.getElementById("nutritionChooser").appendChild(button);
-
   // set the file selectors to the holders
   $('#menufileselect').bind("change", function(e) {
     var menufiles = e.target.files || e.dataTransfer.files;
     menufile = menufiles[0];
   });
-  // $('#nutritionfileselect').bind("change", function(e) {
-  //   var nutritionfiles = e.target.files || e.dataTransfer.files;
-  //   nutritionfile = nutritionfiles[0];
-  // });
+  $('#nutritionfileselect').bind("change", function(e) {
+    var nutritionfiles = e.target.files || e.dataTransfer.files;
+    nutritionfile = nutritionfiles[0];
+  });
 
   // Call cloud function update menus
   $('#updateButton').click(function() {
