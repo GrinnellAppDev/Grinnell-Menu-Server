@@ -119,7 +119,7 @@ Parse.Cloud.job("update_menus", function(request, response) {
 									var vegan = false;
 									var passover = false;
 									var halal = false;
-									var nutrition;
+									var ignoreNutrition = false;
 									name = name.toLowerCase();
 
 									// Handle dairy free some time?
@@ -220,9 +220,7 @@ Parse.Cloud.job("update_menus", function(request, response) {
 									name.charAt(0).toUpperCase();
 
 									if (!strcmp(name, "Belgian Waffle Bar") || !strcmp(name, "Chicken for Risotto Bar") || !strcmp(name, "Meats for Risotto Bar") || !strcmp(name, "Brioche Bread") || !strcmp(name, "Whipped Topping (32 Oz)") || !strcmp(name, "Pho Bar") || !strcmp(name, "Whipped Topping") || !strcmp(name, "Sukiyaki Bar") || !strcmp(name, "Burrito Bar") || !strcmp(name, "Mac & Cheese Bar") || !strcmp(name, "Burrito Bar (Saute)") || !strcmp(name, "Cilantro Pesto Sauce") || !strcmp(name, "Burrito Bar (8th Avenue Deli)") || !strcmp(name, "Paella Bar") || !strcmp(name, "Potato Skin Bar") || !strcmp(name, "Asian Noodle House") || !strcmp(name, "Baked Potato Bar") || !strcmp(name, "Steel Cut Oatmeal Bar") || !strcmp(name, "Cheese Quesadilla Bar") || !strcmp(name, "Chicken Strips") || !strcmp(name, "Chicken Nuggets") || !strcmp(name, "Beef Burritos") || !strcmp(name, "Homemade Tortilla Chips at the Grill") || !strcmp(name, "Nacho Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream") || !strcmp(name, "Beef Taco Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream listed under Condiments")) {
-										nutrition = null;
-									} else {
-										nutrition = fetchNutrition(identificationNumber);
+										ignoreNutrition = true;
 									}
 
 									if (undefined === dish) {
@@ -233,7 +231,11 @@ Parse.Cloud.job("update_menus", function(request, response) {
 										newDish.set("Ovolacto", ovo);
 										newDish.set("Halal", halal);
 										newDish.set("GlutenFree", gf);
-										newDish.set("Nutrition", nutrition);
+										if (!ignoreNutrition) {
+											newDish.set("Nutrition", fetchNutrition(identificationNumber));
+										} else {
+											newDish.set("Nutrition", null);
+										}
 										newDish.set("name", name);
 										newDish.set("dishID", identificationNumber);
 										newDish.set("favoritesCount", 0);
@@ -244,7 +246,11 @@ Parse.Cloud.job("update_menus", function(request, response) {
 										dish.set("Ovolacto", ovo);
 										dish.set("Halal", halal);
 										dish.set("GlutenFree", gf);
-										dish.set("Nutrition", nutrition);
+										if (!ignoreNutrition) {
+											dish.set("Nutrition", fetchNutrition(identificationNumber));
+										} else {
+											dish.set("Nutrition", null);
+										}
 										dish.set("name", name);
 										dishesHashMap[identificationNumber] = dish;
 									}
