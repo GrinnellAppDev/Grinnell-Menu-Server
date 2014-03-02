@@ -1,3 +1,28 @@
+var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
+var parseMasterKey = 'yLV2Mk9Eft2yhTHAcHvbTbxc5JRJJIyEPEpOIyCD';
+
+Parse.Cloud.define("create_nutrition_database_trigger", function(request, response) {
+	Parse.Cloud.httpRequest({
+		url: "https://api.parse.com/1/jobs/create_nutrition_database",
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json',
+			'X-Parse-Application-Id': parseAppId,
+			'X-Parse-Master-Key': parseMasterKey,
+		},
+		body: {
+			"request": request,
+			"response": response
+		},
+		success: function(httpResponse) {
+			response.success(httpResponse.text);
+		},
+		error: function(httpResponse) {
+			response.error('Request failed with response code ' + httpResponse.status);
+		}
+	});
+});
+
 Parse.Cloud.job("create_nutrition_database", function(request, response) {
 	var query = new Parse.Query("NutritionFile");
 	query.first({
@@ -36,14 +61,13 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 });
 
 Parse.Cloud.define("update_menus_trigger", function(request, response) {
-	var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
 	Parse.Cloud.httpRequest({
 		url: "https://api.parse.com/1/jobs/update_menus",
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json',
 			'X-Parse-Application-Id': parseAppId,
-			'X-Parse-Master-Key': 'yLV2Mk9Eft2yhTHAcHvbTbxc5JRJJIyEPEpOIyCD',
+			'X-Parse-Master-Key': parseMasterKey,
 		},
 		body: {
 			"request": request,

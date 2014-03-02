@@ -158,8 +158,23 @@ $(function() {
             nutritionFile.set("file", data);
             nutritionFile.save(null, {
               success: function(object) {
-                $("#nutritionloading").hide();
-                alert("Nutrition file uploaded");
+                Parse.Cloud.run('create_nutrition_database_trigger', {}, {
+                  success: function(results) {
+                    $("#nutritionloading").hide();
+                    var fromParse = JSON.parse(results);
+                    var objectId = fromParse.objectId;
+                    if (undefined == objectId) {
+                      alert("Nutrition file uploaded, database updating. Please wait __ minutes before updating menus");
+                    } else {
+                      alert(objectId);
+                    }
+                  },
+                  error: function(data) {
+                    $("#nutritionloading").hide();
+                    var obj = jQuery.parseJSON(data);
+                    alert(obj.error);
+                  }
+                });
               },
               error: function(data) {
                 $("#nutritionloading").hide();
