@@ -12,3 +12,16 @@ body {
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
 }
+
+#timesTable td {
+	border: 1px solid gray;
+	padding: 0px 15px 0px 15px;
+}
+
+#main table {
+	margin: auto;
+}
+
+#main table #mealName {
+	border: none;
+}

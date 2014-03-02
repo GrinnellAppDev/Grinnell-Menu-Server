@@ -38,15 +38,47 @@ $(function() {
   var menufile;
   var nutritionfile;
 
+  var options = {
+
+    // Required. Called when a user selects an item in the Chooser.
+    success: function(files) {
+      nutritionfile = files[0].link;
+    },
+
+    // Optional. Called when the user closes the dialog without selecting a file
+    // and does not include any parameters.
+    cancel: function() {
+
+    },
+
+    // Optional. "preview" (default) is a preview link to the document for sharing,
+    // "direct" is an expiring link to download the contents of the file. For more
+    // information about link types, see Link types below.
+    linkType: "preview", // or "direct"
+
+    // Optional. A value of false (default) limits selection to a single file, while
+    // true enables multiple file selection.
+    multiselect: false, // or true
+
+    // Optional. This is a list of file extensions. If specified, the user will
+    // only be able to select files with these extensions. You may also specify
+    // file types, such as "video" or "images" in the list. For more information,
+    // see File types below. By default, all extensions are allowed.
+    extensions: ['.xml'],
+  };
+
+  var button = Dropbox.createChooseButton(options);
+  document.getElementById("nutritionChooser").appendChild(button);
+
   // set the file selectors to the holders
   $('#menufileselect').bind("change", function(e) {
     var menufiles = e.target.files || e.dataTransfer.files;
     menufile = menufiles[0];
   });
-  $('#nutritionfileselect').bind("change", function(e) {
-    var nutritionfiles = e.target.files || e.dataTransfer.files;
-    nutritionfile = nutritionfiles[0];
-  });
+  // $('#nutritionfileselect').bind("change", function(e) {
+  //   var nutritionfiles = e.target.files || e.dataTransfer.files;
+  //   nutritionfile = nutritionfiles[0];
+  // });
 
   // Call cloud function update menus
   $('#updateButton').click(function() {
@@ -236,35 +268,37 @@ function addRow(meal, mealName) {
   var rowCount = table.rows.length;
   var row = table.insertRow(rowCount);
 
-  //   row.insertCell(-1).innerHTML = mealName;
-  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Monday") + '" onchange="updateCell()" />';
-  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Tuesday") + '" onchange="updateCell()" />';
-  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Wednesday") + '" onchange="updateCell()" />';
-  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Thursday") + '" onchange="updateCell()" />';
-  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Friday") + '" onchange="updateCell()" />';
-  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Saturday") + '" onchange="updateCell()" />';
-  //   row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Sunday") + '" onchange="updateCell()" />';
-  row.insertCell(-1).innerHTML = mealName;
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Monday") + '" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Tuesday") + '" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Wednesday") + '" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Thursday") + '" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Friday") + '" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Saturday") + '" />';
-  row.insertCell(-1).innerHTML = '<input type="text" value="' + meal.get("Sunday") + '" />';
+  var cell = row.insertCell(-1);
+  cell.innerHTML = mealName;
+  cell.id = "mealName";
+
+  cell = row.insertCell(-1);
+  cell.contentEditable = true;
+  cell.innerHTML = meal.get("Monday");
+  cell = row.insertCell(-1);
+  cell.contentEditable = true;
+  cell.innerHTML = meal.get("Tuesday");
+  cell = row.insertCell(-1);
+  cell.contentEditable = true;
+  cell.innerHTML = meal.get("Wednesday");
+  cell = row.insertCell(-1);
+  cell.contentEditable = true;
+  cell.innerHTML = meal.get("Thursday");
+  cell = row.insertCell(-1);
+  cell.contentEditable = true;
+  cell.innerHTML = meal.get("Friday");
+  cell = row.insertCell(-1);
+  cell.contentEditable = true;
+  cell.innerHTML = meal.get("Saturday");
+  cell = row.insertCell(-1);
+  cell.contentEditable = true;
+  cell.innerHTML = meal.get("Sunday");
 }
 
 function storeRow(meal, rowNum) {
   var cells = document.getElementById("timesTable").rows[rowNum].cells;
   for (var i = 1; i < 8; i++) {
     var cellVal = cells[i].innerHTML;
-    cellVal = cellVal.replace('<input type="text" value="', '');
-    cellVal = cellVal.replace('" />', '');
-    cellVal = cellVal.replace('">', '');
-    console.log(cellVal);
-    // alert(cells[i].innerHTML);
-    // alert(cells[i].children); // [object HTMLCollection]
-
     var dayOfWeek;
     switch (i) {
       case 1:
@@ -290,67 +324,6 @@ function storeRow(meal, rowNum) {
         break;
     }
     meal.set(dayOfWeek, cellVal);
-    //alert(meal.get(dayOfWeek));
   }
   return meal;
 }
-
-/*
-    $("#menusUpdating").show();
-
-    var https = require('https');
-    var net = require('net');
-
-    var headers = {
-      'Content-Type': 'application/json',
-      'X-Parse-Application-Id': parseAppId,
-      'X-Parse-REST-API-Key': parseRESTAPIKey
-    };
-
-    var post_options = {
-      host: 'api.parse.com',
-      port: '443',
-      path: '/1/functions/update_menus',
-      method: 'POST',
-      headers: headers
-    };
-
-    var post_req = https.request(post_options, function(res) {
-      console.log("Parse post statusCode: ", res.statusCode);
-      res.on('data', function(d) {
-        process.stdout.write(d);
-      });
-    });
-
-    post_req.write("{}");
-    post_req.end();
-    post_req.on('error', function(e) {
-      console.error(e);
-    });
-    $("#menusUpdating").hide();
-    */
-
-
-/*
-    var methodUrl = "https://api.parse.com/1/functions/update_menus";
-
-    $.ajax({
-      type: "POST",
-      beforeSend: function(request) {
-        request.setRequestHeader("X-Parse-Application-Id", parseAppId);
-        request.setRequestHeader("X-Parse-REST-API-Key", parseRESTAPIKey);
-        request.setRequestHeader("Content-Type", "application/json");
-      },
-      url: methodUrl,
-      processData: false,
-      contentType: false,
-      success: function(data) {
-        $("#menusUpdating").hide();
-        alert("Menu Updated");
-      },
-      error: function(data) {
-        $("#menusUpdating").hide();
-        var obj = jQuery.parseJSON(data);
-        alert(obj.error);
-      }
-    });*/

@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.16.min.js"></script>
+  <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="zl9f9onov2k1bkt"></script>
 </head>
 
 <body>
@@ -24,12 +25,15 @@
   </div>
 
   <div id="main">
+    <div id="nutritionChooser">
+    </div>
+    <!--
     <form id="fileupload" name="fileupload" enctype="multipart/form-data" method="post">
       <fieldset>
         <input type="file" name="nutritionfileselect" id="nutritionfileselect"></input>
         <input id="uploadNUTRITIONbutton" type="button" value="Upload nutrition to Parse"/>
       </fieldset>
-    </form>
+    </form> -->
     <div id="nutritionloading">
       <img src="./ajax-loader.gif"/>
     </div>
