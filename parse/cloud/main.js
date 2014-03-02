@@ -32,6 +32,7 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 				url: file.url,
 				success: function(fileResponse) {
 					var xml = fileResponse.buffer.toString();
+					xml = xml.replace('<?xml version="1.0" encoding="UTF-16LE" standalone="no"?>', '');
 					var xmlreader = require('cloud/xmlreader.js');
 
 					xmlreader.read(xml, function(err, res) {
@@ -105,25 +106,143 @@ Parse.Cloud.job("update_menus", function(request, response) {
 						// Skip over all the spencer grill items that aren't out takes
 						if (0 <= meal.indexOf("OUT TAKES") || 0 <= location.indexOf("MARKETPLACE")) {
 							var date = dishRow[21].toString().replace('0:00', '').trim();
-							var name = dishRow[8].toString().trim();
 							var identificationNumber = dishRow[12];
 							var station = dishRow[7].toString().trim();
+							var name = dishRow[8].toString().trim();
 
 							var dishQuery = new Parse.Query("Dish");
 							dishQuery.equalTo("dishID", identificationNumber);
 							dishQuery.first({
 								success: function(dish) {
+									var ovo = false;
+									var gf = false;
+									var vegan = false;
+									var passover = false;
+									var halal = false;
+									var nutrition;
+									name = name.toLowerCase();
+
+									// Handle dairy free some time?
+									name = name.replace('df', '');
+
+									// ovolacto
+									var length1 = name.length;
+									name = name.replace("ol*", "");
+									name = name.replace("(ol)", "");
+									name = name.replace("9ol)", "");
+									var length2 = name.length;
+									if (length2 != length1) {
+										ovo = true;
+									}
+
+									// vegan
+									name = name.replace("v*", "");
+									name = name.replace("(v)", "");
+									name = name.replace("9v)", "");
+									length1 = name.length;
+									if (length2 != length1) {
+										vegan = true;
+									}
+
+									// passover
+									name = name.replace("p*", "");
+									name = name.replace("(p)", "");
+									name = name.replace("9p)", "");
+									length2 = name.length;
+									if (length2 != length1) {
+										passover = true;
+									}
+
+									// halal
+									name = name.replace("h*", "");
+									name = name.replace("(h)", "");
+									name = name.replace("9h)", "");
+									length1 = name.length;
+									if (length2 != length1) {
+										halal = true;
+									}
+
+									// gluten free
+									name = name.replace("gf*", "");
+									name = name.replace("(gf)", "");
+									name = name.replace("9gf)", "");
+									length2 = name.length;
+									if (length2 != length1) {
+										gf = true;
+									}
+
+									//This cleans up the dish name a little more
+									name = name.replace("*", "");
+									name = name.replace("/", "/ ");
+									name = name.replace(".", ". ");
+									name = name.replace("(", "( ");
+									name = name.replace("-", "- ");
+									name = name.replace("\"", "\" ");
+									name = name.replace("'", "' ");
+									name = toTitleCase(name);
+									name = name.replace(" W/", " w/");
+									name = name.replace(" A ", " a ");
+									name = name.replace(" At ", " at ");
+									name = name.replace(" On ", " on ");
+									name = name.replace(" And ", " and ");
+									name = name.replace(" Of ", " of ");
+									name = name.replace(" The ", " the ");
+									name = name.replace(" For ", " for ");
+									name = name.replace(" To ", " to ");
+									name = name.replace(" In ", " in ");
+									name = name.replace(" With ", " w/");
+									name = name.replace("/ ", "/");
+									name = name.replace("/ ", "/");
+									name = name.replace(". ", ".");
+									name = name.replace("( ", "(");
+									name = name.replace("- ", "-");
+									name = name.replace("\" ", "\"");
+									name = name.replace("\"t", "\"T");
+									name = name.replace("' ", "'");
+									name = name.replace("  ", " ");
+									name = name.replace("Bbq", "BBQ");
+									name = name.replace("Nyc", "NYC");
+									name = name.replace(" Ww ", " WW "); //Whole wheat
+									name = name.replace("Cider-glazed", "Cider-Glazed");
+									name = name.replace("(red", "(Red");
+									name = name.replace("Frank'S", "Frank's");
+									name = name.replace("Scott'S", "Scott's");
+									name = name.replace("Devil'S", "Devil's");
+									name = name.replace("Shepherd'S", "Shepherd's");
+									name = name.replace("Buddha'S", "Buddha's");
+									name = name.replace("M & M", "M&M");
+									name = name.replace("M&m", "M&M");
+									name = name.replace("(Plat Du Jour)", "");
+									name = name.replace("(Hoh)", "");
+									name = name.replace("(2)", "");
+									name = name.trim();
+									name.charAt(0).toUpperCase();
+
+									if (!strcmp(name, "Belgian Waffle Bar") || !strcmp(name, "Chicken for Risotto Bar") || !strcmp(name, "Meats for Risotto Bar") || !strcmp(name, "Brioche Bread") || !strcmp(name, "Whipped Topping (32 Oz)") || !strcmp(name, "Pho Bar") || !strcmp(name, "Whipped Topping") || !strcmp(name, "Sukiyaki Bar") || !strcmp(name, "Burrito Bar") || !strcmp(name, "Mac & Cheese Bar") || !strcmp(name, "Burrito Bar (Saute)") || !strcmp(name, "Cilantro Pesto Sauce") || !strcmp(name, "Burrito Bar (8th Avenue Deli)") || !strcmp(name, "Paella Bar") || !strcmp(name, "Potato Skin Bar") || !strcmp(name, "Asian Noodle House") || !strcmp(name, "Baked Potato Bar") || !strcmp(name, "Steel Cut Oatmeal Bar") || !strcmp(name, "Cheese Quesadilla Bar") || !strcmp(name, "Chicken Strips") || !strcmp(name, "Chicken Nuggets") || !strcmp(name, "Beef Burritos") || !strcmp(name, "Homemade Tortilla Chips at the Grill") || !strcmp(name, "Nacho Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream") || !strcmp(name, "Beef Taco Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream listed under Condiments"))
+										nutrition = null;
+									else {
+										nutrition = fetchNutrition(dishID);
+									}
+
 									if (undefined === dish) {
 										var Dish = Parse.Object.extend("Dish");
 										var newDish = new Dish();
+										newDish.set("Passover", passover);
+										newDish.set("Vegan", vegan);
+										newDish.set("Ovolacto", ovo);
+										newDish.set("Halal", halal);
+										newDish.set("GlutenFree", gf);
 										newDish.set("name", name);
 										newDish.set("dishID", identificationNumber);
 										newDish.set("favoritesCount", 0);
 										dishesHashMap[identificationNumber] = newDish;
 									} else {
-										// TODO - Update flags here
+										dish.set("Passover", passover);
+										dish.set("Vegan", vegan);
+										dish.set("Ovolacto", ovo);
+										dish.set("Halal", halal);
+										dish.set("GlutenFree", gf);
 										dish.set("name", name);
-										console.log("Renaming dish with dishID: " + identificationNumber);
 										dishesHashMap[identificationNumber] = dish;
 									}
 									saveAllDishes(dishesHashMap, --counter, response, output);
@@ -147,6 +266,21 @@ Parse.Cloud.job("update_menus", function(request, response) {
 		}
 	});
 });
+
+function strcmp(str1, str2) {
+	return ((str1 == str2) ? 0 : ((str1 > str2) ? 1 : -1));
+}
+
+function toTitleCase(str) {
+	return str.replace(/\w\S*/g, function(txt) {
+		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	});
+}
+
+function fetchNutrition(dishId) {
+	// TODO - Query the nutrition database and point to the correct entry
+	return null;
+}
 
 function saveAllDishes(dishesHashMap, counter, response, output) {
 	if (checkLastDish(counter)) {
