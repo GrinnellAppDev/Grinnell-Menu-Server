@@ -219,9 +219,9 @@ Parse.Cloud.job("update_menus", function(request, response) {
 									name = name.trim();
 									name.charAt(0).toUpperCase();
 
-									if (!strcmp(name, "Belgian Waffle Bar") || !strcmp(name, "Chicken for Risotto Bar") || !strcmp(name, "Meats for Risotto Bar") || !strcmp(name, "Brioche Bread") || !strcmp(name, "Whipped Topping (32 Oz)") || !strcmp(name, "Pho Bar") || !strcmp(name, "Whipped Topping") || !strcmp(name, "Sukiyaki Bar") || !strcmp(name, "Burrito Bar") || !strcmp(name, "Mac & Cheese Bar") || !strcmp(name, "Burrito Bar (Saute)") || !strcmp(name, "Cilantro Pesto Sauce") || !strcmp(name, "Burrito Bar (8th Avenue Deli)") || !strcmp(name, "Paella Bar") || !strcmp(name, "Potato Skin Bar") || !strcmp(name, "Asian Noodle House") || !strcmp(name, "Baked Potato Bar") || !strcmp(name, "Steel Cut Oatmeal Bar") || !strcmp(name, "Cheese Quesadilla Bar") || !strcmp(name, "Chicken Strips") || !strcmp(name, "Chicken Nuggets") || !strcmp(name, "Beef Burritos") || !strcmp(name, "Homemade Tortilla Chips at the Grill") || !strcmp(name, "Nacho Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream") || !strcmp(name, "Beef Taco Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream listed under Condiments"))
+									if (!strcmp(name, "Belgian Waffle Bar") || !strcmp(name, "Chicken for Risotto Bar") || !strcmp(name, "Meats for Risotto Bar") || !strcmp(name, "Brioche Bread") || !strcmp(name, "Whipped Topping (32 Oz)") || !strcmp(name, "Pho Bar") || !strcmp(name, "Whipped Topping") || !strcmp(name, "Sukiyaki Bar") || !strcmp(name, "Burrito Bar") || !strcmp(name, "Mac & Cheese Bar") || !strcmp(name, "Burrito Bar (Saute)") || !strcmp(name, "Cilantro Pesto Sauce") || !strcmp(name, "Burrito Bar (8th Avenue Deli)") || !strcmp(name, "Paella Bar") || !strcmp(name, "Potato Skin Bar") || !strcmp(name, "Asian Noodle House") || !strcmp(name, "Baked Potato Bar") || !strcmp(name, "Steel Cut Oatmeal Bar") || !strcmp(name, "Cheese Quesadilla Bar") || !strcmp(name, "Chicken Strips") || !strcmp(name, "Chicken Nuggets") || !strcmp(name, "Beef Burritos") || !strcmp(name, "Homemade Tortilla Chips at the Grill") || !strcmp(name, "Nacho Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream") || !strcmp(name, "Beef Taco Bar") || !strcmp(name, "Cheddar Cheese & Sour Cream listed under Condiments")) {
 										nutrition = null;
-									else {
+									} else {
 										nutrition = fetchNutrition(identificationNumber);
 									}
 
@@ -281,8 +281,16 @@ function toTitleCase(str) {
 }
 
 function fetchNutrition(dishId) {
-	// TODO - Query the nutrition database and point to the correct entry
-	return null;
+	var nutritionQuery = new Parse.Query("Nutrition");
+	nutritionQuery.equalTo("dishID", dishId);
+	nutritionQuery.first({
+		success: function(nutrition) {
+			return nutrition;
+		},
+		error: function(error) {
+			return null;
+		}
+	});
 }
 
 function saveAllDishes(dishesHashMap, counter, response, output) {
