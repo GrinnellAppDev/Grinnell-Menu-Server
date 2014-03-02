@@ -142,6 +142,7 @@ Parse.Cloud.job("update_menus", function(request, response) {
 									length1 = name.length;
 									if (length2 != length1) {
 										vegan = true;
+										ovo = true; // If dish is vegan, it's also ovolacto
 									}
 
 									// passover
