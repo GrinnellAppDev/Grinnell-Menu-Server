@@ -39,11 +39,15 @@ Parse.Cloud.define("update_menus_trigger", function(request, response) {
 	var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
 	Parse.Cloud.httpRequest({
 		url: "https://api.parse.com/1/jobs/update_menus",
-		method: 'POST',
+		method: "POST",
 		headers: {
 			'Content-Type': 'application/json',
 			'X-Parse-Application-Id': parseAppId,
-			'X-Parse-Master-Key': 'yLV2Mk9Eft2yhTHAcHvbTbxc5JRJJIyEPEpOIyCD'
+			'X-Parse-Master-Key': 'yLV2Mk9Eft2yhTHAcHvbTbxc5JRJJIyEPEpOIyCD',
+		},
+		body: {
+			"request": request,
+			"response": response
 		},
 		success: function(httpResponse) {
 			response.success(httpResponse.text);
@@ -90,10 +94,12 @@ Parse.Cloud.job("update_menus", function(request, response) {
 										var newDish = new Dish();
 										newDish.set("name", name);
 										newDish.set("dishID", identificationNumber);
+										newDish.set("favoritesCount", 0);
 										dishesHashMap[identificationNumber] = newDish;
 									} else {
 										// TODO - Update flags here
 										dish.set("name", name);
+										console.log("Renaming dish with dishID: " + identificationNumber);
 										dishesHashMap[identificationNumber] = dish;
 									}
 									saveAllDishes(dishesHashMap, --counter, response, output);

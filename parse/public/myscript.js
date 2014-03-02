@@ -52,42 +52,23 @@ $(function() {
   $('#updateButton').click(function() {
     $("#menusUpdating").show();
 
-    // This one doesn't seem to do anything
-    Parse.Cloud.httpRequest({
-      url: "https://api.parse.com/1/jobs/update_menus",
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Parse-Application-Id': parseAppId,
-        'X-Parse-Master-Key': 'yLV2Mk9Eft2yhTHAcHvbTbxc5JRJJIyEPEpOIyCD'
-      },
-      success: function(httpResponse) {
-        $("#menusUpdating").hide();
-        alert(httpResponse.text);
-      },
-      error: function(httpResponse) {
-        $("#menusUpdating").hide();
-        alert('Request failed with response code ' + httpResponse.status);
-      }
-    });
-
-    // This one calls the trigger correctly, but it fails with a weird error:
-    //     Uncaught SyntaxError: Unexpected end of input in <unknown file>:0
-    /*
     Parse.Cloud.run('update_menus_trigger', {}, {
       success: function(results) {
         $("#menusUpdating").hide();
         var fromParse = JSON.parse(results);
         var objectId = fromParse.objectId;
-        alert(objectId);
+        if (undefined == objectId) {
+          alert("Menus are currently updating!")
+        } else {
+          alert(objectId);
+        }
       },
       error: function(data) {
         $("#menusUpdating").hide();
         var obj = jQuery.parseJSON(data);
         alert(obj.error);
       }
-    });*/
-    $("#menusUpdating").hide(); // REMOVE THIS EVENTUALLY (and only hide when the asynchronous task finsihes)
+    });
   });
 
   // Upload menu to Parse on Click
