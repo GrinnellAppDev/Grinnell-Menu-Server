@@ -1,7 +1,6 @@
 $(function() {
   // Hide our spinners
   $("#menuloading").hide();
-  $("#nutritionloading").hide();
   $("#menusUpdating").hide();
   $("#savingTimesSpinner").hide();
 
@@ -10,6 +9,25 @@ $(function() {
   var javascriptKey = '50NEsTLzulfR7gWr8TwyMNXJZl9CupwfhrQeAftc';
   var parseAppId = 'rVx8VLC7uBPJAE8QfqW5zJw90r8vvib4VOAZr1QD';
   Parse.initialize(parseAppId, javascriptKey);
+
+  // Load current URL into the input field
+  var nutritionQuery = new Parse.Query("NutritionFile");
+  nutritionQuery.find({
+    success: function(nutritionFiles) {
+      var nutritionFile;
+      if (0 >= nutritionFiles.length) {
+        document.getElementById("nutritionfileURL").value = null;
+      } else {
+        document.getElementById("nutritionfileURL").value = nutritionFiles[0].get("url");
+      }
+      $("#nutritionloading").hide();
+    },
+    error: function(data) {
+      $("#nutritionloading").hide();
+      var obj = jQuery.parseJSON(data);
+      alert(obj.error);
+    }
+  });
 
   // Set up times table
   var timesQuery = new Parse.Query("Times");
@@ -29,23 +47,19 @@ $(function() {
       }
     },
     error: function(data) {
+      $("#timesloading").hide();
       var obj = jQuery.parseJSON(data);
       alert(obj.error);
     }
   });
 
-  // vars to hold the files selected by the choose file buttons
+  // var to hold the menu file
   var menufile;
-  var nutritionfile;
 
-  // set the file selectors to the holders
+  // set the file selectors to the holder
   $('#menufileselect').bind("change", function(e) {
     var menufiles = e.target.files || e.dataTransfer.files;
     menufile = menufiles[0];
-  });
-  $('#nutritionfileselect').bind("change", function(e) {
-    var nutritionfiles = e.target.files || e.dataTransfer.files;
-    nutritionfile = nutritionfiles[0];
   });
 
   // Call cloud function update menus
@@ -127,54 +141,33 @@ $(function() {
     });
   });
 
-  // Upload nutrition to Parse on Click
+  // Update nutrition in Parse on Click
   $('#uploadNUTRITIONbutton').click(function() {
     $("#nutritionloading").show();
-    var serverUrl = 'https://api.parse.com/1/files/' + nutritionfile.name;
-
-    $.ajax({
-      type: "POST",
-      beforeSend: function(request) {
-        request.setRequestHeader("X-Parse-Application-Id", parseAppId);
-        request.setRequestHeader("X-Parse-REST-API-Key", parseRESTAPIKey);
-        request.setRequestHeader("Content-Type", nutritionfile.type);
-      },
-      url: serverUrl,
-      data: nutritionfile,
-      processData: false,
-      contentType: false,
-      success: function(data) {
-
-        var query = new Parse.Query("NutritionFile");
-        query.find({
-          success: function(nutritionFiles) {
-            var nutritionFile;
-            if (0 >= nutritionFiles.length) {
-              var NutritionFile = Parse.Object.extend("NutritionFile");
-              nutritionFile = new NutritionFile();
-            } else {
-              nutritionFile = nutritionFiles[0];
-            }
-            nutritionFile.set("file", data);
-            nutritionFile.save(null, {
-              success: function(object) {
-                Parse.Cloud.run('create_nutrition_database_trigger', {}, {
-                  success: function(results) {
-                    $("#nutritionloading").hide();
-                    var fromParse = JSON.parse(results);
-                    var objectId = fromParse.objectId;
-                    if (undefined == objectId) {
-                      alert("Nutrition file uploaded, database updating. Please wait __ minutes before updating menus");
-                    } else {
-                      alert(objectId);
-                    }
-                  },
-                  error: function(data) {
-                    $("#nutritionloading").hide();
-                    var obj = jQuery.parseJSON(data);
-                    alert(obj.error);
-                  }
-                });
+    var query = new Parse.Query("NutritionFile");
+    query.find({
+      success: function(nutritionFiles) {
+        var nutritionFile;
+        if (0 >= nutritionFiles.length) {
+          var NutritionFile = Parse.Object.extend("NutritionFile");
+          nutritionFile = new NutritionFile();
+        } else {
+          nutritionFile = nutritionFiles[0];
+        }
+        var url = document.getElementById("nutritionfileURL").value;
+        nutritionFile.set("url", url);
+        nutritionFile.save(null, {
+          success: function(object) {
+            Parse.Cloud.run('create_nutrition_database_trigger', {}, {
+              success: function(results) {
+                $("#nutritionloading").hide();
+                var fromParse = JSON.parse(results);
+                var objectId = fromParse.objectId;
+                if (undefined == objectId) {
+                  alert("Nutrition file saved, database updating. Please wait __ minutes before updating menus");
+                } else {
+                  alert(objectId);
+                }
               },
               error: function(data) {
                 $("#nutritionloading").hide();

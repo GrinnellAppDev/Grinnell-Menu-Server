@@ -27,9 +27,9 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 	var query = new Parse.Query("NutritionFile");
 	query.first({
 		success: function(result) {
-			var file = result.get("file");
+			var fileURL = result.get("url");
 			Parse.Cloud.httpRequest({
-				url: file.url,
+				url: fileURL,
 				success: function(fileResponse) {
 					var xml = fileResponse.buffer.toString();
 					xml = xml.replace('<?xml version="1.0" encoding="UTF-16LE" standalone="no"?>', '');
