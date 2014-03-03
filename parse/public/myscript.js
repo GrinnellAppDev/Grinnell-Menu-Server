@@ -144,8 +144,7 @@ $(function() {
   // Update nutrition in Parse on Click
   $('#uploadNUTRITIONbutton').click(function() {
     $("#nutritionloading").show();
-    var query = new Parse.Query("NutritionFile");
-    query.find({
+    nutritionQuery.find({
       success: function(nutritionFiles) {
         var nutritionFile;
         if (0 >= nutritionFiles.length) {

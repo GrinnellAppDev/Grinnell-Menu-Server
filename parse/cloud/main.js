@@ -31,11 +31,11 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 			Parse.Cloud.httpRequest({
 				url: fileURL,
 				success: function(fileResponse) {
-					var xml = fileResponse.buffer.toString();
-					xml = xml.replace('<?xml version="1.0" encoding="UTF-16LE" standalone="no"?>', '');
+
+					//xml = xml.replace('<?xml version="1.0" encoding="UTF-16LE" standalone="no"?>', '');
 					var xmlreader = require('cloud/xmlreader.js');
 
-					xmlreader.read(xml, function(err, res) {
+					xmlreader.read(fileResponse.buffer.toString(), function(err, res) {
 						if (err) {
 							return console.log(err);
 						}
@@ -44,9 +44,19 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 
 						// var path = res.d_itm_recipe_perportion_nutr_analysis;
 						// path.d_itm_recipe_perportion_nutr_analysis_row.each(function(i, dish) {
-						// 	console.log(dish.srv_name.text());
-
+						// 	console.log(dish.srv_name.text())
 					});
+
+
+					// USING jQuery
+					/*var $ = jQuery = require('cloud/jquery.js');
+					var xml = fileResponse.buffer.toString(),
+						xmlDoc = $.parseXML(xml),
+						$xml = $(xmlDoc),
+						$name = $xml.find("ls_srvuofm");
+					var xml = fileResponse.buffer.toString();
+					var output = $.parseXML(xml);
+					console.log($name.text);*/
 
 					response.success("Loaded nutrition file, ready to parse it");
 				},
@@ -106,7 +116,7 @@ Parse.Cloud.job("update_menus", function(request, response) {
 						// Skip over all the spencer grill items that aren't out takes
 						if (0 <= meal.indexOf("OUT TAKES") || 0 <= location.indexOf("MARKETPLACE")) {
 							var date = dishRow[21].toString().replace('0:00', '').trim();
-							var identificationNumber = dishRow[12];
+							var identificationNumber = dishRow[12].replace('.00', '');
 							var station = dishRow[7].toString().trim();
 							var name = dishRow[8].toString().trim();
 
@@ -204,6 +214,7 @@ Parse.Cloud.job("update_menus", function(request, response) {
 									name = name.replace("Nyc", "NYC");
 									name = name.replace(" Ww ", " WW "); //Whole wheat
 									name = name.replace("Cider-glazed", "Cider-Glazed");
+									name = name.replace("Ol'E", "Ol'e");
 									name = name.replace("(red", "(Red");
 									name = name.replace("Frank'S", "Frank's");
 									name = name.replace("Scott'S", "Scott's");
@@ -331,6 +342,8 @@ function buildDatabase(output, response) {
 	var counter = output.length;
 	var stationsMap = {};
 
+	// TODO - clear out the stations table
+
 	output.forEach(function(dishRow) {
 		var location = dishRow[1].toString();
 		var meal = dishRow[3].toString().trim();
@@ -338,7 +351,7 @@ function buildDatabase(output, response) {
 		// Skip over all the spencer grill items that aren't out takes
 		if (0 <= meal.indexOf("OUT TAKES") || 0 <= location.indexOf("MARKETPLACE")) {
 			var date = dishRow[21].toString().replace('0:00', '').trim();
-			var identificationNumber = dishRow[12];
+			var identificationNumber = dishRow[12].replace('.00', '');
 			var station = dishRow[7].toString().trim();
 
 			var dishQuery = new Parse.Query("Dish");
