@@ -450,3 +450,21 @@ function createStationObject(date, meal, station, dish) {
 	stationObject.set("date", date);
 	return stationObject;
 }
+
+
+Parse.Cloud.beforeSave("NutritionFile", function(request, response) {
+	var nutritionFile = request.object;
+	var fileURL = request.object.get("url");
+
+	Parse.Cloud.httpRequest({
+		url: fileURL,
+		success: function(fileResponse) {
+			console.log(fileResponse.buffer);
+			//			nutritionFile.set("url", newURL);
+			response.success();
+		},
+		error: function(error) {
+			response.error("Error getting file: " + error.message);
+		}
+	});
+});
