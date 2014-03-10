@@ -31,22 +31,25 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 			Parse.Cloud.httpRequest({
 				url: fileURL,
 				success: function(fileResponse) {
+					var xml = fileResponse.buffer.toString();
+
+					console.log(xml.slice(0, 1000));
 
 					//xml = xml.replace('<?xml version="1.0" encoding="UTF-16LE" standalone="no"?>', '');
 					var xmlreader = require('cloud/xmlreader.js');
 
-					xmlreader.read(fileResponse.buffer.toString(), function(err, res) {
+					xmlreader.read(xml, function(err, res) {
 						if (err) {
-							return console.log(err);
+							response.error("Error parsing file: " + err);
+						} else {
+							response.success("Loaded nutrition file, ready to parse it");
 						}
-
-						console.log(res.d_itm_recipe_perportion_nutr_analysis.d_itm_recipe_perportion_nutr_analysis_row.srv_name.text());
+						//console.log(res.d_itm_recipe_perportion_nutr_analysis.d_itm_recipe_perportion_nutr_analysis_row.srv_name.text());
 
 						// var path = res.d_itm_recipe_perportion_nutr_analysis;
 						// path.d_itm_recipe_perportion_nutr_analysis_row.each(function(i, dish) {
 						// 	console.log(dish.srv_name.text())
 					});
-
 
 					// USING jQuery
 					/*var $ = jQuery = require('cloud/jquery.js');
@@ -57,8 +60,6 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 					var xml = fileResponse.buffer.toString();
 					var output = $.parseXML(xml);
 					console.log($name.text);*/
-
-					response.success("Loaded nutrition file, ready to parse it");
 				},
 				error: function(error) {
 					response.error("Error getting file: " + error.message);
@@ -465,21 +466,3 @@ function createStationObject(date, meal, station, dish) {
 	stationObject.set("date", date);
 	return stationObject;
 }
-
-
-Parse.Cloud.beforeSave("NutritionFile", function(request, response) {
-	var nutritionFile = request.object;
-	var fileURL = request.object.get("url");
-
-	Parse.Cloud.httpRequest({
-		url: fileURL,
-		success: function(fileResponse) {
-			console.log(fileResponse.buffer);
-			//			nutritionFile.set("url", newURL);
-			response.success();
-		},
-		error: function(error) {
-			response.error("Error getting file: " + error.message);
-		}
-	});
-});
