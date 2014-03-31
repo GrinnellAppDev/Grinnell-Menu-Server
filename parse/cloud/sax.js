@@ -220,7 +220,7 @@
       typeof Buffer.isBuffer === 'function' &&
       Buffer.isBuffer(data)) {
       if (!this._decoder) {
-        var SD = require('string_decoder').StringDecoder
+        var SD = require('cloud/string_decoder.js').StringDecoder
         this._decoder = new SD('utf8')
       }
       data = this._decoder.write(data);

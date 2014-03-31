@@ -33,9 +33,6 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 				success: function(fileResponse) {
 					var xml = fileResponse.buffer.toString();
 
-					console.log(xml.slice(0, 1000));
-
-					//xml = xml.replace('<?xml version="1.0" encoding="UTF-16LE" standalone="no"?>', '');
 					var xmlreader = require('cloud/xmlreader.js');
 
 					xmlreader.read(xml, function(err, res) {
