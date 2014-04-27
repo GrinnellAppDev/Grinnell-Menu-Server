@@ -31,32 +31,29 @@ Parse.Cloud.job("create_nutrition_database", function(request, response) {
 			Parse.Cloud.httpRequest({
 				url: fileURL,
 				success: function(fileResponse) {
+
+
 					var xml = fileResponse.buffer.toString();
 
 					var xmlreader = require('cloud/xmlreader.js');
 
+
 					xmlreader.read(xml, function(err, res) {
+
 						if (err) {
-							response.error("Error parsing file: " + err);
+              console.log("" + err);
 						} else {
-							response.success("Loaded nutrition file, ready to parse it");
+              console.log("Result:" + res);
 						}
 						//console.log(res.d_itm_recipe_perportion_nutr_analysis.d_itm_recipe_perportion_nutr_analysis_row.srv_name.text());
 
 						// var path = res.d_itm_recipe_perportion_nutr_analysis;
 						// path.d_itm_recipe_perportion_nutr_analysis_row.each(function(i, dish) {
 						// 	console.log(dish.srv_name.text())
-					});
 
-					// USING jQuery
-					/*var $ = jQuery = require('cloud/jquery.js');
-					var xml = fileResponse.buffer.toString(),
-						xmlDoc = $.parseXML(xml),
-						$xml = $(xmlDoc),
-						$name = $xml.find("ls_srvuofm");
-					var xml = fileResponse.buffer.toString();
-					var output = $.parseXML(xml);
-					console.log($name.text);*/
+
+					});
+          response.success("all good");
 				},
 				error: function(error) {
 					response.error("Error getting file: " + error.message);
