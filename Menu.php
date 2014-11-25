@@ -37,37 +37,37 @@ class Menu{
     if($len != strlen($dishName)){
       if($this->spencer == NULL){
         $this->spencer = new Meal("spencer");
-        $this->spencer->addDish($venueName, $dishName, $dishID, &$json_a);
+        $this->spencer->addDish($venueName, $dishName, $dishID, $json_a);
       }
-      else $this->spencer->addDish($venueName, $dishName, $dishID, &$json_a);
+      else $this->spencer->addDish($venueName, $dishName, $dishID, $json_a);
     }
     else if(substr_count($meal, "BREAKFAST") >= 1){//If it contains breakfast
       if($this->breakfast == NULL){
         $this->breakfast = new Meal("breakfast");
-        $this->breakfast->addDish($venueName, $dishName, $dishID, &$json_a);
+        $this->breakfast->addDish($venueName, $dishName, $dishID, $json_a);
       }
-      else $this->breakfast->addDish($venueName, $dishName, $dishID, &$json_a);
+      else $this->breakfast->addDish($venueName, $dishName, $dishID, $json_a);
     }
     else if(substr_count($meal, "LUNCH") >= 1){
       if($this->lunch == NULL){
         $this->lunch = new Meal($meal);
-        $this->lunch->addDish($venueName, $dishName, $dishID, &$json_a);
+        $this->lunch->addDish($venueName, $dishName, $dishID, $json_a);
       }
-      else $this->lunch->addDish($venueName, $dishName, $dishID, &$json_a);
+      else $this->lunch->addDish($venueName, $dishName, $dishID, $json_a);
     }
     else if(substr_count($meal, "DINNER") >= 1){
       if($this->dinner == NULL){
         $this->dinner = new Meal($meal);
-        $this->dinner->addDish($venueName, $dishName, $dishID, &$json_a);
+        $this->dinner->addDish($venueName, $dishName, $dishID, $json_a);
       }
-      else $this->dinner->addDish($venueName, $dishName, $dishID, &$json_a);
+      else $this->dinner->addDish($venueName, $dishName, $dishID, $json_a);
     }
     else if(substr_count($meal, 'TAKES') >= 1){
       if($this->outtakes == NULL){
         $this->outtakes = new Meal($meal);
-        $this->outtakes->addDish($venueName, $dishName, $dishID, &$json_a);
+        $this->outtakes->addDish($venueName, $dishName, $dishID, $json_a);
       }
-      else $this->outtakes->addDish($venueName, $dishName, $dishID, &$json_a);
+      else $this->outtakes->addDish($venueName, $dishName, $dishID, $json_a);
     }
     else echo("Did not recognize Meal: ".$meal."  skipped Dish: ". $dishName."</br>");
   }

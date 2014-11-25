@@ -16,6 +16,9 @@
 * 6. Saves the menu files.
 * 7. Updates the available-days file.
 *
+* Modified Tyler Dewey 
+* Grinnell College '16
+* 11/25/14
 *****************************************************/
 
 /*****************************************************
@@ -26,6 +29,7 @@ gc_enable();
 ini_set('display_errors', 'On');
 ini_set('memory_limit', '-1');
 set_time_limit(6000);
+date_default_timezone_set("America/Chicago");
 include_once "Menu.php";
 include_once "Nutrition.php";
 
@@ -53,8 +57,21 @@ else{
         echo("Deleting old menus:</br>");
         $is_old_dates = true;
       }
-      echo $old_dates[$i].".json ";
-      unlink($old_dates[$i].'.json');
+
+      // Remove old menu file
+      $menu_path = $old_dates[$i].".json \n";
+      if (file_exists($menu_path)) {
+        echo "$menu_path \n";
+        unlink($menu_path);
+      }
+
+      // Remove old dishes file
+      $dishes_path = $old_dates[$i]."_dishes.json \n";
+      if (file_exists($dishes_path)) {
+        echo "$dishes_path \n";
+        unlink($dishes_path);
+      }
+
       array_splice($old_dates, $i,1);
     }
     else $i++;
@@ -81,11 +98,12 @@ if($return_val == 0) {
   else{
     echo("</br>Pulled nutrition.xml from server.</br>");
     exec('chmod 755 ./nutrition.xml');
-    unlink("nutrition.json");
+    if (file_exists("nutrition.json"))
+      unlink("nutrition.json");
   }
 }
 else
-  echo("</br>Failed to pull nutrition file with error ".$return_val.".</br>");
+  echo("</br>Failed to pull nutrition file with error ".$return_val." .</br>");
 
 
 /****************************************************************************
@@ -121,7 +139,9 @@ else {
  */
 
 //if URI Exists
-$lastmodified = filemtime ('./menu.csv');
+if (file_exists('./menu.csv')) {
+  $lastmodified = filemtime ('./menu.csv');
+}
 //wget only pulls the file if the one at the location is newer than the local copy
 exec('wget -N -t 3 http://wwwarchive.grinnell.edu/calendar/menu/menu.csv', $out, $return_val);
 //save new file
@@ -205,7 +225,7 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
               str_replace("\0","",$menu_item_arr[12]),
-              &$json_a);
+              $json_a);
     }
     else{
       $menus[$curr_date] = new Menu;
@@ -213,7 +233,7 @@ while(($menu_item_arr = fgetcsv($menu_file,0,',','"')) !== FALSE
                           str_replace("\0","",$menu_item_arr[7]),
                           str_replace("\0","",$menu_item_arr[8]),
               str_replace("\0","",$menu_item_arr[12]),
-              &$json_a);
+              $json_a);
     }
    }
   }

@@ -23,11 +23,11 @@ class Meal{
     for($i = 0; !$exists && ($i < count($this->venues)); $i++)
       if(strcmp($this->venues[$i]->name,$venueName) == 0){
         $exists = true;
-        $this->venues[$i]->add(new Entree($entreeName, $dishID, &$json_a));
+        $this->venues[$i]->add(new Entree($entreeName, $dishID, $json_a));
       }
     if(!$exists){
       $newVen = new Venue($venueName);
-      $newVen->add(new Entree($entreeName, $dishID, &$json_a));
+      $newVen->add(new Entree($entreeName, $dishID, $json_a));
       array_push($this->venues, $newVen);
     }
   }

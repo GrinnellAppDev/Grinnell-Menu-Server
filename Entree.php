@@ -138,10 +138,11 @@ class Entree
 		|| !strcmp($this->name, "Chicken Nuggets") || !strcmp($this->name, "Beef Burritos") 
 		|| !strcmp($this->name, "Homemade Tortilla Chips at the Grill") || !strcmp($this->name, "Nacho Bar")
 		|| !strcmp($this->name, "Cheddar Cheese & Sour Cream") || !strcmp($this->name, "Beef Taco Bar")
-		|| !strcmp($this->name, "Cheddar Cheese & Sour Cream listed under Condiments"))
+		|| !strcmp($this->name, "Cheddar Cheese & Sour Cream listed under Condiments")
+		|| true) // This line removes nutrition values from all dishes (DHall will tell us to remove later)
 		$this->nutrition = "";
 	else{
-		$temp_nutrition = build_nutrition($dishID, &$json_a);
+		$temp_nutrition = build_nutrition($dishID, $json_a);
 		if ($temp_nutrition == null)
 			$this->nutrition = "";
 		else
